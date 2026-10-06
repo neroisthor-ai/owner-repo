@@ -145,6 +145,32 @@ Most value first; each phase ships on its own.
 
 `direct.ts` chooses the path from the profile: today's free-patch path for Claude and Pro, the harness for Flash and Lite. Both produce the same takes, so nothing downstream changes: the UI, accept, undo, history and QC work as they do now.
 
+## Research: the target models (October 2026)
+
+These come from search results that quote Google's docs, plus third-party benchmark sites. Google's own pages were blocked from this environment, so check the IDs against the model list when the adapter first connects.
+
+| | Gemini 3.5 Flash-Lite | Gemini 3.8 Flash | Gemini 3.1 Pro |
+| --- | --- | --- | --- |
+| API ID | `gemini-3.5-flash-lite` | `gemini-3.8-flash` | `gemini-3.1-pro-preview` (preview) |
+| Thinking levels | minimal, low, medium, high (default minimal) | low, medium, high (default medium; minimal is an error) | low, medium, high (default high) |
+| Context / output | 1M / 64K | ~1M / ~64K | 1M / 64K |
+| Structured output | yes | yes (`response_json_schema`) | yes |
+| Reported coding/agent scores | SWE-Bench Pro 54.2%, Terminal-bench 2.1 54.0% | SWE-Bench Pro 61.6%, Terminal-bench 2.1 90.8% | SWE-bench Verified 80.6%, tau2-bench Telecom 99.3% |
+
+"Gemini 3.6 Flash-Lite" does not exist. The newest Flash-Lite is 3.5; 3.6 Flash is a separate, older Flash.
+
+What this changes in the plan:
+
+- **These are not weak models.** Their agentic and coding scores are far above what the harness was sized for. Lite and Flash should handle free patches with native schemas for most notes. The harness is still worth it for reliability and cost, but the **Lite profile starts at "standard", not "micro"**, and the eval decides how much hand-holding each one really needs.
+- **The real risk is schema size, not intelligence.** Gemini rejects schemas that are too complex with a 400. Long enums, many optional properties and big unions all count. Our take schema is a union of every line kind with full vocabularies, so it is the likeliest to hit this. The plan's per-spot enums (part 3) and a JSON-without-schema fallback cover it.
+- **Thinking level is the main dial.**
+  - Route on Lite at minimal: its default, fast and cheap.
+  - Build on Flash at low or medium. Minimal is not allowed on 3.8 Flash.
+  - Direct on Pro at low or medium. Its default is high, which is slow, so set it explicitly.
+  - `thinking_budget` is deprecated on Gemini 3 and errors if sent alongside `thinking_level`.
+- **Pro is a preview.** IDs can be repointed or shut down; the old 3 Pro preview already was. The adapter should treat model IDs as config and resolve them against the live model list.
+- **Benchmarks are not instruction-following scores.** None of the sources had IFBench-style numbers for these models, and one review called 3.8 Flash "harness-dependent". Our own golden-notes eval is the real test.
+
 ## Open questions
 
 - **Model names and IDs.** I have not verified the Gemini model names, their IDs, or their schema limits. The adapter lists models from the API at setup and degrades on its own if the schema is too complex. Expect some trial and error when we first point it at the real API.
