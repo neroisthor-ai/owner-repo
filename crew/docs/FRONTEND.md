@@ -18,9 +18,9 @@
 
 **Rule: features live in the readable modules, not in `app.js`.** `app.js` only carries small patches marked `// CREW-EXT:` (`grep -n CREW-EXT web/app.js`). Each one calls into `window.CrewExt` and degrades to the bundle's own behaviour if the module or the server is missing. Demo mode (no server, `$u()` true) still works.
 
-## Design: the edit bay
+## Design: modern pro
 
-`web/ui.css` is the whole look, and it has one idea: this is a tool you sit in for hours, like Resolve or Final Cut, so only the picture should glow. Neutral grey surfaces (no blue-black, no gradients, no glass), panels butted together with dark 3px seams instead of floating cards, 4px corners, one size of small type with timecode in mono, a slim title bar, and Resolve's row of pages along the bottom. Colour is reserved for meaning: blue picture, green sound, red playhead and errors, amber for selected or live. It re-themes the bundle through its own Tailwind colour variables (`--color-ink-*`, `--color-tx*`, `--color-accent`...), then restyles components; it never changes the bundle's layout. `crew-ui.css` keeps only the v9 layout rules. The home page shows the project instead of a slogan (a `CREW-EXT` patch).
+`web/ui.css` is the whole look. The reference is today's pro apps (Final Cut Pro 11, Logic, the macOS system apps): a quiet charcoal canvas, panels as softly rounded sheets (10px) with 6px of air between them, a title bar and a toolbar on top with the pages as one segmented control, native-feeling controls (macOS segmented controls, filled buttons, soft fields with a blue focus ring), one blue for selection and primary actions, and timeline colour that means something: indigo picture, green sound, red playhead and errors. No gradients or glows; vibrancy only on menus, the palette and toasts. It re-themes the bundle through its own Tailwind colour variables, then restyles components. The one layout change moves the page bar from the bottom into the toolbar with flex `order`. `crew-ui.css` keeps only the v9 layout rules; the home page shows the project instead of a slogan (a `CREW-EXT` patch).
 
 ## Features beyond the original buttons
 
