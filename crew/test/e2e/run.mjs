@@ -22,6 +22,7 @@ const steps = [
   ["atmosphere: sky, clouds, haze", "atmos.mjs", [URL_, join(tmpdir(), "crew-e2e-frames")]],
   ["dialogue clips load", "voice.mjs", [URL_]],
   ["timeline editing: import, key, split, drag, undo", "edit.mjs", [URL_]],
+  ["Crew AI menu and key setup", "setup.mjs", [URL_]],
   ["exports download", "exports.mjs", [URL_, join(tmpdir(), "crew-e2e-dl")]],
   ["mattes, green screen, vertical", "media.mjs", [URL_, join(tmpdir(), "crew-e2e-media")]],
   ["render: 1 and 8 passes to MP4", "render.mjs", [URL_, join(tmpdir(), "crew-e2e-render")]],

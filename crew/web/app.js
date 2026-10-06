@@ -47632,7 +47632,11 @@ function _5() {
 }
 // CREW-EXT: the crew menu in the title bar: who does the work, how thorough, and what kind of project this is
 function CrewMenu({ server: n, kind: k }) {
-  const [open, setOpen] = Z.useState(!1),
+  const [keyOpen, setKeyOpen] = Z.useState(!1),
+    [keyVal, setKeyVal] = Z.useState(""),
+    [keyBusy, setKeyBusy] = Z.useState(!1),
+    [keyErr, setKeyErr] = Z.useState(""),
+    [open, setOpen] = Z.useState(!1),
     ref = Z.useRef(null),
     mode = Ep(n.mode),
     pipe = 0;
@@ -47689,7 +47693,36 @@ function CrewMenu({ server: n, kind: k }) {
           role: "menu",
           children: [
             u.jsx("div", { className: "cm-h", children: "Who does the work" }),
-            row(mode === "claude", "Crew AI", "AI agents write, block, shoot and cut. Needs an API key on the server.", () => Qa({ llm: "claude" })),
+            row(mode === "claude", "Crew AI", n.hasKey ? "AI agents write, block, shoot and cut." : "Needs an Anthropic API key. Click to add one.", () => (n.hasKey ? Qa({ llm: "claude" }) : setKeyOpen(!0))),
+            // CREW-EXT: first-run setup. The key goes to the local server, which checks it and keeps it in .env
+            keyOpen &&
+              !n.hasKey &&
+              u.jsxs("form", {
+                className: "cm-key",
+                onSubmit: async (ev) => {
+                  ev.preventDefault();
+                  setKeyBusy(!0);
+                  setKeyErr("");
+                  try {
+                    const r = await fetch("/api/key", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ key: keyVal }) }),
+                      j = await r.json().catch(() => null);
+                    if (!r.ok) throw new Error(j?.error ?? "Couldn't use that key.");
+                    setKeyVal("");
+                    setKeyOpen(!1);
+                    await Qa({ llm: "claude" });
+                    _n("Crew AI is on.", "ok");
+                  } catch (e) {
+                    setKeyErr(e.message);
+                  }
+                  setKeyBusy(!1);
+                },
+                children: [
+                  u.jsx("input", { type: "password", autoComplete: "off", spellCheck: !1, placeholder: "sk-ant-…", value: keyVal, onChange: (ev) => setKeyVal(ev.target.value), "aria-label": "Anthropic API key", autoFocus: !0 }),
+                  u.jsx("button", { type: "submit", className: "xe-btn accent", disabled: keyBusy || !keyVal.trim(), children: keyBusy ? "Checking…" : "Connect" }),
+                  keyErr && u.jsx("div", { className: "cm-key-err", children: keyErr }),
+                  u.jsx("div", { className: "cm-key-note", children: "Kept in a private .env file on this machine and sent only to Anthropic. Get a key at console.anthropic.com." }),
+                ],
+              }),
             row(mode !== "claude", "Offline", "Built-in rules, free, works without a key. Handles common notes.", () => Qa({ llm: "offline" })),
             // CREW-EXT: one crew, no thoroughness setting: Opus directs (rarely), Sonnet builds, Haiku routes
             u.jsx("div", { className: "cm-h", children: "The crew" }),

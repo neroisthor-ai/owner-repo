@@ -16,6 +16,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Crew } from "./index.ts";
+import { CREW_ROOT } from "./project.ts";
 import { grammarCard } from "./crew/prompts.ts";
 import { ROLES } from "./crew/roles.ts";
 import { summarize } from "./qc/checks.ts";
@@ -52,6 +53,7 @@ function showDir(flags: Record<string, string | true>, candidate?: string): stri
 async function main() {
   const [cmd = "help", ...rest] = process.argv.slice(2);
   const { pos, flags } = parseArgs(rest);
+  try { process.loadEnvFile(join(CREW_ROOT, ".env")); } catch { /* no .env yet: Crew AI is set up from the UI or the environment */ }
   const open = (dir: string) => Crew.open(dir, { llm: (flags.llm as "claude") ?? undefined, episode: typeof flags.episode === "string" ? flags.episode : undefined });
 
   switch (cmd) {
