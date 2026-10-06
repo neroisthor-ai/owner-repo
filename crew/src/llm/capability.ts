@@ -2,8 +2,10 @@
 // the tighter the grip. A strong model on an easy skill runs free (Claude's path); a model near its limit gets
 // examples, repairs and votes; a model past its limit gets menus and code-first answers.
 //
-// The numbers are starting estimates (0 to 1). They are meant to be replaced by measured pass rates from
-// `npm run eval` and the call log, and any skill can be pinned with CREW_GRIP_<SKILL>=free|guided|strict.
+// The numbers are estimates (0 to 1), revised from the director's exam (pro-exam/): Gemini 3.1 Pro went 9/9 on debugging,
+// 12/12 on review traps and 13/13 on a 3D prop; 3.8 Flash (high thinking) also built the prop to 13/13 with exact sizes.
+// Pro's one weak spot was vague plan briefs, which the plan prompt now asks for explicitly.
+// Replace them with measured pass rates from `npm run eval` and the call log; pin any skill with CREW_GRIP_<SKILL>=free|guided|strict.
 
 export type Skill =
   | "read"      // find the shots and roles a note is about
@@ -28,9 +30,9 @@ export const DIFFICULTY: Record<Skill, number> = {
 export const CAPABILITY: { match: RegExp; skills: Record<Skill, number> }[] = [
   { match: /claude-(opus|fable)/, skills: { read: 0.95, rank: 0.95, plan: 0.95, patch: 0.92, review: 0.95, script: 0.92, prop3d: 0.88, motion: 0.85, voice: 0.85, vision: 0.9 } },
   { match: /claude-sonnet/, skills: { read: 0.92, rank: 0.9, plan: 0.88, patch: 0.88, review: 0.88, script: 0.85, prop3d: 0.85, motion: 0.8, voice: 0.8, vision: 0.85 } },
-  { match: /gemini-[\d.]+-pro/, skills: { read: 0.9, rank: 0.9, plan: 0.88, patch: 0.82, review: 0.88, script: 0.85, prop3d: 0.85, motion: 0.78, voice: 0.85, vision: 0.92 } },
+  { match: /gemini-[\d.]+-pro/, skills: { read: 0.92, rank: 0.92, plan: 0.85, patch: 0.92, review: 0.95, script: 0.9, prop3d: 0.95, motion: 0.85, voice: 0.85, vision: 0.92 } },
   { match: /gemini-[\d.]+-flash-lite/, skills: { read: 0.65, rank: 0.6, plan: 0.5, patch: 0.5, review: 0.5, script: 0.45, prop3d: 0.45, motion: 0.4, voice: 0.6, vision: 0.65 } },
-  { match: /gemini-[\d.]+-flash/, skills: { read: 0.85, rank: 0.82, plan: 0.75, patch: 0.75, review: 0.75, script: 0.72, prop3d: 0.75, motion: 0.68, voice: 0.8, vision: 0.85 } },
+  { match: /gemini-[\d.]+-flash/, skills: { read: 0.88, rank: 0.85, plan: 0.78, patch: 0.85, review: 0.8, script: 0.8, prop3d: 0.92, motion: 0.75, voice: 0.85, vision: 0.85 } },
   { match: /claude-haiku/, skills: { read: 0.8, rank: 0.75, plan: 0.65, patch: 0.65, review: 0.65, script: 0.6, prop3d: 0.6, motion: 0.55, voice: 0.6, vision: 0.7 } },
   { match: /./, skills: { read: 0.6, rank: 0.6, plan: 0.5, patch: 0.5, review: 0.5, script: 0.45, prop3d: 0.45, motion: 0.4, voice: 0.5, vision: 0.5 } },
 ];

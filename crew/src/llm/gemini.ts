@@ -21,6 +21,8 @@ export interface GeminiRequest {
   model: string;
   system: string;
   prompt: string;
+  /** images sent as inlineData parts before the text */
+  images?: { mimeType: string; data: string }[];
   schema?: Schema;
   thinking: ThinkingLevel;
   maxOutputTokens?: number;
@@ -143,7 +145,7 @@ export class GeminiClient {
       if (mode === "native") generationConfig.responseJsonSchema = lowered;
       const body = JSON.stringify({
         systemInstruction: { parts: [{ text: r.system }] },
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        contents: [{ role: "user", parts: [...(r.images ?? []).map((i) => ({ inlineData: { mimeType: i.mimeType, data: i.data } })), { text: prompt }] }],
         generationConfig,
       });
 

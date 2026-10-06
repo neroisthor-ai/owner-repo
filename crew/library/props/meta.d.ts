@@ -5,7 +5,7 @@ export interface PropMeta {
   category: string;
   placement: Placement;
   source: "The Bob" | "Low Pass" | "new";
-  module: "interior" | "vehicles" | "exterior" | "structures";
+  module: "interior" | "vehicles" | "exterior" | "structures" | "generated";
   /** measured bounding box [w, h, d] in metres */
   size: [number, number, number];
   /** lowest point of the model (hung props start above the floor) */
@@ -21,5 +21,6 @@ export interface PropMeta {
   openable?: boolean;
   light?: boolean | string;
 }
+export const BASE_META: Record<string, PropMeta>;
 export const PROP_META: Record<string, PropMeta>;
 export const PROP_IDS: string[];

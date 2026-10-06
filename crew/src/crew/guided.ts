@@ -154,7 +154,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
   if (!plain) {
     const pr = await call<{ shots: string[]; roles: string[]; intent: string; brief: string; keep: string; success: string }>({
       task: "plan", role: "director", tier: "opus", system, schema: planDetailSchema(allIds), context: routeCtx, maxTokens: 4000,
-      prompt: `${routePrompt}\n\nA quick read chose shots ${targets.join(", ")} and role${roles.length > 1 ? "s" : ""} ${roles.join(" + ")}.\nYou are the director. Confirm or correct that, then write the plan: the goal in one sentence, a brief for the builder (what to do), what must not change, and how to tell a take worked. Keep it concrete: name lines, beats and seconds.`,
+      prompt: `${routePrompt}\n\nA quick read chose shots ${targets.join(", ")} and role${roles.length > 1 ? "s" : ""} ${roles.join(" + ")}.\nYou are the director. Confirm or correct that, then write the plan: the goal in one sentence, a brief for the builder (what to do), what must not change, and how to tell a take worked. Be exact, the builder follows you literally: in "brief", name the line addresses to change (like 1G.3) and the values (seconds, lens, speed, words); never write placeholders like ~N or "adjust the framing".`,
     }, "planning");
     if (pr.ok && pr.data) {
       const ps = (pr.data.shots ?? []).filter((s) => allIds.includes(s));

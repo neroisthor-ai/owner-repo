@@ -89,7 +89,7 @@ export function writeManifests(lib: string, force = false) {
     write(join(mdir, "asset.json"), {
       id: `prop_${m.id}`, kind: "prop", title: m.title, tags,
       source: { project: m.source === "new" ? "Crew" : m.source },
-      files: { module: `../../${m.module}.js`, registry: "../../index.js" },
+      files: { module: m.module === "generated" ? `../../generated/${m.id}.js` : `../../${m.module}.js`, registry: "../../index.js" },
       meta: { prop: m.id, category: m.category, placement: m.placement, size: m.size, y0: m.y0, sittable: !!m.sittable, sitHeight: m.sitHeight ?? null, surface: m.surface ?? null, decor: !!m.decor, animated: !!m.animated, openable: !!m.openable, build: `PROPS.${m.id}.build(opts)`, scene: `anchor <id> at x z face d is ${m.id}   |   dress ${m.id} at x z [face d] [on <anchor>|height h] [scale s]` },
     }, true);
   }

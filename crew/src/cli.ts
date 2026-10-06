@@ -5,6 +5,7 @@
 //   patch "<patch>" [--role dp] [--dry]
 //   check | overview [shots..] | undo | grammar
 //   write <script.txt> [--apply]    writers' room (needs Claude)
+//   prop <id> "<description>" [--size w,h,d]   the crew makes a new prop (needs Crew AI)
 //   voices [--engine kokoro|walla|command] [--force] [--prune]
 //                                   temp voices for every line; the cut retimes to them
 //   screen [viewers]                synthetic test screening
@@ -35,7 +36,7 @@ function parseArgs(argv: string[]) {
     if (a.startsWith("--")) {
       const [k, v] = a.slice(2).split("=");
       if (v !== undefined) flags[k] = v;
-      else if (argv[i + 1] && !argv[i + 1].startsWith("--") && ["port", "role", "dir", "episode", "llm", "out", "engine"].includes(k)) flags[k] = argv[++i];
+      else if (argv[i + 1] && !argv[i + 1].startsWith("--") && ["port", "role", "dir", "episode", "llm", "out", "engine", "size"].includes(k)) flags[k] = argv[++i];
       else flags[k] = true;
     } else pos.push(a);
   }
@@ -62,8 +63,9 @@ async function main() {
       const port = Number(flags.port ?? process.env.PORT ?? 4310);
       const { url } = await startServer(crew, port);
       console.log(`Crew is rolling: ${url}`);
+      if (process.env.CREW_LLM === "gemini" && crew.llm.mode === "offline") console.log("  note: CREW_LLM=gemini but GEMINI_API_KEY is empty; running offline. Add the key in .env or the Crew AI menu, then run npm run doctor.");
       console.log(`  show: ${crew.project.show.title} (${crew.project.dir})`);
-      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI on Claude (Opus directs, Sonnet builds, Haiku routes)" : crew.llm.mode === "gemini" ? "Crew AI on Gemini (Pro directs, Flash builds, Flash-Lite reads and ranks; guided pipeline)" : "offline heuristics (set ANTHROPIC_API_KEY for Crew AI)"}`);
+      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI on Claude (Opus directs, Sonnet builds, Haiku routes)" : crew.llm.mode === "gemini" ? "Crew AI on Gemini (Pro directs, Flash builds, Flash-Lite reads and ranks; guided pipeline)" : "offline rules (add a Gemini or Claude key for Crew AI; see docs/GO_LIVE.md)"}`);
       crew.events.on("crew", (e) => console.log(`  [${e.role ?? "crew"}${e.tier ? "/" + e.tier : ""}] ${e.message}${e.cost ? `  $${e.cost.toFixed(4)}` : ""}`));
       return;
     }
@@ -109,6 +111,15 @@ async function main() {
       const r = await crew.write(readFileSync(pos[0], "utf8"), { apply: !!flags.apply });
       if (!r.ok) { console.error(r.error); if (r.errors.length) console.error(r.errors.join("\n")); process.exitCode = 1; }
       console.log(r.text);
+      return;
+    }
+    case "prop": {
+      if (!pos[0] || !pos[1]) throw new Error('usage: crew prop <id> "<description>" [--size w,h,d]   (metres)');
+      crew.events.on("crew", (e) => process.stderr.write(`  [${e.role ?? "props"}] ${e.message}\n`));
+      const size = typeof flags.size === "string" ? flags.size.split(",").map(Number) as [number, number, number] : undefined;
+      const r = await crew.makeProp(pos[0], pos[1], size);
+      if (!r.ok) { console.error(r.error ?? "the prop did not pass its checks"); process.exitCode = 1; }
+      else console.log(`made ${r.id} in ${r.attempts} attempt(s): library/props/generated/${r.id}.js`);
       return;
     }
     case "voices": {

@@ -127,7 +127,9 @@ export class VoiceBank {
         // a real voice replaces a walla placeholder; a walla run never replaces a real voice
         if (!o.force && have && existsSync(join(this.dir, have.file)) && (have.engine === engine.name || engine.name === "walla")) { cached++; o.onProgress?.(i + 1, todo.length, label, true); continue; }
         const fx = VERB_FX[l.verb] ?? VERB_FX.say;
-        const raw = await engine.synth(l.text, d, fx.speed);
+        // engines that take direction (Gemini) get the delivery from the verb, and the character's own voice
+        const direction = { whisper: "Whisper quietly", shout: "Shout it out", say: "Say naturally" }[l.verb] ?? "Say naturally";
+        const raw = await engine.synth(l.text, { ...d, actor: l.actor }, fx.speed, direction);
         let x = trim(raw.samples, raw.sampleRate);
         if (engine.name !== "walla") x = humanize(x, raw.sampleRate, parseInt(k.slice(0, 8), 16));
         x = finish(x, raw.sampleRate, 0.08 * fx.gain);

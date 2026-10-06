@@ -13,6 +13,7 @@ import { GeminiLLM, hasGeminiKey } from "./llm/gemini-llm.ts";
 import { guidedNote } from "./crew/guided.ts";
 import { writeEpisodeGuided } from "./crew/guided-writers.ts";
 import { gripFor } from "./llm/capability.ts";
+import { makeProp } from "./assets/props.ts";
 import { join } from "node:path";
 import { OfflineLLM } from "./claude/offline.ts";
 import { acceptTake, directNote, rejectNote, type CrewEvent, type CrewOptions } from "./crew/direct.ts";
@@ -32,7 +33,8 @@ export type LLMChoice = LLM | "claude" | "gemini" | "offline" | "auto";
 export function pickLLM(choice: LLMChoice = (process.env.CREW_LLM as LLMChoice) ?? "auto"): LLM {
   if (typeof choice === "object") return choice;
   if (choice === "claude") return new ClaudeLLM();
-  if (choice === "gemini") return new GeminiLLM();
+  // Gemini chosen but no key yet: run offline instead of failing every call (the Crew AI menu or .env adds the key)
+  if (choice === "gemini") return hasGeminiKey() ? new GeminiLLM() : new OfflineLLM();
   if (choice === "offline") return new OfflineLLM();
   return hasCredentials() ? new ClaudeLLM() : hasGeminiKey() ? new GeminiLLM() : new OfflineLLM();
 }
@@ -136,6 +138,13 @@ export class Crew {
     this.emit({ kind: "done", role: "sound", message: `voices: ${r.made} rendered, ${r.cached} cached, ${r.failed.length} failed; cut ${r.durationBefore.toFixed(1)}s -> ${r.durationAfter.toFixed(1)}s` });
     this.events.emit("changed", null);
     return { ...r, engine: engine.name };
+  }
+
+  /** Make a new prop from a description (Flash builds, code checks, Pro reviews). It joins the backend library by id. */
+  async makeProp(id: string, description: string, size?: [number, number, number]) {
+    this.prep();
+    if (this.llm.mode === "offline") throw new Error("Making props needs Crew AI (Gemini or Claude).");
+    return makeProp(this.llm, { id, description, size }, { emit: (e: unknown) => this.events.emit("crew", e) });
   }
 
   screen(viewers?: number) { this.prep(); return screen(this.project, this.llm, viewers, this.emit); }

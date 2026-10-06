@@ -1,8 +1,11 @@
 // A show on disk: show.scene (bible), epNN.scene (episodes), .crew/ (history,
 // snapshots for undo, note records, taste memory). Plain files, open formats.
+// All text I/O goes through a ProjectStore (src/storage/); the voice bank still
+// writes its wavs and voices.json straight to disk under <dir>/voices.
 
-import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, join, resolve } from "node:path";
+import { join, resolve } from "node:path";
+import { FsStore } from "./storage/fs-store.ts";
+import type { ProjectStore } from "./storage/types.ts";
 import { parseEpisode, parseShow, printDoc } from "./scene/parse.ts";
 import type { Show } from "./scene/ast.ts";
 import { evaluate, workspace, type Evaluation, type GuardOptions, type Workspace } from "./crew/guard.ts";
@@ -76,14 +79,16 @@ export class Project {
   private seq = 0;
   voices!: VoiceBank;
 
-  constructor(dir: string, episode?: string) {
+  readonly store: ProjectStore;
+
+  constructor(dir: string, episode?: string, store?: ProjectStore) {
     this.dir = resolve(dir);
-    if (!existsSync(join(this.dir, "show.scene"))) throw new Error(`no show.scene in ${this.dir}`);
-    const eps = readdirSync(this.dir).filter((f) => /^ep.*\.scene$/.test(f)).sort();
-    this.episodeFile = episode ?? eps[0] ?? "ep01.scene";
-    mkdirSync(join(this.crewDir, "snapshots"), { recursive: true });
-    this.history = readJsonl<HistoryEntry>(join(this.crewDir, "history.jsonl"));
-    this.notes = collapseNotes(readJsonl<NoteRecord>(join(this.crewDir, "notes.jsonl")));
+    this.store = store ?? new FsStore(this.dir);
+    if (!this.store.exists("show.scene")) throw new Error(`no show.scene in ${this.dir}`);
+    this.episodeFile = episode ?? this.episodes[0] ?? "ep01.scene";
+    this.store.mkdirp(".crew/snapshots");
+    this.history = readJsonl<HistoryEntry>(this.store, ".crew/history.jsonl");
+    this.notes = collapseNotes(readJsonl<NoteRecord>(this.store, ".crew/notes.jsonl"));
     this.seq = this.history.length + this.notes.length;
     this.voices = new VoiceBank(this.dir, "/show-media/voices", LIBRARY_DIR);
     this.reload();
@@ -91,12 +96,18 @@ export class Project {
 
   get crewDir() { return join(this.dir, ".crew"); }
   get episodePath() { return join(this.dir, this.episodeFile); }
-  get episodes() { return readdirSync(this.dir).filter((f) => /^ep.*\.scene$/.test(f)).sort(); }
+  get episodes() { return this.store.list(".").filter((f) => /^ep.*\.scene$/.test(f)).sort(); }
+
+  /** Replace the show bible. Only for changes the director approved (people own the bible). */
+  setShowSource(text: string) {
+    this.store.writeText("show.scene", text);
+    this.reload();
+  }
 
   reload() {
-    this.showSrc = readFileSync(join(this.dir, "show.scene"), "utf8");
+    this.showSrc = this.store.readText("show.scene") ?? "";
     this.show = parseShow(this.showSrc);
-    const ep = existsSync(this.episodePath) ? readFileSync(this.episodePath, "utf8") : 'episode 1 ""\n';
+    const ep = this.store.readText(this.episodeFile) ?? 'episode 1 ""\n';
     this.ws = workspace(this.show, parseEpisode(ep), this.voices.lookup(this.show));
   }
 
@@ -130,9 +141,9 @@ export class Project {
 
   private write(next: Workspace, e: Omit<HistoryEntry, "id" | "at">): HistoryEntry {
     const entry: HistoryEntry = { id: this.id("h"), at: new Date().toISOString(), ...e };
-    writeFileSync(join(this.crewDir, "snapshots", `${entry.id}.scene`), this.episodeSrc);
-    writeFileSync(this.episodePath, printDoc(next.doc));
-    appendFileSync(join(this.crewDir, "history.jsonl"), JSON.stringify(entry) + "\n");
+    this.store.writeText(`.crew/snapshots/${entry.id}.scene`, this.episodeSrc);
+    this.store.writeText(this.episodeFile, printDoc(next.doc));
+    this.store.appendText(".crew/history.jsonl", JSON.stringify(entry) + "\n");
     this.history.push(entry);
     this.ws = next;
     return entry;
@@ -159,10 +170,11 @@ export class Project {
   undo(): HistoryEntry | null {
     const last = this.history.pop();
     if (!last) return null;
-    const snap = join(this.crewDir, "snapshots", `${last.id}.scene`);
-    if (!existsSync(snap)) throw new Error(`snapshot ${basename(snap)} is missing`);
-    writeFileSync(this.episodePath, readFileSync(snap, "utf8"));
-    writeFileSync(join(this.crewDir, "history.jsonl"), this.history.map((h) => JSON.stringify(h) + "\n").join(""));
+    const snap = `.crew/snapshots/${last.id}.scene`;
+    const text = this.store.readText(snap);
+    if (text === null) throw new Error(`snapshot ${last.id}.scene is missing`);
+    this.store.writeText(this.episodeFile, text);
+    this.store.writeText(".crew/history.jsonl", this.history.map((h) => JSON.stringify(h) + "\n").join(""));
     this.reload();
     return last;
   }
@@ -170,7 +182,7 @@ export class Project {
   saveNote(n: NoteRecord) {
     const i = this.notes.findIndex((x) => x.id === n.id);
     if (i >= 0) this.notes[i] = n; else this.notes.push(n);
-    appendFileSync(join(this.crewDir, "notes.jsonl"), JSON.stringify(n) + "\n");
+    this.store.appendText(".crew/notes.jsonl", JSON.stringify(n) + "\n");
   }
 
   /** What the director has accepted and rejected recently, fed back into prompts. */
@@ -204,9 +216,8 @@ export class Project {
   }
 }
 
-function readJsonl<T>(path: string): T[] {
-  if (!existsSync(path)) return [];
-  return readFileSync(path, "utf8").split("\n").filter(Boolean).flatMap((l) => { try { return [JSON.parse(l) as T]; } catch { return []; } });
+function readJsonl<T>(store: ProjectStore, path: string): T[] {
+  return (store.readText(path) ?? "").split("\n").filter(Boolean).flatMap((l) => { try { return [JSON.parse(l) as T]; } catch { return []; } });
 }
 
 /** notes.jsonl is append-only; the last record per id wins. */

@@ -31,6 +31,8 @@ export interface LLMCall {
   maxTokens?: number;
   /** structured view of the same request, for offline heuristics and logs */
   context?: unknown;
+  /** pictures sent with the prompt (base64); providers without vision ignore them */
+  images?: { mimeType: string; data: string }[];
 }
 
 export interface Usage {
@@ -118,7 +120,9 @@ export class ClaudeLLM implements LLM {
       model,
       max_tokens: c.maxTokens ?? 16000,
       system,
-      messages: [{ role: "user" as const, content: c.prompt }],
+      messages: [{ role: "user" as const, content: c.images?.length
+        ? [...c.images.map((im) => ({ type: "image" as const, source: { type: "base64" as const, media_type: im.mimeType as "image/png", data: im.data } })), { type: "text" as const, text: c.prompt }]
+        : c.prompt }],
       ...(Object.keys(output_config).length ? { output_config } : {}),
     };
 

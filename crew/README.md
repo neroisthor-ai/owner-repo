@@ -1,5 +1,8 @@
 # Crew
 
+
+**Going live on Gemini:** copy `.env.example` to `.env`, add `GEMINI_API_KEY`, run `npm run doctor`, then `npm start`. Details in `docs/GO_LIVE.md`.
+
 **The AI film crew that takes direction.** You write and direct; Claude's crew builds. Every note changes exactly what you asked for and nothing else.
 
 ```bash

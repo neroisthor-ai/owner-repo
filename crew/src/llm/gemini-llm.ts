@@ -38,7 +38,7 @@ export class GeminiLLM implements LLM {
 
   async call<T = unknown>(c: LLMCall): Promise<LLMResult<T>> {
     const model = GEMINI_MODELS[c.tier];
-    const base = { model, system: c.system.join("\n\n"), schema: c.schema, thinking: GEMINI_THINKING[c.tier] };
+    const base = { model, system: c.system.join("\n\n"), schema: c.schema, thinking: GEMINI_THINKING[c.tier], images: c.images };
     let max = Math.min(MAX_OUTPUT, Math.max(c.maxTokens ?? 0, MIN_OUTPUT[c.tier]));
     let r = await this.client.generate({ ...base, prompt: c.prompt, maxOutputTokens: max });
     const all: GeminiResponse[] = [r];

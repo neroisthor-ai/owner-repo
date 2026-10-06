@@ -13,16 +13,19 @@ import { readFileSync, existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { decodeWav, type Pcm } from "./dsp.ts";
+import { GeminiTtsEngine, hasGeminiKey } from "./gemini-tts.ts";
 
 export interface VoiceDesign {
   blend: [string, number][]; // Kokoro voice ids and weights
   lang: "en-us" | "en-gb";
   speed: number; // base speed multiplier for this character
+  /** who is speaking, for engines that pick a voice per character (Gemini) */
+  actor?: string;
 }
 
 export interface TtsEngine {
   readonly name: string;
-  synth(text: string, design: VoiceDesign, speed: number): Promise<Pcm>;
+  synth(text: string, design: VoiceDesign, speed: number, direction?: string): Promise<Pcm>;
 }
 
 export const KOKORO_VOICES = [
@@ -152,6 +155,7 @@ export class CommandEngine implements TtsEngine {
 }
 
 export function pickEngine(name = process.env.CREW_TTS ?? "auto"): TtsEngine {
+  if (name === "gemini" || (name === "auto" && !process.env.CREW_TTS && hasGeminiKey())) return new GeminiTtsEngine();
   if (name === "walla") return new WallaEngine();
   if (name === "command" || (name === "auto" && process.env.CREW_TTS_CMD)) return new CommandEngine();
   return new KokoroEngine();

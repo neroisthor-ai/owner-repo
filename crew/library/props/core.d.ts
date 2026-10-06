@@ -1,0 +1,13 @@
+import type * as ThreeNS from "three";
+import type { BufferGeometry, Group, Material, Matrix4, Mesh, Object3D } from "three";
+export const THREE: typeof ThreeNS;
+export function rng(seed?: number): { (): number; range(a: number, b: number): number; pick<T>(arr: T[]): T };
+export function mat(color: string | number, o?: Record<string, unknown>): Material;
+export function mesh(geo: BufferGeometry, material: Material, parent?: Object3D | null, x?: number, y?: number, z?: number): Mesh;
+export function box(parent: Object3D | null, w: number, h: number, d: number, material: Material, x?: number, y?: number, z?: number): Mesh;
+export function cyl(parent: Object3D | null, rTop: number, rBot: number, h: number, material: Material, x?: number, y?: number, z?: number, seg?: number): Mesh;
+export function group(parent?: Object3D | null, x?: number, y?: number, z?: number, ry?: number): Group;
+export function merged(parent: Object3D | null, geos: BufferGeometry[], material: Material): Mesh;
+export function mergeGeometries(geos: BufferGeometry[]): BufferGeometry;
+export function TM(x: number, y: number, z: number, sx?: number, sy?: number, sz?: number, rx?: number, ry?: number, rz?: number): Matrix4;
+export function finish<T extends Object3D>(g: T, id: string, meta?: Record<string, unknown>): T;

@@ -172,6 +172,17 @@ For open-ended direction, crew_note runs the internal crew (Haiku/Sonnet/Opus) a
     return text(hits.map((a) => `${a.id.padEnd(24)} ${a.kind.padEnd(10)} ${a.title}  [${a.tags.join(", ")}]`).join("\n") || "nothing found");
   });
 
+  server.registerTool("crew_make_prop", {
+    title: "Make a new prop",
+    description: "When a note needs a prop the library doesn't have: the crew builds it as code, checks size, ground contact, centring and inside-out surfaces, and the director reviews it. It then exists by id for `prop`/`dress` lines. Needs Crew AI (a Gemini or Claude key).",
+    inputSchema: { id: z.string().regex(/^[a-z0-9_]+$/), description: z.string().min(8), size: z.array(z.number()).length(3).optional() },
+  }, async ({ id, description, size }) => {
+    try {
+      const r = await crew.makeProp(id, description, size as [number, number, number] | undefined);
+      return r.ok ? text(`made ${r.id} in ${r.attempts} attempt(s)`) : { ...text(r.error ?? "the prop did not pass its checks"), isError: true };
+    } catch (e) { return { ...text((e as Error).message), isError: true }; }
+  });
+
   server.registerTool("crew_export_otio", {
     title: "Export the cut",
     description: "The current cut as OpenTimelineIO JSON (clips reference content-hashed renders).",

@@ -12,7 +12,10 @@
 //   flat      lies on the floor (rug, water), not an obstacle
 // decor: true means QC and the camera solver ignore it (the renderer still draws it).
 
-export const PROP_META = {
+import { GENERATED_META } from "./generated/meta.js";
+
+// Hand-curated props. Props the crew made itself live in generated/ and are merged below (they can never replace these).
+export const BASE_META = {
   bed_boarding: {"id":"bed_boarding","title":"Boarding-school bed","category":"bedroom","placement":"at","source":"The Bob","module":"interior","size":[1.05,0.9,2.3],"y0":0,"center":[0,0],"sittable":true,"sitHeight":0.5},
   mosquito_net: {"id":"mosquito_net","title":"Mosquito net over a bed","category":"bedroom","placement":"ceiling","source":"The Bob","module":"interior","size":[1.24,1.83,2.34],"y0":0.55,"center":[0,0],"decor":true},
   tin_trunk: {"id":"tin_trunk","title":"Tin trunk","category":"bedroom","placement":"at","source":"The Bob","module":"interior","size":[0.75,0.43,0.47],"y0":0,"center":[0,0],"sittable":true,"sitHeight":0.42},
@@ -101,4 +104,5 @@ export const PROP_META = {
   water_thames: {"id":"water_thames","title":"Thames water shader","category":"water","placement":"flat","source":"Low Pass","module":"structures","size":[200,0,200],"y0":0,"center":[0,0],"decor":true,"animated":true},
 };
 
+export const PROP_META = { ...GENERATED_META, ...BASE_META };
 export const PROP_IDS = Object.keys(PROP_META);

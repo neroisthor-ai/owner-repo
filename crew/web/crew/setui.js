@@ -45,9 +45,55 @@ E.applySetDraft = async () => {
   const backdrop = draft.mode === "2d" ? await E.makeBackdrop(draft.files[0]) : null;
   E.setLook.set(key, { mode: draft.mode, look, thumbs: reads.map((r) => r.thumb), backdrop });
   X().toast(draft.mode === "2d" ? "Backdrop set. It sits behind the action in every shot." : `Set shaped by ${reads.length} picture${reads.length === 1 ? "" : "s"}: ${look?.mood ?? "neutral"} light, ${Math.round((look?.brightness ?? 0.5) * 100)}% bright.`);
+  const files = [...draft.files], mode = draft.mode;
   clear(); draft.mode = "3d"; bump();
+  // with Crew AI on, the director also looks at the pictures and proposes a layout for the set
+  if (mode === "3d" && st.mode && st.mode !== "offline") proposeLayout(files).catch((e) => X().toast(`Couldn't lay the set out from your pictures: ${e.message}`, "error"));
   return true;
 };
+
+const shrink = (file, max = 1024) => new Promise((res, rej) => {
+  const url = URL.createObjectURL(file), img = new Image();
+  img.onload = () => { const s = Math.min(1, max / Math.max(img.width, img.height)), c = document.createElement("canvas"); c.width = Math.round(img.width * s); c.height = Math.round(img.height * s); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL("image/jpeg", 0.85)); };
+  img.onerror = () => rej(new Error(`can't read ${file.name}`));
+  img.src = url;
+});
+
+async function proposeLayout(files) {
+  X().toast("The director is laying out the set from your pictures. This takes a minute.");
+  const images = await Promise.all(files.map((f) => shrink(f)));
+  const r = await fetch("/api/set-layout", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ images }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error ?? r.statusText);
+  showProposal(j);
+}
+
+/** A small sheet: the proposed set beside the current one; nothing changes until "Use this layout". */
+function showProposal(p) {
+  document.querySelector(".sl-sheet")?.remove();
+  const el = document.createElement("div");
+  el.className = "sl-sheet";
+  el.innerHTML = `<div class="sl-card" role="dialog" aria-label="Set layout from your pictures">
+    <h3>Set layout from your pictures</h3>
+    <p>${p.ok ? `The director laid out <b>${p.setId}</b> from your pictures and kept every mark the episode uses.` : `The director's layout still has problems, so it can't be used: ${(p.problems ?? [p.error]).slice(0, 2).join(" ")}`}</p>
+    <div class="sl-cols"><div><small>Now</small><pre></pre></div><div><small>Proposed</small><pre></pre></div></div>
+    <div class="sl-actions"><button class="xe-btn" data-k="keep">Keep the current set</button>${p.ok ? '<button class="xe-btn accent" data-k="use">Use this layout</button>' : ""}</div></div>`;
+  const pres = el.querySelectorAll("pre");
+  pres[0].textContent = p.current || "(none)";
+  pres[1].textContent = p.block || "";
+  el.addEventListener("click", async (e) => {
+    const k = e.target.closest?.("button")?.dataset.k;
+    if (e.target === el || k === "keep") el.remove();
+    if (k === "use") {
+      const r = await fetch("/api/set-layout/accept", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ setId: p.setId, block: p.block }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) return X().toast(j.error ?? "Couldn't use the layout.", "error");
+      el.remove();
+      X().toast("New set layout in place. Every shot re-renders with it.", "ok");
+    }
+  });
+  document.body.appendChild(el);
+}
 E.checkSetDraft = () => { if (draft.mode === "2d" && !draft.files.length) throw new Error("Add a backdrop picture for the 2D set, or switch to a 3D set."); };
 
 E.ui = Object.assign(E.ui ?? {}, { SetChoice });

@@ -12,6 +12,7 @@ import { structure } from "./scene/parse.ts";
 import { designFor } from "./voice/bank.ts";
 import { CREW_ROOT, LIBRARY_DIR } from "./project.ts";
 import { connectKey, ENV_VAR, sameOrigin } from "./claude/setup.ts";
+import { anchorsInUse, checkBlock, proposeSetLayout, replaceSetBlock, setBlock } from "./assets/set-layout.ts";
 import { hasGeminiKey } from "./llm/gemini-llm.ts";
 import { hasCredentials } from "./claude/llm.ts";
 
@@ -68,6 +69,29 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
     "POST /api/patch": (b) => {
       const r = crew.patch(String(b.patch ?? ""), { role: (b.role as never) ?? "director", dryRun: !!b.dryRun, allowSpill: !!b.allowSpill, allowNewErrors: !!b.allowNewErrors });
       return { ...r, after: undefined };
+    },
+    "POST /api/props": async (b) => {
+      const id = String(b.id ?? ""), description = String(b.description ?? "");
+      const size = Array.isArray(b.size) && b.size.length === 3 ? (b.size.map(Number) as [number, number, number]) : undefined;
+      try { const r = await crew.makeProp(id, description, size); return { ok: r.ok, id: r.id, attempts: r.attempts, error: r.error, measured: r.measured }; }
+      catch (e) { throw new HttpError(400, (e as Error).message); }
+    },
+    // a set laid out by the director from reference pictures: a proposal first, written only when accepted
+    "POST /api/set-layout": async (b) => {
+      if (crew.llm.mode === "offline") throw new HttpError(400, "Laying out a set from pictures needs Crew AI (Gemini or Claude).");
+      const p = crew.project, setId = String(b.setId ?? Object.keys(p.show.sets)[0] ?? "");
+      const images = (Array.isArray(b.images) ? b.images : []).slice(0, 6).map((u: unknown) => /^data:([^;]+);base64,(.+)$/.exec(String(u))).filter((m: RegExpExecArray | null): m is RegExpExecArray => !!m).map((m: RegExpExecArray) => ({ mimeType: m[1], data: m[2] }));
+      if (!images.length) throw new HttpError(400, "Add at least one picture.");
+      return { setId, current: setBlock(p.showSrc, setId), ...(await proposeSetLayout(crew.llm, p, { setId, images, note: b.note ? String(b.note) : undefined }, (m) => crew.events.emit("crew", { kind: "step", role: "director", message: m }))) };
+    },
+    "POST /api/set-layout/accept": (b, req) => {
+      if (!sameOrigin(req.headers.host, req.headers.origin, req.headers["content-type"])) throw new HttpError(403, "That request didn't come from the Crew page.");
+      const p = crew.project, setId = String(b.setId ?? ""), block = String(b.block ?? "");
+      const problems = checkBlock(p.showSrc, setId, block, anchorsInUse(p, setId));
+      if (problems.length) throw new HttpError(409, `The layout no longer checks out: ${problems[0]}`);
+      p.setShowSource(replaceSetBlock(p.showSrc, setId, block));
+      crew.events.emit("changed", { summary: `set ${setId} laid out from pictures` });
+      return { ok: true };
     },
     "PUT /api/episode": (b) => { crew.setEpisode(String(b.source ?? "")); return { ok: true, grammar: crew.project.ws.grammar }; },
     "POST /api/undo": () => ({ undone: crew.undo() }),

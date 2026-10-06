@@ -6,8 +6,9 @@ import * as interior from "./interior.js";
 import * as vehicles from "./vehicles.js";
 import * as exterior from "./exterior.js";
 import * as structures from "./structures.js";
+import { GENERATED } from "./generated/index.js";
 
-const MODULES = { interior, vehicles, exterior, structures };
+const MODULES = { interior, vehicles, exterior, structures, generated: GENERATED };
 
 export const PROPS = Object.fromEntries(PROP_IDS.map((id) => {
   const meta = PROP_META[id];
