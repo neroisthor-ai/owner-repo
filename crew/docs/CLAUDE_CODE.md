@@ -31,3 +31,16 @@ The tools are `crew_overview`, `crew_check`, `crew_patch`, `crew_note`, `crew_ac
 - The note box inside the editor stays on the offline rules. The Claude brain is the Claude Code window.
 - Your plan's usage limits apply, not per-token billing.
 - Timeline edits (your own sounds, pictures, green screen) are made in the editor, not through Claude.
+
+## Claude Desktop and Cowork
+Same crew tools, no terminal for Claude itself. You still run the editor once in a terminal (`npm install`, then `npm start`) and keep http://localhost:4310 open.
+
+1. In the Claude desktop app open Settings, then Developer, then Edit Config. That opens `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/`, Windows: `%APPDATA%\Claude\`).
+2. Add the crew server with absolute paths to your clone, then restart the app:
+   ```json
+   { "mcpServers": { "crew": { "command": "node", "args": ["/FULL/PATH/owner-repo/crew/bin/crew.js", "mcp", "/FULL/PATH/owner-repo/crew/shows/kitchen"] } } }
+   ```
+   On Windows use `C:\\Users\\you\\owner-repo\\crew\\...` with doubled backslashes.
+3. In Cowork, give it the `crew` folder as its working folder, and paste:
+   > You are the crew for the film in this folder. Read CLAUDE.md first. Use the crew tools: crew_overview before anything, crew_patch with the narrowest role for edits, crew_check after every change, and tell me what was and was not checked. Never rewrite a whole episode for a note. Start with crew_overview and tell me what you see.
+4. If Cowork does not show the crew tools, it can still work from the folder: the film is plain text (`shows/kitchen/ep01.scene`), and with a shell it can run `npx tsx src/cli.ts check` and `npx tsx src/cli.ts patch "1D.2 ~2.5 -> ~1.4" --role animator`, which apply the same checks.
