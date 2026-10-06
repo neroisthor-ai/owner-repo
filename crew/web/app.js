@@ -45275,6 +45275,7 @@ class da {
   dispose(e = !1) {
     (window.CrewExt?.look?.disposeLook?.(this),
       window.CrewExt?.liveGone?.(this),
+      window.CrewExt?.viewerHooks?.forEach((f) => f(this, "gone")),
       this.cleanup.forEach((t) => t()),
       this.rigs.forEach((t) => {
         (t.proc.dispose(), t.glb?.dispose());
@@ -47693,9 +47694,6 @@ function CrewMenu({ server: n, kind: k }) {
             u.jsx("div", { className: "cm-h", children: "How thorough" }),
             row(pipe === "full", "Full", "Every role, then a checker picks the best takes.", () => Qa({ pipeline: "full" })),
             row(pipe === "fast", "Fast", "Fewer agents. Quicker and cheaper.", () => Qa({ pipeline: "fast" })),
-            u.jsx("div", { className: "cm-h", children: "Project type" }),
-            row(k === "previs", "Film or animation", "Shot lists, plans, editorial and 3D handoff.", () => _d("previs")),
-            row(k === "creator", "Video for social", "Templates, every size, captions, transparent clips.", () => _d("creator")),
           ],
         }),
     ],
@@ -47705,6 +47703,7 @@ function S5() {
   const n = Ne((h) => h.server),
     e = Ne((h) => h.demo),
     t = Ne((h) => !!h.working),
+    edRev = Ne((h) => h.editRev ?? 0), // CREW-EXT: re-render when the edit layer changes
     i = Tc();
   if (!n) return null;
   const r = n.qc?.counts?.error ?? 0,
@@ -47772,9 +47771,10 @@ function S5() {
           }),
           u.jsx("button", {
             onClick: () => {
-              Sc();
+              // CREW-EXT: one Undo for everything: your timeline edits first, then the crew's accepted changes
+              window.CrewExt?.editApi?.undoIsMine?.() && window.CrewExt.editApi.undoEdit() ? 0 : Sc();
             },
-            disabled: !c,
+            disabled: !c && !(window.CrewExt?.editApi?.canUndo?.() && edRev >= 0),
             className: "tb-btn tb-icon",
             title: "Undo (⌘Z)",
             "aria-label": "Undo last accepted change",
@@ -48151,7 +48151,7 @@ function SE(n, e, t, i, r) {
       const g = n.current;
       if (g) {
         try {
-          ((o.current = new da(g)), window.CrewExt?.liveViewer?.(o.current));
+          ((o.current = new da(g)), window.CrewExt?.liveViewer?.(o.current), window.CrewExt?.viewerHooks?.forEach((f) => f(o.current, "add")));
         } catch (x) {
           f(x instanceof Error ? x.message : String(x));
         }
@@ -49001,6 +49001,7 @@ function H5() {
   return u.jsxs("div", {
     className: "pb-6",
     children: [
+      u.jsx(window.CrewExt.ui.ClipInspector, {}), // CREW-EXT: the selected overlay or audio clip
       u.jsx(TE, { baked: e, shot: t, picked: i }),
       !w &&
         u.jsx("div", {
@@ -49464,69 +49465,6 @@ function X5() {
     ),
   });
 }
-function $5() {
-  const [n, e] = Z.useState(null),
-    [t, i] = Z.useState("overlay"),
-    [r, o] = Z.useState(50);
-  return u.jsxs(u.Fragment, {
-    children: [
-      u.jsxs("label", {
-        className:
-          "flex h-[20px] cursor-default items-center rounded-[5px] px-1.5 text-[11px] text-tx-dim hover:bg-white/5 hover:text-tx",
-        title: "Overlay your real footage on the previs, in sync",
-        children: [
-          n
-            ? u.jsx("span", {
-                className: "max-w-[90px] truncate text-accent",
-                children: n,
-              })
-            : "Footage",
-          u.jsx("input", {
-            type: "file",
-            accept: "video/*",
-            className: "hidden",
-            onChange: (c) => {
-              const h = c.target.files?.[0];
-              h && (e(h.name), sn("Syncing footage over the previs", { file: h }));
-            },
-          }),
-        ],
-      }),
-      n &&
-        u.jsxs(u.Fragment, {
-          children: [
-            u.jsxs("select", {
-              className: "field !h-[18px] !text-[10.5px]",
-              value: t,
-              onChange: (c) => i(c.target.value),
-              "aria-label": "Footage mode",
-              children: [
-                u.jsx("option", { value: "overlay", children: "Overlay" }),
-                u.jsx("option", { value: "wipe", children: "Wipe" }),
-                u.jsx("option", { value: "diff", children: "Difference" }),
-              ],
-            }),
-            u.jsx("input", {
-              type: "range",
-              min: 0,
-              max: 100,
-              value: r,
-              onChange: (c) => o(Number(c.target.value)),
-              className: "h-1 w-16 accent-[#a2a5ae]",
-              "aria-label": "Footage opacity",
-              title: `Opacity ${r}%`,
-            }),
-            u.jsx("button", {
-              className: "text-[11px] text-tx-faint hover:text-tx",
-              onClick: () => e(null),
-              "aria-label": "Remove footage",
-              children: "×",
-            }),
-          ],
-        }),
-    ],
-  });
-}
 function ds({ title: n, children: e, note: t }) {
   return u.jsxs("section", {
     className: "space-y-2 border-b border-line px-3 py-3",
@@ -49564,6 +49502,20 @@ function q5() {
     [x, m] = Z.useState("none");
   return u.jsxs("div", {
     children: [
+      u.jsxs(ds, {
+        title: "The whole project",
+        note: "Everything in one zip for a client, or a backup you can reopen later.",
+        children: u.jsxs("div", {
+          className: "flex flex-wrap gap-1",
+          children: [
+            u.jsx(ti, { label: "Client package (.zip)", what: "Delivery package", ctx: {} }),
+            u.jsx(ti, { label: "Project backup (.zip)", what: "Project backup", ctx: {} }),
+            u.jsx(ti, { label: "Baked JSON", what: "Baked JSON export", ctx: {} }),
+            u.jsx(ti, { label: "SCENE source", what: "SCENE source export", ctx: {} }),
+            u.jsx(ti, { label: "Current frame (.png)", what: "Frame export", ctx: {} }),
+          ],
+        }),
+      }),
       u.jsxs(ds, {
         title: "Camera to 3D apps",
         note: "Each shot's camera, with your reframes, keyed every frame.",
@@ -49854,41 +49806,7 @@ function J5() {
     [_, M] = Z.useState("explainer");
   return u.jsxs("div", {
     children: [
-      u.jsxs(ds, {
-        title: "Start from a template",
-        note: "A set, a cast and a first cut you then change with notes.",
-        children: [
-          u.jsx(qs, {
-            label: "Template",
-            value: _,
-            onChange: M,
-            options: [
-              { v: "explainer", label: "Explainer: presenter at a desk" },
-              { v: "podcast", label: "Two people talking" },
-              { v: "whiteboard", label: "Whiteboard walk-through" },
-              { v: "recon", label: "Documentary reconstruction" },
-              { v: "reaction", label: "Reaction cutaway" },
-              { v: "intro", label: "Channel intro and outro" },
-              { v: "sponsor", label: "Sponsor read" },
-            ],
-          }),
-          u.jsxs("div", {
-            className: "flex gap-1",
-            children: [
-              u.jsx(Je, {
-                size: "sm",
-                onClick: () => sn("Starting from a template", { template: _ }),
-                children: "Use template",
-              }),
-              u.jsx(Je, {
-                size: "sm",
-                onClick: () => sn("The scene library", {}),
-                children: "Browse scenes…",
-              }),
-            ],
-          }),
-        ],
-      }),
+      // CREW-EXT: "Start from a template" is not here: it has one home elsewhere (Home for templates, the Edit timeline for footage)
       u.jsxs(ds, {
         title: "Sizes",
         note: "One cut, every platform. Each size gets its own framing, so the subject stays in shot.",
@@ -49929,81 +49847,10 @@ function J5() {
           }),
         ],
       }),
+      // CREW-EXT: "Drop into your video" is not here: it has one home elsewhere (Home for templates, the Edit timeline for footage)
       u.jsxs(ds, {
-        title: "Drop into your video",
-        note: "Characters or whole shots, ready to lay over your own footage in Premiere, Resolve, CapCut or Final Cut.",
+        title: "Captions",
         children: [
-          u.jsx(qs, {
-            label: "Background",
-            value: i,
-            onChange: r,
-            options: [
-              { v: "scene", label: "Keep the set" },
-              { v: "alpha", label: "Transparent (characters only)" },
-              { v: "green", label: "Green screen" },
-              { v: "blur", label: "Blurred set" },
-            ],
-          }),
-          u.jsxs("div", {
-            className: "flex flex-wrap gap-1",
-            children: [
-              u.jsx(ti, {
-                label: "ProRes 4444 (.mov)",
-                what: "Transparent ProRes export",
- ctx: { background: i },
-              }),
-              u.jsx(ti, {
-                label: "WebM with alpha",
-                what: "WebM alpha export",
- ctx: { background: i },
-              }),
-              u.jsx(ti, { label: "PNG sequence", what: "PNG sequence export",
- ctx: { background: i } }),
-              u.jsx(ti, {
-                label: "Clip per shot (.zip)",
-                what: "Per-shot clip export",
- ctx: { background: i },
-              }),
-            ],
-          }),
-        ],
-      }),
-      u.jsxs(ds, {
-        title: "Voice and captions",
-        children: [
-          u.jsxs("div", {
-            className: "flex flex-wrap gap-1",
-            children: [
-              u.jsxs("label", {
-                className: "btn !h-[22px] cursor-default text-[11px]",
-                children: [
-                  "Add voiceover…",
-                  u.jsx("input", {
-                    type: "file",
-                    accept: "audio/*",
-                    className: "hidden",
-                    onChange: (N) =>
-                      N.target.files?.[0] &&
-                      sn("Syncing a voiceover and lip-sync", { file: N.target.files[0] }),
-                  }),
-                ],
-              }),
-              u.jsx(Je, {
-                size: "sm",
-                onClick: () => sn("Rendering voices", {}),
-                title: "Render the cast's dialogue with the voice bank (temp voices) and retime the cut to them",
-                children: "Render voices",
-              }),
-              u.jsxs(Je, {
-                size: "sm",
-                onClick: () => sn("Recording a voiceover", {}),
-                children: [
-                  u.jsx("span", { className: "h-2 w-2 rounded-full bg-tally" }),
-                  " Record",
-                ],
-              }),
-            ],
-          }),
           u.jsx(qs, {
             label: "Captions",
             value: o,
@@ -50420,6 +50267,7 @@ function CE({
               ? `changes ${[...O].join(", ") || "nothing"}`
               : `${n.shots.length} clips · ${Si(n.duration, A)}`,
           }),
+          u.jsx(window.CrewExt.ui.EditBar, {}), // CREW-EXT
           u.jsxs("div", {
             className: "ml-auto flex items-center gap-1 text-tx-faint",
             children: [
@@ -50456,19 +50304,7 @@ function CE({
                 title: "Zoom to fit (Shift+Z)",
                 children: "Fit",
               }),
-              u.jsx("span", { className: "mx-1 h-3 w-px bg-ink-600" }),
-              u.jsx("button", {
-                className: Le(
-                  "rounded-[5px] px-1 hover:bg-white/10 hover:text-tx",
-                  w && "bg-white/10 text-accent",
-                ),
-                onClick: () => {
-                  (_(!w), w || sn("Dragging beats to retime"));
-                },
-                title:
-                  "Drag beat edges on the Beats track to retime them (turns into a checked retime patch)",
-                children: "Retime beats",
-              }),
+              // CREW-EXT: the Retime beats stub is gone; timing is edited on the clips themselves
             ],
           }),
         ],
@@ -50487,16 +50323,23 @@ function CE({
                 children: u.jsx(nI, { fps: A }),
               }),
               u.jsx(To, { h: Ai.notes, name: "Markers" }),
+              u.jsx(window.CrewExt.ui.EditLabels, { place: "above" }), // CREW-EXT: overlay lanes
               u.jsx(To, { h: Ai.v1, tag: "V1", name: "Picture", kind: "v" }),
               u.jsx(To, { h: Ai.beats, name: "Beats" }),
               u.jsx(To, { h: Ai.a1, tag: "A1", name: "Dialogue", kind: "a" }),
               u.jsx(To, { h: Ai.a2, tag: "A2", name: "Fx / Music", kind: "a" }),
+              u.jsx(window.CrewExt.ui.EditLabels, { place: "below" }), // CREW-EXT: your audio lanes
               u.jsx(To, { h: Ai.qc, name: "QC" }),
               u.jsx(To, { h: Ai.heat, name: "Screening" }),
             ],
           }),
           u.jsx("div", {
             ref: g,
+            onDragOver: (W) => W.dataTransfer?.types?.includes("Files") && (W.preventDefault(), (W.dataTransfer.dropEffect = "copy")), // CREW-EXT: drop media on the timeline
+            onDrop: (W) => {
+              W.preventDefault();
+              window.CrewExt.ui.dropFiles(W, Q(W.clientX));
+            },
             className:
               "relative min-w-0 flex-1 overflow-x-auto overflow-y-hidden bg-ink-900",
             children: u.jsxs("div", {
@@ -50577,6 +50420,7 @@ function CE({
                           );
                     }),
                 }),
+                u.jsx(window.CrewExt.ui.EditLanes, { place: "above", pps: T, ra }), // CREW-EXT
                 u.jsxs("div", {
                   className: "relative border-b border-line",
                   style: { height: Ai.v1 },
@@ -50807,6 +50651,7 @@ function CE({
                     ),
                   ],
                 }),
+                u.jsx(window.CrewExt.ui.EditLanes, { place: "below", pps: T, ra }), // CREW-EXT
                 u.jsx("div", {
                   className: "relative border-b border-line",
                   style: { height: Ai.qc },
@@ -52297,17 +52142,7 @@ function fI() {
           u.jsxs("div", {
             className: "mb-1.5 flex items-center gap-2",
             children: [
-              u.jsx(ki, { children: "Change history" }),
-              u.jsxs(Je, {
-                variant: "outline",
-                size: "sm",
-                className: "ml-auto",
-                disabled: t.length === 0,
-                onClick: () => {
-                  Sc();
-                },
-                children: [u.jsx(xE, {}), " Undo last"],
-              }),
+              u.jsx(ki, { children: "Change history" }), // CREW-EXT: undo lives in the title bar (and Cmd/Ctrl+Z)
             ],
           }),
           p.length === 0
@@ -54023,7 +53858,7 @@ async function S4(n, e, t, i = 48e3) {
   ((c.gain.value = 0.9), c.connect(o.destination));
   // CREW-EXT: decode rendered dialogue clips and mix the user voiceover into renders
   await window.CrewExt?.preloadClips?.(n.audio);
-  window.CrewExt?.mixVo?.(o, c, e, t);
+  window.CrewExt?.mixUser?.(o, c, e, t);
   for (const h of n.audio ?? []) {
     if (h.type === "silence" || h.t + h.dur <= e || h.t >= t) continue;
     const p = Math.max(0, e - h.t),
@@ -54069,7 +53904,7 @@ class M4 {
     if (!t || !i || !this.master) return;
     const r = i.currentTime + 0.03;
     window.CrewExt?.preloadClips?.(t.audio);
-    window.CrewExt?.startVo?.(this, e, r); // CREW-EXT: user voiceover track
+    window.CrewExt?.startUser?.(this, e, r); // CREW-EXT: the user's own audio clips (voiceover, sounds)
     for (const o of t.audio ?? []) {
       const c = o.t + o.dur;
       if (o.type === "silence" || c <= e) continue;
@@ -55381,64 +55216,7 @@ function D4() {
             }),
         ],
       }),
-      u.jsxs("section", {
-        "aria-label": "Other formats",
-        className: "space-y-1.5",
-        children: [
-          u.jsx(ki, { children: "Other formats" }),
-          u.jsxs("div", {
-            className: "flex flex-wrap gap-1.5",
-            children: [
-              u.jsxs(Je, {
-                variant: "outline",
-                size: "sm",
-                onClick: () => {
-                  H.otio();
-                },
-                children: [u.jsx(Co, {}), " OTIO"],
-              }),
-              u.jsxs(Je, {
-                variant: "outline",
-                size: "sm",
-                onClick: H.baked,
-                children: [u.jsx(Co, {}), " Baked JSON"],
-              }),
-              u.jsxs(Je, {
-                variant: "outline",
-                size: "sm",
-                onClick: H.scene,
-                children: [u.jsx(Co, {}), " SCENE source"],
-              }),
-              u.jsxs(Je, {
-                variant: "outline",
-                size: "sm",
-                onClick: () => {
-                  H.still();
-                },
-                children: [u.jsx(Co, {}), " Still PNG @ playhead"],
-              }),
-              // CREW-EXT: whole-delivery and backup buttons
-              window.CrewExt?.handlers?.["Delivery package"] &&
-                u.jsxs(Je, {
-                  variant: "outline",
-                  size: "sm",
-                  onClick: () => sn("Delivery package", {}),
-                  title:
-                    "Shot list, EDL, XML, OTIO, captions, chapters, camera files, storyboard and shoot pack in one zip",
-                  children: [u.jsx(Co, {}), " Client package (.zip)"],
-                }),
-              window.CrewExt?.handlers?.["Project backup"] &&
-                u.jsxs(Je, {
-                  variant: "outline",
-                  size: "sm",
-                  onClick: () => sn("Project backup", {}),
-                  title: "The show, the episode, notes, history and dialogue clips",
-                  children: [u.jsx(Co, {}), " Project backup (.zip)"],
-                }),
-            ],
-          }),
-        ],
-      }),
+      // CREW-EXT: every export lives on the Export tab; the Render tab only renders
       u.jsxs("section", {
         "aria-label": "QC at publish",
         className: "space-y-2 border-t border-line pt-3",
@@ -56828,14 +56606,16 @@ function xb({ frame: n }) {
   return u.jsxs(u.Fragment, {
     children: [
       // CREW-EXT: the film look in the live viewer (The Bob's real-time pipeline) and its quality tier
-      window.CrewExt?.look &&
+      n &&
+        window.CrewExt?.look &&
         u.jsx(Xr, {
           on: lk,
           onClick: () => ke.set({ look: !lk }),
           title: "Film look: bloom, depth of field, grade, grain (real-time)",
           children: "Look",
         }),
-      window.CrewExt?.look &&
+      n &&
+        window.CrewExt?.look &&
         lk &&
         u.jsx(Xr, {
           on: !1,
@@ -56843,18 +56623,21 @@ function xb({ frame: n }) {
           title: "Viewer quality: Draft, High, Ultra",
           children: ["Draft", "High", "Ultra"][lq],
         }),
-      u.jsx(Xr, {
-        on: e,
-        onClick: () => ke.set({ thirds: !e }),
-        title: "Rule of thirds",
-        children: "Thirds",
-      }),
-      u.jsx(Xr, {
-        on: t,
-        onClick: () => ke.set({ safe: !t }),
-        title: "Action / title safe",
-        children: "Safe",
-      }),
+      // CREW-EXT: look, quality and framing guides have one home, the Frame page
+      n &&
+        u.jsx(Xr, {
+          on: e,
+          onClick: () => ke.set({ thirds: !e }),
+          title: "Rule of thirds",
+          children: "Thirds",
+        }),
+      n &&
+        u.jsx(Xr, {
+          on: t,
+          onClick: () => ke.set({ safe: !t }),
+          title: "Action / title safe",
+          children: "Safe",
+        }),
       !n &&
         u.jsx(Xr, {
           on: i,
@@ -56956,8 +56739,7 @@ function q4() {
                       },
                     ],
                   }),
-                u.jsx($5, {}),
-                u.jsx(xb, {}),
+                u.jsx(xb, {}), // CREW-EXT: footage lives in the Edit page's media pool
               ],
             }),
           }),
@@ -57018,27 +56800,13 @@ function Y4() {
     style: {
       gridTemplateColumns:
         "clamp(300px, 24vw, 390px) minmax(0,1fr) clamp(272px, 20vw, 320px)",
-      gridTemplateRows: "minmax(0,1fr) 248px",
+      gridTemplateRows: "minmax(0,1fr) clamp(264px, 38vh, 390px)",
     },
     children: [
-      u.jsxs("div", {
+      // CREW-EXT: the Edit page is for editing. Notes and takes live on Review; this column is the media pool.
+      u.jsx("div", {
         className: "flex min-h-0 flex-col gap-2",
-        children: [
-          u.jsxs("section", {
-            className: "panel flex min-h-0 flex-[1_1_40%] flex-col",
-            children: [
-              u.jsx("div", { className: "panel-head", children: "Notes" }),
-              u.jsx(RE, {}),
-            ],
-          }),
-          u.jsxs("section", {
-            className: "panel flex min-h-0 flex-[1_1_60%] flex-col",
-            children: [
-              u.jsx("div", { className: "panel-head", children: "Takes" }),
-              u.jsx(LE, {}),
-            ],
-          }),
-        ],
+        children: u.jsx(window.CrewExt.ui.MediaBin, {}),
       }),
       u.jsxs("div", {
         className: "flex min-h-0 min-w-0 flex-col",
@@ -57046,13 +56814,7 @@ function Y4() {
           u.jsxs("div", {
             className: "flex min-h-0 flex-1 gap-2",
             children: [
-              u.jsx(Kr, {
-                baked: e?.baked,
-                master: n,
-                title: e ? `Source · Take ${r}` : "Source",
-                tone: "take",
-                empty: "Double-click a take to load it",
-              }),
+              u.jsx(window.CrewExt.ui.SourceMonitor, {}),
               u.jsx(Kr, {
                 baked: n,
                 master: n,
@@ -60217,6 +59979,7 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
               }),
           ],
         }),
+      !N && u.jsx(window.CrewExt.ui.SetChoice, {}),
       u.jsxs("div", {
         className: "flex items-center gap-1.5 border-t border-line px-3 py-2.5",
         children: [
@@ -60245,32 +60008,7 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
                 : "Script file",
             ],
           }),
-          u.jsxs(n0, {
-            onClick: () => _d(r === "previs" ? "creator" : "previs"),
-            title: "Switch between Previs and Creator",
-            children: [
-              u.jsx(Ki, {
-                d: r === "previs" ? $i.film : $i.spark,
-                className: "h-[14px] w-[14px]",
-              }),
-              r === "previs" ? "Previs" : "Creator",
-            ],
-          }),
-          u.jsxs(n0, {
-            onClick: () => {
-              Qa({ llm: S === "claude" ? "offline" : "claude" });
-            },
-            title: "Switch the crew between Crew AI and offline",
-            children: [
-              u.jsx("span", {
-                className: Le(
-                  "h-1.5 w-1.5 rounded-full",
-                  S === "claude" ? "bg-ok" : "bg-tx-faint",
-                ),
-              }),
-              S === "claude" ? "Crew AI" : "Offline",
-            ],
-          }),
+          // CREW-EXT: project type lives in the sidebar and the crew in the title bar; this row is for the script
           u.jsx("button", {
             onClick: L,
             disabled: !o.trim(),
@@ -61757,7 +61495,7 @@ function zz() {
         }
         if (x && p.key.toLowerCase() === "z" && !p.shiftKey) {
           if (g) return;
-          (p.preventDefault(), Sc());
+          (p.preventDefault(), window.CrewExt?.editApi?.undoIsMine?.() && window.CrewExt.editApi.undoEdit() ? 0 : Sc());
           return;
         }
         if (g || x || p.altKey) return;
@@ -61959,7 +61697,7 @@ class jz extends Z.Component {
 // CREW-EXT: expose internals for the readable add-on modules in web/crew/
 window.__crew = Object.assign(window.__crew ?? {}, {
   store: ke, api: Ji, toast: _n, go: Mi, demo: () => $u(), Viewer: da, still: C4,
-  clock: Me, audio: Uf, framing: () => qi, sp: sP,
+  clock: Me, audio: Uf, framing: () => qi, sp: sP, react: Z, jsx: u,
   // the bundle's own three.js classes (render targets and shaders must come from the same copy as the renderer)
   three: { ShaderMaterial: ba, WebGLRenderTarget: Ks, DepthTexture: xd, OrthographicCamera: Up, Mesh: On, Scene: fR, PlaneGeometry: Nd, SphereGeometry: hp, Vector2: vt, Vector3: ie, Vector4: wb, Matrix4: Tp, Data3DTexture: aR },
   look: () => Oo, setLook: Po, body: () => Hw(), burn: A4, mixAudio: S4, parts: w4, renderPanelOpts: () => window.__crewRender ?? {},

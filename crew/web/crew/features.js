@@ -132,11 +132,11 @@ E.collapsed = ["Camera body", "Depth of field", "Film look", "Vertical 9:16", "C
 const HINTS = {
   home: ["Home", "Pick up where you left off, or start from a script"],
   review: ["Review", "Watch the cut, then write a note and the crew answers with takes"],
-  edit: ["Edit", "Compare a take with the cut, trim shots and fine-tune timing"],
+  edit: ["Edit", "Add your own sounds, pictures and footage, then trim, split and key them on the timeline"],
   frame: ["Frame", "Adjust each shot's camera, lens, focus and look"],
   plan: ["Plan", "Every shot at a glance: size, lens, status and the overhead plan"],
   deliver: ["Deliver", "Render the film and export everything your team needs"],
-  create: ["Create", "Sizes, captions, voice and branding for video platforms"],
+  create: ["Create", "Sizes, captions and branding for video platforms"],
 };
 function hint() {
   const footer = document.querySelector(".app-footer");
@@ -150,3 +150,7 @@ function hint() {
   if (el.innerHTML !== html) el.innerHTML = html;
 }
 setInterval(hint, 400);
+
+// ---- single-file exports on the Export tab ("The whole project") -------------------------------------------------------------
+E.on("Baked JSON export", () => download(`${base()}_baked.json`, new Blob([JSON.stringify(baked())], { type: "application/json" })));
+E.on("SCENE source export", () => download(`${base()}.scene`, new Blob([server().source ?? ""], { type: "text/plain" })));

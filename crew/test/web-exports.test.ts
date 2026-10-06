@@ -8,6 +8,8 @@ import { tc, csv, srt, srtTime, chapters, clipPlan, edl, fcpxml, crc32, zipStore
 import { halton, cocFactor, infoAt } from "../web/crew/render/look.js";
 import { gradeFor, GRADES } from "../web/crew/render/grades.js";
 import { ENV, envFor, sunDir } from "../web/crew/render/atmos.js";
+import { analyseImage, mergeLooks } from "../web/crew/setlook.js";
+import { keyPixels, guessScreen, keptShare, hexToRgb } from "../web/crew/keying.js";
 
 const near = (a: number, b: number, tol: number, msg = "") => assert.ok(Math.abs(a - b) <= tol, `${msg} ${a} vs ${b} (tol ${tol})`);
 const SHOTS = [
@@ -155,4 +157,77 @@ test("infoAt finds the shot a cut time lands in", () => {
   assert.equal(infoAt(baked, 8.8).shot.id, "1C");
   assert.equal(infoAt(baked, 99).shot.id, "1C");
   assert.equal(infoAt(baked, 7.5).o, 24);
+});
+
+test("chroma key removes a green screen, keeps the subject, and pulls spill", () => {
+  const px = (r: number, g: number, b: number) => [r, g, b, 255];
+  // 2 screen pixels (flat and shadowed green), a skin tone, a white shirt, a green-tinted edge pixel
+  const d = new Uint8ClampedArray([...px(0, 255, 0), ...px(10, 150, 12), ...px(224, 172, 140), ...px(240, 240, 240), ...px(150, 200, 140)]);
+  keyPixels(d, { on: true, color: "#00ff00", tol: 0.3, soft: 0.15, spill: 0.8 });
+  assert.equal(d[3], 0, "flat green is gone");
+  assert.equal(d[7], 0, "shadowed green is gone");
+  assert.equal(d[11], 255, "skin stays");
+  assert.equal(d[15], 255, "white stays");
+  assert.ok(d[19] > 0, "an edge pixel is not wiped");
+  assert.ok(d[17] < 200, "spill is pulled from the green channel of what stays");
+  assert.ok(keptShare(d) > 0.5 && keptShare(d) < 0.8);
+});
+
+test("chroma key works for a blue screen and guesses the screen colour", () => {
+  const blue = new Uint8ClampedArray(4 * 400);
+  for (let i = 0; i < 400; i++) blue.set(i < 300 ? [20, 40, 230, 255] : [200, 160, 130, 255], i * 4);
+  assert.match(guessScreen(blue) ?? "", /^#[0-9a-f]{2}[0-9a-f]{2}[ef][0-9a-f]$/i);
+  assert.deepEqual(hexToRgb("#102030"), [16, 32, 48]);
+  keyPixels(blue, { color: guessScreen(blue)!, tol: 0.3, soft: 0.1 });
+  assert.equal(blue[3], 0);
+  assert.equal(blue[4 * 399 + 3], 255);
+  assert.equal(guessScreen(new Uint8ClampedArray(4 * 400).fill(128)), null, "grey is not a screen");
+});
+
+// ---- set look analysis ----
+const synth = (w: number, h: number, f: (x: number, y: number) => number[]) => {
+  const d = new Uint8ClampedArray(w * h * 4);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const [r, g, b] = f(x, y), i = (y * w + x) * 4; d[i] = r; d[i + 1] = g; d[i + 2] = b; d[i + 3] = 255; }
+  return d;
+};
+const warmRoom = () => synth(64, 48, (_x, y) => (y < 8 ? [235, 225, 205] : y < 32 ? [150, 100, 60] : [215, 190, 150]));
+const outdoor = () => synth(64, 48, (_x, y) => (y < 20 ? [110, 170, 235] : [70, 130, 50]));
+const darkCool = () => synth(64, 48, (_x, y) => (y < 24 ? [20, 28, 45] : [14, 20, 34]));
+
+test("analyseImage: warm brown room with a light floor", () => {
+  const a = analyseImage(warmRoom(), 64, 48);
+  assert.equal(a.palette.length, 5);
+  assert.ok(a.palette.every((h: string) => /^#[0-9a-f]{6}$/.test(h)));
+  assert.equal(a.wall, "#96643c");
+  assert.equal(a.floor, "#d7be96");
+  assert.equal(a.mood, "warm");
+  assert.ok(a.warmth > 0.2 && a.sky === false);
+  assert.ok(parseInt(a.ceiling.slice(1, 3), 16) > 235, "ceiling is lightened");
+  assert.deepEqual(analyseImage(warmRoom(), 64, 48), a, "deterministic");
+});
+
+test("analyseImage: blue sky over grass is outdoors", () => {
+  const a = analyseImage(outdoor(), 64, 48);
+  assert.equal(a.sky, true);
+  assert.equal(a.suggestStyle, "park");
+  assert.equal(a.mood, "cool");
+});
+
+test("analyseImage: a dark cool image", () => {
+  const a = analyseImage(darkCool(), 64, 48);
+  assert.ok(a.brightness < 0.15 && a.warmth < -0.1 && !a.sky);
+  assert.equal(a.mood, "cool");
+  assert.ok(a.lightLevel < 0.3);
+});
+
+test("mergeLooks averages, unions palettes and takes the majority style", () => {
+  const A = analyseImage(warmRoom(), 64, 48), B = analyseImage(darkCool(), 64, 48), C = analyseImage(warmRoom(), 64, 48);
+  const m = mergeLooks([A, B, C])!;
+  near(m.warmth, (A.warmth * 2 + B.warmth) / 3, 1e-9);
+  near(m.brightness, (A.brightness * 2 + B.brightness) / 3, 1e-9);
+  assert.equal(m.suggestStyle, A.suggestStyle);
+  assert.equal(m.palette.length, 5);
+  assert.equal(m.sky, false);
+  assert.equal(mergeLooks([]), null);
+  assert.deepEqual(mergeLooks([A]), { ...A, palette: m.palette.length ? mergeLooks([A])!.palette : A.palette });
 });

@@ -89,6 +89,24 @@ const STYLES = [
 ];
 const DEFAULT_STYLE = { floor: () => wood("#7a5532"), floorRepeat: 1, wall: "#d2cbb8", dado: null, ceil: "#ece8dd", trim: "#e9e4d6", light: "#ffdfaa" };
 const styleFor = (id) => STYLES.find((s) => s.re.test(id)) ?? DEFAULT_STYLE;
+const E = window.CrewExt;
+
+// ---- set look: a user-chosen look from setlook.js, keyed by project (`${title}|${episode}`) -------------------
+
+const lookNow = () => {
+  try { const sv = window.__crew?.store?.get?.().server; return sv ? E.setLook?.get?.(`${sv.title}|${sv.episode}`) ?? null : null; } catch { return null; }
+};
+const lookKey = (L) => (L ? `${L.mode}:${L.mode === "2d" ? (L.backdrop?.length ?? 0) + ":" + (L.backdrop ?? "").slice(-48) : JSON.stringify(L.look)}` : "");
+const hx = (h) => { const n = parseInt(String(h).slice(1), 16) || 0; return [n >> 16, (n >> 8) & 255, n & 255]; };
+const clampN = (v, a, b) => Math.max(a, Math.min(b, v));
+/** A material colour that moves a texture's own colour toward `target`: ratio target/base, softened, so the room type still reads. */
+function tintFor(target, base, k = 0.6) {
+  const t = hx(target), b = base ? hx(base) : [160, 160, 160], c = new THREE.Color();
+  const r = t.map((v, i) => 1 + (clampN(v / Math.max(24, b[i]), 0.35, 1.35) - 1) * k);
+  return c.setRGB(r[0], r[1], r[2], SRGB);
+}
+const mixHex = (a, b, k) => { const x = hx(a), y = hx(b); return `#${x.map((v, i) => Math.round(v + (y[i] - v) * k).toString(16).padStart(2, "0")).join("")}`; };
+const styleByName = (n) => STYLES.find((s) => s.re.test(n)) ?? null;
 
 const std = (o) => new THREE.MeshStandardMaterial({ roughness: 0.9, metalness: 0, ...o });
 function tiled(tex, w, d, per) { const t = tex.clone(); t.needsUpdate = true; t.repeat.set(w / per, d / per); return t; }
@@ -96,18 +114,49 @@ const plane = (w, h, mat) => new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
 
 // ---- rooms --------------------------------------------------------------------------------------------------
 
-function room(set, id) {
-  const S = styleFor(id), { w, d, h } = set, g = new THREE.Group();
+/** Flat photo-plate backdrop for 2D mode: a big plane behind the action and a matching neutral floor, unlit. */
+function backdrop(set, id, L) {
+  const { w, d } = set, g = new THREE.Group(), R = Math.max(w, d, 6);
+  g.name = `shell:${id}:backdrop`;
+  const key = `backdrop${(L.backdrop ?? "").length}${(L.backdrop ?? "").slice(-40)}`;
+  let tex = cache.get(key), aspect = cache.get(key + ":a") ?? 1.6;
+  if (!tex && L.backdrop) {
+    tex = new THREE.Texture(); tex.colorSpace = SRGB; cache.set(key, tex);
+    const img = new Image();
+    img.onload = () => { tex.image = img; tex.needsUpdate = true; cache.set(key + ":a", img.width / img.height); E.setLookHooks?.forEach((f) => f()); };
+    img.src = L.backdrop;
+  }
+  // a ring of the picture around the set, so every camera angle sees it: tiles mirrored (no visible seams), each about as wide as a shot's view
+  const R3 = Math.max(w, d) * 1.4 + 9, tileW = R3 * 0.95, H = tileW / aspect, tiles = Math.max(2, Math.round((2 * Math.PI * R3) / tileW));
+  if (tex) { tex.wrapS = THREE.MirroredRepeatWrapping; tex.repeat.set(tiles, 1); }
+  const back = new THREE.Mesh(new THREE.CylinderGeometry(R3, R3, H, 72, 1, true), new THREE.MeshBasicMaterial({ map: tex ?? null, color: tex ? "#ffffff" : "#808890", toneMapped: false, fog: false, side: THREE.BackSide }));
+  back.position.y = H / 2 - 0.02; g.add(back);
+  const base = L.look?.floor ?? "#8a8a8a", [r, gg, b] = hx(base), m = (r + gg + b) / 3;
+  const neutral = mixHex(base, `#${[m, m, m].map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}`, 0.7);
+  const floor = new THREE.Mesh(new THREE.CircleGeometry(R3, 48), new THREE.MeshBasicMaterial({ color: neutral, toneMapped: false, fog: false }));
+  floor.rotation.x = -Math.PI / 2; floor.position.y = -0.004; g.add(floor);
+  const lt = new THREE.AmbientLight("#ffffff", 0.6); lt.name = "backdrop-ambient"; g.add(lt);
+  return g;
+}
+
+function room(set, id, L) {
+  if (L?.mode === "2d") return backdrop(set, id, L);
+  let S = styleFor(id);
+  const look = L?.mode === "3d" ? L.look : null;
+  if (look && S === DEFAULT_STYLE) S = styleByName(look.suggestStyle) ?? S;
+  const { w, d, h } = set, g = new THREE.Group();
   g.name = `shell:${id}`;
   // floor, facing up
   const ft = S.floor(), floorMat = std({ map: tiled(ft, w, d, S.floorRepeat), roughness: /tile|lino/.test(ft.name || "") ? 0.3 : 0.6 });
+  if (look) floorMat.color.copy(tintFor(look.floor, null, 0.5));
   const floor = plane(w, d, floorMat); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.002; g.add(floor);
   // ceiling, facing down (invisible from above, so the Set view still looks in)
-  const ceil = plane(w, d, std({ color: S.ceil, roughness: 1 })); ceil.rotation.x = Math.PI / 2; ceil.position.y = h; g.add(ceil);
+  const ceil = plane(w, d, std({ color: look ? mixHex(S.ceil, look.ceiling, 0.45) : S.ceil, roughness: 1 })); ceil.rotation.x = Math.PI / 2; ceil.position.y = h; g.add(ceil);
   // four inward-facing walls: one-sided, so the near wall never blocks an orbit view from outside
   const wallTex = S.brick ? brick(S.wall) : plaster(S.wall);
   const mkWall = (len, rotY, x, z) => {
-    const m = std({ map: tiled(wallTex, len, h, S.brick ? 0.64 : 2), color: S.brick ? "#ffffff" : "#ffffff", roughness: 0.95 });
+    const m = std({ map: tiled(wallTex, len, h, S.brick ? 0.64 : 2), roughness: 0.95 });
+    if (look) m.color.copy(tintFor(look.wall, S.wall, 0.65));
     const mesh = plane(len, h, m); mesh.position.set(x, h / 2, z); mesh.rotation.y = rotY; g.add(mesh);
     if (S.dado) { const dm = std({ color: S.dado, roughness: 0.7 }); const dd = plane(len, S.dadoH, dm); dd.position.set(x, S.dadoH / 2, z); dd.rotation.y = rotY; const n = new THREE.Vector3(Math.sin(rotY), 0, Math.cos(rotY)); dd.position.addScaledVector(n, 0.004); g.add(dd); }
     // skirting and a picture rail, each a thin box proud of the wall (seen only from inside)
@@ -117,11 +166,12 @@ function room(set, id) {
   mkWall(w, 0, 0, -d / 2); mkWall(w, Math.PI, 0, d / 2); mkWall(d, Math.PI / 2, -w / 2, 0); mkWall(d, -Math.PI / 2, w / 2, 0);
   // practical lights: panels in the ceiling with a point light under each, one per ~20 m2, at most three
   const n = Math.max(1, Math.min(3, Math.round((w * d) / 20)));
+  const lightCol = look ? mixHex(S.light, look.lightTint, 0.5) : S.light, lightK = look ? 0.7 + 0.6 * look.lightLevel : 1;
   for (let i = 0; i < n; i++) {
     const x = n === 1 ? 0 : -w / 2 + (w * (i + 0.5)) / n, z = 0;
-    const panel = plane(Math.min(1.1, w / (n + 1.5)), 0.45, new THREE.MeshBasicMaterial({ color: new THREE.Color(S.light).multiplyScalar(3.2) }));
+    const panel = plane(Math.min(1.1, w / (n + 1.5)), 0.45, new THREE.MeshBasicMaterial({ color: new THREE.Color(lightCol).multiplyScalar(3.2 * (0.8 + 0.2 * lightK)) }));
     panel.rotation.x = Math.PI / 2; panel.position.set(x, h - 0.01, z); g.add(panel);
-    const l = new THREE.PointLight(S.light, 9 / Math.sqrt(n), Math.max(w, d) * 1.7, 2); l.position.set(x, h - 0.35, z); l.name = "ceiling-light"; g.add(l);
+    const l = new THREE.PointLight(lightCol, (9 * lightK) / Math.sqrt(n), Math.max(w, d) * 1.7, 2); l.position.set(x, h - 0.35, z); l.name = "ceiling-light"; g.add(l);
   }
   return g;
 }
@@ -161,11 +211,31 @@ function plainGround() {
 /** The shell for a baked set: a Group in the set's own coordinates, or null to keep the viewer's plain cubes. */
 export function buildShell(set, id) {
   try {
-    if (!set.open) return room(set, id);
-    if (/street|road|high_street/.test(id)) return street(set, id);
-    if (/park|garden|field|lawn/.test(id)) return parkGround(set);
+    const L = lookNow();
+    if (!set.open) return room(set, id, L);
+    const strong = /street|road|high_street|park|garden|field|lawn/.test(id), pick = !strong && L?.mode === "3d" && L.look?.sky ? L.look.suggestStyle : "";
+    if (/street|road|high_street/.test(id) || pick === "street") return street(set, id);
+    if (/park|garden|field|lawn/.test(id) || pick === "park") return parkGround(set);
     return plainGround();
   } catch (e) { console.warn(`[crew] shell for ${id} failed`, e); return null; }
 }
 
-Object.assign(window.CrewExt, { buildShell, hasShell: true });
+// Rebuild open viewers when the look changes: the bundle builds shells in Viewer.load, so wrap it to
+// remember viewers, then reload each one from its baked data (E.setLookChanged() runs the hooks).
+const viewers = new Set();
+E.setLookHooks = E.setLookHooks ?? [];
+E.setLookHooks.push(() => { for (const v of viewers) { if (v.canvas && !v.canvas.isConnected) { viewers.delete(v); continue; } try { v.baked && v.load(v.baked); } catch (e) { console.warn("[crew] set look rebuild failed", e); } } });
+const wrap = setInterval(() => {
+  const P = window.__crew?.Viewer?.prototype;
+  if (!P?.load) return;
+  clearInterval(wrap);
+  if (P.load.__look) return;
+  const orig = P.load;
+  P.load = function (e) { viewers.add(this); return orig.call(this, e); };
+  P.load.__look = true;
+}, 50);
+setTimeout(() => clearInterval(wrap), 60000);
+E._viewers = viewers; // for tests
+E.setLookChanged = E.setLookChanged ?? (() => E.setLookHooks.forEach((f) => f()));
+
+Object.assign(window.CrewExt, { buildShell, hasShell: true, lookKey });

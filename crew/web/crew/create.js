@@ -1,5 +1,5 @@
 // The Create page: branding (logo, name cards), thumbnails, fit to length, starter episodes,
-// reframing, footage overlay and scene navigation. Nothing here browses the asset library.
+// reframing and scene navigation. Nothing here browses the asset library.
 import { baked, server, download, toast, esc, projectName, episodeName } from "./exports/util.js";
 import { stillViewer, drawFrame, toBlob } from "./exports/media.js";
 
@@ -196,29 +196,3 @@ E.on("The scene library", () => {
   };
 });
 
-// ---- footage over the previs ------------------------------------------------------------------------------
-
-let overlayVideo = null;
-E.on("Syncing footage over the previs", ({ file }) => {
-  if (!file) return;
-  overlayVideo?.remove();
-  const vp = [...document.querySelectorAll("canvas")].filter((c) => c.getBoundingClientRect().width > 300).sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0];
-  if (!vp) throw new Error("Open the Review page first, so there's a viewer to lay the footage over.");
-  const box = document.createElement("div"), v = document.createElement("video");
-  v.src = URL.createObjectURL(file); v.muted = true; v.playsInline = true; v.style.cssText = "width:100%;height:100%;object-fit:contain;opacity:.5;pointer-events:none";
-  box.style.cssText = "position:fixed;z-index:9000;pointer-events:none";
-  box.innerHTML = `<button style="position:absolute;right:6px;top:6px;pointer-events:auto;padding:4px 8px;background:#000a;color:#fff;border:1px solid #555;border-radius:6px">Remove footage</button>`;
-  box.prepend(v); document.body.appendChild(box); overlayVideo = box;
-  const place = () => { const r = vp.getBoundingClientRect(); Object.assign(box.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" }); };
-  const tick = setInterval(() => {
-    if (!box.isConnected) return clearInterval(tick);
-    place();
-    const c = X().clock;
-    if (Math.abs(v.currentTime - c.t) > 0.15) v.currentTime = c.t;
-    if (c.playing && v.paused) v.play().catch(() => {}); else if (!c.playing && !v.paused) v.pause();
-  }, 100);
-  box.querySelector("button").onclick = () => { clearInterval(tick); URL.revokeObjectURL(v.src); box.remove(); overlayVideo = null; };
-  toast(`Footage "${file.name}" is laid over the viewer at half strength and follows the playhead. It stays on this machine.`);
-});
-
-E.wired("Start from a template", "Thumbnail", "Your brand", "Camera body", "Vertical 9:16");

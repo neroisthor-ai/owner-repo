@@ -2,6 +2,8 @@
 // here never stops the app from starting (the bundle falls back to its own behaviour).
 const ext = (window.CrewExt = window.CrewExt ?? {
   handlers: {},
+  /** called (viewer, "add" | "gone") for every live viewer, so modules can attach to it without overwriting each other */
+  viewerHooks: [],
   wiredSections: new Set(),
   /** register a handler for a button the bundle used to stub out */
   on(what, fn) { ext.handlers[what] = fn; },
@@ -9,7 +11,7 @@ const ext = (window.CrewExt = window.CrewExt ?? {
   wired(...titles) { titles.forEach((t) => ext.wiredSections.add(t)); },
 });
 
-const MODULES = ["shell", "props", "voice", "render", "exports/camera", "exports/storyboard", "exports/shotlist", "exports/editorial", "exports/media", "create", "style", "features"];
+const MODULES = ["setlook", "shell", "props", "voice", "media", "editui", "setui", "render", "exports/camera", "exports/storyboard", "exports/shotlist", "exports/editorial", "exports/media", "create", "style", "features"];
 await Promise.all(MODULES.map(async (m) => {
   try { await import(`/crew/${m}.js`); } catch (e) { if (!String(e?.message).includes("Failed to fetch dynamically")) console.warn(`[crew] module ${m} not loaded:`, e); }
 }));

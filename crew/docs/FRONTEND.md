@@ -34,6 +34,35 @@ The title bar is deliberately plain: `crew / Show · Episode N` on the left; on 
 - **Command palette** (Cmd/Ctrl+K) carries the new actions: look on/off, quality, depth of field, passes, atmosphere, client package, backup, voices, editorial exports, captions, frame, name cards. **F** toggles a fullscreen viewer.
 - **Set shells** (`web/crew/shell.js`): every closed set gets a floor, four walls (one-sided, so the Set view still looks in), skirting, a picture rail, a dado where the style has one, a ceiling with practical lights; streets get asphalt, a kerb, paving, lane markings and a zebra crossing at the `crossing` anchor; parks get grass and a gravel path. Styles are chosen from the set id (kitchen, cafe, living, office, classroom, library, staff, corridor, room) with a default; all textures are procedural.
 
+## One home for every feature
+
+A feature lives on one page and is not repeated. The map:
+
+| Where | What |
+| --- | --- |
+| **Home** | New project: script, **3D set or 2D backdrop**, inspiration pictures; templates; project type (sidebar) |
+| **Review** | Watch, notes, takes, comments, the issues list |
+| **Edit** | The timeline and your own media: media pool, Source monitor, clips on V2/V3 and A3/A4, split, trim, drag, green screen, voiceover, voices |
+| **Frame** | Camera, lens, focus, reframe, **film look and quality, framing guides** (the viewer's Look, Draft/High/Ultra, Thirds and Safe appear only here) |
+| **Plan** | Every shot at a glance |
+| **Deliver > Render** | Size, passes, burn-ins, the pre-render check, the crew log |
+| **Deliver > Export** | Every file: the whole project (client package, backup, baked JSON, SCENE source, current frame), camera files, storyboard, shot list, editorial, shoot pack |
+| **Title bar** | Crew AI menu (who does the work, how thorough), search, Undo (timeline edits first, then the crew's changes), Share |
+
+## Editing on the timeline (`media.js`, `editui.js`, `keying.js`)
+
+Your own sounds, pictures and footage sit on extra tracks on top of the cut: **V3/V2** over the picture, **A3/A4** for audio. The crew still owns the shots and their dialogue; this layer never changes the scene source. Clips persist per project in localStorage, the files in IndexedDB (`crew-media`).
+
+- **Import** in the Edit page's Media pool, or drop files on the timeline. Click a file to preview it in the Source monitor; double-click to add it at the playhead.
+- **On the timeline**: drag to move (snaps to the playhead, cuts and other clips), drag an edge to trim, **S** splits at the playhead, **Delete** removes. Tracks appear as you use them.
+- **Inspector** (Edit page, top): fades, volume, size and position, opacity, and the green screen controls. **Key out a colour** finds the screen from the first frame; Reach, Soft edge and Remove spill tune it. The key works in chroma (`keying.js`), so a shadowed screen keys like a lit one.
+- **Voiceover**: Record puts the take on Your audio at the playhead. **Voices** renders the cast's dialogue (needs the server).
+- Playback and renders both include it: the live viewer draws an overlay canvas over the program monitor (`CrewExt.viewerHooks`), the renderer composites after each frame (`CrewExt.overlayUser`) and the mixdown adds the audio (`mixUser`).
+
+## New project: 3D or 2D set (`setui.js`, `setlook.js`)
+
+The script box on Home has a **Set** choice. **3D set** takes up to six inspiration pictures and shapes the procedural set from them: wall, floor and ceiling colours, light tint and level, and the room style when the set's name gives none. **2D backdrop** takes one picture and wraps it round the set as a mirrored ring, so every camera angle sees it; the actors stay 3D. The choice is a draft until the writers' room makes the episode, then it is stored for the project (`CrewExt.setLook`). The asset library itself stays backend-only.
+
 ## The hook layer
 
 - `sn(what, ctx)` was the "isn't wired up yet" toast. It now runs `CrewExt.handlers[what](ctx)`; `ctx` is the options on screen at the call site (selected shots, frames per shot, handles, passes...). `CrewExt.on(what, fn)` registers a handler. `CrewExt.wired(...sectionTitles)` hides a section's "not wired" badge.

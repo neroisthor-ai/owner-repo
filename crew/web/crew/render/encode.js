@@ -136,6 +136,7 @@ export async function renderPart(baked, range, opts, extra = {}) {
       o2.drawImage(canvas, 0, 0, W, H);
       X.burn(o2, W, H, t, baked, opts);
       window.CrewExt?.overlay?.(o2, W, H, t, baked, opts);
+      await window.CrewExt?.overlayUser?.(o2, W, H, t);
       const vf = new VideoFrame(out, { timestamp: Math.round((f * 1e6) / FPS), duration: Math.round(1e6 / FPS) });
       venc.encode(vf, { keyFrame: f % (FPS * 2) === 0 }); vf.close();
       while (venc.encodeQueueSize > 4) await new Promise((r) => { let d = false; const fin = () => { if (!d) { d = true; r(); } }; venc.addEventListener("dequeue", fin, { once: true }); setTimeout(fin, 50); });

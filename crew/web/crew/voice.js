@@ -67,51 +67,26 @@ E.waveSrc = (ev) => {
   return url;
 };
 
-// ---- the user's own voiceover ---------------------------------------------------------
+// ---- recording a voiceover: it lands on the timeline as a clip on "Your audio" (media.js owns editing it) ---------------
 
-let vo = null; // { buffer, name }
 let rec = null; // active recording
-
-E.vo = () => vo;
-E.startVo = (m4, from, when) => {
-  if (!vo || from >= vo.buffer.duration) return;
-  const ctx = m4.ctx;
-  const s = ctx.createBufferSource();
-  s.buffer = vo.buffer;
-  s.connect(m4.master);
-  s.start(when, Math.max(0, from));
-};
-E.mixVo = (octx, dest, from, to) => {
-  if (!vo || from >= vo.buffer.duration) return;
-  const s = octx.createBufferSource();
-  s.buffer = vo.buffer;
-  s.connect(dest);
-  s.start(0, from, Math.min(to - from, vo.buffer.duration - from));
-};
-
-async function setVoFromBlob(blob, name) {
-  const buffer = await decoder().decodeAudioData(await blob.arrayBuffer());
-  vo = { buffer, name };
-  toast(`Voiceover "${name}" added (${buffer.duration.toFixed(1)}s). It plays with the cut and goes into renders. Lip-sync to a recording isn't built; characters keep their own dialogue timing.`);
-}
-
-E.on("Syncing a voiceover and lip-sync", ({ file }) => file && setVoFromBlob(file, file.name));
 
 E.on("Recording a voiceover", async () => {
   if (rec) { rec.stop(); return; }
   if (!navigator.mediaDevices?.getUserMedia) throw new Error("This browser can't record audio.");
   let stream;
   try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }); } catch { throw new Error("Microphone access was refused."); }
-  const mr = new MediaRecorder(stream), parts = [];
+  const mr = new MediaRecorder(stream), parts = [], at = X().clock.t;
   mr.ondataavailable = (e) => e.data.size && parts.push(e.data);
   mr.onstop = async () => {
     stream.getTracks().forEach((t) => t.stop());
     rec = null;
-    try { await setVoFromBlob(new Blob(parts, { type: mr.mimeType }), "Recording"); } catch (e) { toast(`Couldn't read the recording: ${e.message}`, "error"); }
+    try { await E.editApi.importBlob(new Blob(parts, { type: mr.mimeType }), `Voiceover ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.webm`, { t: at, track: "A3" }); toast("Voiceover placed on Your audio."); }
+    catch (e) { toast(`Couldn't read the recording: ${e.message}`, "error"); }
   };
   rec = mr;
   mr.start();
-  toast("Recording. Click Record again to stop.");
+  toast("Recording from the playhead. Click Record again to stop.");
 });
 
 // ---- server: voices and writers' room -------------------------------------------------
@@ -135,12 +110,14 @@ E.on("Rendering voices", async ({ force } = {}) => {
 
 E.on("Breaking a script into shots", async ({ script }) => {
   if (!script?.trim()) return;
+  E.checkSetDraft?.();
   toast("Writers' room is breaking the script into shots...");
   const r = await api("POST", "/api/write", { script, apply: false });
   if (!r.ok) throw new Error(`The script didn't pass the checks: ${[r.error, ...(r.errors ?? []).map((x) => x.message ?? String(x))].filter(Boolean).slice(0, 3).join("; ") || "unknown"}`);
   const shots = (r.text.match(/^\d+[A-Z]+ /gm) ?? []).length;
   if (!window.confirm(`The writers' room made an episode of ${shots} shots.\n\nReplace the current episode with it?`)) return;
   await api("PUT", "/api/episode", { source: r.text });
+  await E.applySetDraft?.().catch((e) => toast(`Couldn't read the set pictures: ${e.message}`, "error"));
   window.__crew.go("review");
   toast("Episode replaced.");
 });
