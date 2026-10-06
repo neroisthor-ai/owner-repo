@@ -31,8 +31,8 @@ const MOOD = {
 };
 
 /** The grade for a baked shot: mood picks the preset, the scene palette name nudges it. */
-export function gradeFor(shot, overrides = {}) {
-  const base = GRADES[MOOD[shot?.light] ?? "campusD"];
+export function gradeFor(shot, overrides = {}, preset = null) {
+  const base = GRADES[preset] ?? GRADES[MOOD[shot?.light] ?? "campusD"];
   const g = { ...base, lift: [...base.lift], gain: [...base.gain], sh: [...base.sh], hi: [...base.hi] };
   if (shot?.light === "bright") { g.vig *= 0.5; g.con *= 0.75; g.key *= 1.5; g.bloom *= 1.3; }
   if (shot?.palette === "night" && shot?.light !== "night" && shot?.light !== "moon") { g.sat *= 0.9; g.key *= 0.6; g.vig = Math.max(g.vig, 0.55); }
@@ -41,3 +41,9 @@ export function gradeFor(shot, overrides = {}) {
   g.dirt = ["day", "warm", "bright"].includes(shot?.light) ? 1 : 0;
   return Object.assign(g, overrides);
 }
+
+/** The grades a director can pick by name (The Bob's), with what each is for. */
+export const PRESETS = [
+  ["lawn", "Golden afternoon"], ["lib", "Library, cool"], ["corr", "Corridor"], ["room", "Bedroom, moody"], ["rain", "Rain"],
+  ["staff", "Staff room"], ["night", "Night"], ["bw", "Black and white"], ["campusD", "Campus, day"], ["campusN", "Campus, night"], ["campusS", "Campus, storm"],
+];

@@ -9,7 +9,7 @@ const ext = (window.CrewExt = window.CrewExt ?? {
   wired(...titles) { titles.forEach((t) => ext.wiredSections.add(t)); },
 });
 
-const MODULES = ["shell", "props", "voice", "render", "exports/camera", "exports/storyboard", "exports/shotlist", "exports/editorial", "exports/media", "create", "style"];
+const MODULES = ["shell", "props", "voice", "render", "exports/camera", "exports/storyboard", "exports/shotlist", "exports/editorial", "exports/media", "create", "style", "features"];
 await Promise.all(MODULES.map(async (m) => {
   try { await import(`/crew/${m}.js`); } catch (e) { if (!String(e?.message).includes("Failed to fetch dynamically")) console.warn(`[crew] module ${m} not loaded:`, e); }
 }));

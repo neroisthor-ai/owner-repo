@@ -258,13 +258,25 @@ function envState(viewer, baked, shot, SPP) {
 }
 
 function frameState(viewer, info, rc, es) {
-  const baked = viewer.baked, shot = info.shot, gr = gradeFor(shot, settings.grade);
-  // The Bob's grades were tuned for its own lighting; Crew's room lights are stronger, so closed sets meter darker
-  if (!baked.sets?.[shot.set]?.open && !settings.grade?.key) gr.key *= 0.5;
+  const baked = viewer.baked, shot = info.shot, gr = resolveGrade(shot, !baked.sets?.[shot.set]?.open);
   const sun = sunFor(viewer, baked, shot, rc.cam, es);
   const rt = viewer.look.pipe;
   const dof = rc.dofOn ? cocFactor(rc.mm, rc.fstop, rc.focus, rt.H, rc.sensorH) : 0;
   return { gr, cam: rc.cam, focus: rc.focus, dof, sun: !!sun, sunNdc: sun?.ndc, sunFacing: sun?.facing, aspect: rt.W / rt.H, t: info.t, shotId: shot.id, zoom: 1, fade: 1 };
+}
+
+/**
+ * The grade for a shot: its mood's preset (or a named one the director picked), then the film-wide overrides, then
+ * this shot's. `ev` is exposure in stops. The Bob's grades were tuned for its own lighting; Crew's room lights are
+ * stronger, so closed sets meter darker.
+ */
+export function resolveGrade(shot, closed = false) {
+  const sg = settings.shotLook?.[shot.id] ?? {}, all = settings.look ?? {};
+  const over = { ...(all.over ?? {}), ...(sg.over ?? {}) }, { ev = 0, ...rest } = over;
+  const gr = gradeFor(shot, rest, sg.preset ?? all.preset ?? null);
+  if (closed && rest.key == null) gr.key *= 0.5;
+  if (gr.key) gr.key *= 2 ** -ev; else gr.exp *= 2 ** ev;
+  return gr;
 }
 
 const clampShot = (shot, t, fps) => clamp(t, shot.cutStart, shot.cutStart + Math.max(1 / fps, shot.cutDur) - 1e-4);

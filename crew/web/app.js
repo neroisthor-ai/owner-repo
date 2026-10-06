@@ -49256,6 +49256,89 @@ function V5({ shot: n }) {
     ],
   });
 }
+// CREW-EXT: the Film look panel (Frame page). The model is window.CrewExt.lookPanel (web/crew/render.js).
+function CrewLookPanel({ shot: n }) {
+  const [, rev] = Z.useReducer((x) => x + 1, 0),
+    [scope, setScope] = Z.useState("shot"),
+    on = Ne((o) => o.look ?? window.CrewExt?.lookDefault ?? !1),
+    P = window.CrewExt?.lookPanel;
+  if (!P || !window.CrewExt?.look) return null;
+  const v = P.values(n.id, scope),
+    set = (k, x) => (P.set(n.id, scope, { [k]: x }), rev()),
+    S = [
+      ["ev", "Exposure", -3, 3, 0.1, 1, "EV"],
+      ["bloom", "Bloom", 0, 1, 0.02, 2],
+      ["hal", "Halation", 0, 0.6, 0.02, 2],
+      ["con", "Contrast", 0, 0.9, 0.02, 2],
+      ["sat", "Saturation", 0, 1.6, 0.02, 2],
+      ["vig", "Vignette", 0, 1, 0.02, 2],
+      ["grain", "Grain", 0, 0.16, 0.005, 3],
+      ["ca", "Chromatic fringe", 0, 0.02, 0.001, 3],
+      ["streak", "Light streaks", 0, 0.1, 0.005, 3],
+    ];
+  return u.jsxs(er, {
+    title: "Film look",
+    right: u.jsx("span", {
+      className: "text-[10.5px] text-tx-faint",
+      children: on ? "on" : "off",
+    }),
+    children: [
+      u.jsx(qr, {
+        label: "Film look in the viewer",
+        on,
+        onChange: (x) => ke.set({ look: x }),
+      }),
+      u.jsx(qs, {
+        label: "Apply to",
+        value: scope,
+        onChange: (x) => setScope(x),
+        options: [
+          { v: "shot", label: `This shot (${n.id})` },
+          { v: "all", label: "Every shot" },
+        ],
+      }),
+      u.jsx(qs, {
+        label: "Grade",
+        value: v.preset ?? "auto",
+        onChange: (x) => set("preset", x === "auto" ? null : x),
+        options: P.presets(),
+      }),
+      ...S.map(([k, l, mn, mx, st, dg, un]) =>
+        u.jsx(
+          $r,
+          {
+            label: l,
+            unit: un,
+            value: v[k],
+            min: mn,
+            max: mx,
+            step: st,
+            digits: dg,
+            onChange: (x) => set(k, x),
+            isDefault: P.isDefault(n.id, scope, k),
+            onReset: () => set(k, null),
+          },
+          k,
+        ),
+      ),
+      ...[
+        ["ao", "Contact shadows (occlusion)"],
+        ["rays", "God rays and haze outdoors"],
+        ["clouds", "Volumetric clouds outdoors"],
+      ].map(([k, l]) =>
+        u.jsx(qr, { label: l, on: P.atmos(k), onChange: (x) => (P.setAtmos(k, x), rev()) }, k),
+      ),
+      u.jsx("div", {
+        className: "flex gap-1 pt-0.5",
+        children: u.jsx(Je, {
+          size: "sm",
+          onClick: () => (P.reset(n.id, scope), rev()),
+          children: "Reset look",
+        }),
+      }),
+    ],
+  });
+}
 function G5({ baked: n, shot: e }) {
   const t = Cd(),
     i = Object.entries(n.cast).map(([p, f]) => ({ v: p, label: f.name || p })),
@@ -50161,7 +50244,8 @@ function CE({
     c = Ne((W) => W.selection),
     h = Ne((W) => W.selectedShot),
     p = Ne((W) => W.server?.notes),
-    f = Ne((W) => W.server?.assets);
+    f = Ne((W) => W.server?.assets),
+    wv = Ne((W) => W.waveRev); // CREW-EXT: redraw when a dialogue clip's waveform becomes available
   (Go(), Ad());
   const g = Z.useRef(null),
     [x, m] = Z.useState(800),
@@ -50623,6 +50707,15 @@ function CE({
                           width: Math.max(2, W.dur * T - 1),
                         },
                         children: [
+                          // CREW-EXT: the waveform of the rendered clip
+                          window.CrewExt?.waveSrc?.(W) &&
+                            u.jsx("img", {
+                              src: window.CrewExt.waveSrc(W),
+                              alt: "",
+                              draggable: !1,
+                              className:
+                                "pointer-events-none absolute inset-0 h-full w-full opacity-50",
+                            }),
                           W.clipped &&
                             u.jsx("span", {
                               className: "hatch-clipped absolute inset-0",
@@ -55309,6 +55402,24 @@ function D4() {
                 },
                 children: [u.jsx(Co, {}), " Still PNG @ playhead"],
               }),
+              // CREW-EXT: whole-delivery and backup buttons
+              window.CrewExt?.handlers?.["Delivery package"] &&
+                u.jsxs(Je, {
+                  variant: "outline",
+                  size: "sm",
+                  onClick: () => sn("Delivery package", {}),
+                  title:
+                    "Shot list, EDL, XML, OTIO, captions, chapters, camera files, storyboard and shoot pack in one zip",
+                  children: [u.jsx(Co, {}), " Client package (.zip)"],
+                }),
+              window.CrewExt?.handlers?.["Project backup"] &&
+                u.jsxs(Je, {
+                  variant: "outline",
+                  size: "sm",
+                  onClick: () => sn("Project backup", {}),
+                  title: "The show, the episode, notes, history and dialogue clips",
+                  children: [u.jsx(Co, {}), " Project backup (.zip)"],
+                }),
             ],
           }),
         ],
@@ -57093,6 +57204,7 @@ function Z4() {
                 }),
               e && u.jsx(V5, { shot: e }),
               e && u.jsx(G5, { baked: n, shot: e }),
+              e && u.jsx(CrewLookPanel, { shot: e }),
               e && u.jsx(W5, { shot: e }),
               u.jsx(er, {
                 title: "Controls",
@@ -60558,50 +60670,15 @@ function Cz() {
                       className:
                         "grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-end gap-10 pt-[3vh]",
                       children: [
-                        u.jsxs("h1", {
-                          className:
-                            "serif m-0 pb-1 text-[clamp(40px,4vw,64px)] leading-[0.98] text-tx",
-                          "aria-label": "What are we working on today?",
+                        // CREW-EXT: a project header instead of a slogan
+                        u.jsxs("div", {
+                          className: "home-head",
                           children: [
-                            u.jsx("span", {
-                              className: "line-mask",
-                              style: { "--i": 1 },
-                              children: u.jsx("span", {
-                                children: "What are we",
-                              }),
-                            }),
-                            u.jsx("span", {
-                              className: "line-mask",
-                              style: { "--i": 2 },
-                              children: u.jsxs("span", {
-                                children: [
-                                  u.jsx("span", {
-                                    className:
-                                      "relative inline-block overflow-hidden whitespace-nowrap pb-[0.1em] -mb-[0.1em] align-bottom text-accent transition-[width] duration-[450ms] ease-[cubic-bezier(.16,1,.3,1)]",
-                                    style: { width: w[b] || void 0 },
-                                    "aria-hidden": !0,
-                                    children: Sw.map((F, Y) =>
-                                      u.jsx(
-                                        "span",
-                                        {
-                                          ref: (X) => {
-                                            M.current[Y] = X;
-                                          },
-                                          className: Le(
-                                            Y === b
-                                              ? "slot-in"
-                                              : "pointer-events-none invisible absolute left-0 top-0",
-                                          ),
-                                          children: F,
-                                        },
-                                        F,
-                                      ),
-                                    ),
-                                  }),
-                                  " ",
-                                  "today?",
-                                ],
-                              }),
+                            u.jsx("div", { className: "home-kicker", children: "Project" }),
+                            u.jsx("h1", { className: "home-title", children: I || "Untitled" }),
+                            u.jsx("div", {
+                              className: "home-sub",
+                              children: "Open the cut, give the crew a note, or start a new episode from a script.",
                             }),
                           ],
                         }),

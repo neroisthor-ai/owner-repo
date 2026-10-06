@@ -2,6 +2,7 @@
 // (render/encode.js) into the app: live viewer, quality tiers, render panel, stills.
 import * as Look from "./render/look.js";
 import * as Enc from "./render/encode.js";
+import { PRESETS } from "./render/grades.js";
 
 const E = window.CrewExt;
 const X = () => window.__crew;
@@ -76,4 +77,32 @@ E.on("Focus pulls", ({ shot, focusAt, pullTo }) => {
   X().store.set({ lookRev: (X().store.get().lookRev ?? 0) + 1 });
   for (const v of live) v.redraw();
 });
-E.wired("Depth of field");
+// ---- the Film look panel (Frame page): presets and sliders, per shot or for the whole film -----------------------
+
+const KEYS = ["ev", "bloom", "hal", "con", "sat", "vig", "grain", "ca", "streak"];
+const shotOf = (id) => X().store.get().server.baked.shots.find((s) => s.id === id);
+const target = (id, scope) => (scope === "all" ? (S.look ??= { over: {} }) : ((S.shotLook ??= {})[id] ??= { over: {} }));
+const closedSet = (shot) => !X().store.get().server.baked.sets?.[shot.set]?.open;
+E.lookPanel = {
+  presets: () => [{ v: "auto", label: "Auto, from the shot's lighting" }, ...PRESETS.map(([v, label]) => ({ v, label }))],
+  /** what the sliders show: the resolved grade (so a preset's own values are visible), ev from the overrides */
+  values(id, scope) {
+    const shot = shotOf(id), g = Look.resolveGrade(shot, closedSet(shot)), t = target(id, scope), ev = { ...(S.look?.over ?? {}), ...(S.shotLook?.[id]?.over ?? {}) }.ev ?? 0;
+    return { preset: t.preset ?? null, ev, bloom: g.bloom, hal: g.hal, con: g.con, sat: g.sat, vig: g.vig, grain: g.grain, ca: g.ca, streak: g.streak ?? 0 };
+  },
+  isDefault: (id, scope, k) => target(id, scope).over?.[k] == null,
+  set(id, scope, patch) {
+    const t = target(id, scope);
+    t.over ??= {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (k === "preset") t.preset = v;
+      else if (v == null) delete t.over[k];
+      else t.over[k] = v;
+    }
+    Look.saveSettings(); E.lookChanged();
+  },
+  reset(id, scope) { const t = target(id, scope); t.over = {}; t.preset = null; Look.saveSettings(); E.lookChanged(); },
+  atmos: (k) => S.atmos?.[k] ?? true,
+  setAtmos(k, v) { S.atmos = { ...(S.atmos ?? {}), [k]: v }; Look.saveSettings(); E.lookChanged(); },
+};
+E.wired("Depth of field", "Film look");

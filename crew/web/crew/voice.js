@@ -2,6 +2,7 @@
 // the "Render voices" button and the writers' room.
 const E = window.CrewExt;
 const toast = (t, k = "info") => window.__crew?.toast(t, k);
+const X = () => window.__crew;
 
 // ---- rendered clips -------------------------------------------------------------------
 
@@ -37,6 +38,33 @@ E.playClip = (m4, ev, fallback) => {
     s.start(ctx.currentTime + 0.01);
   });
   return true;
+};
+
+// ---- waveforms on the dialogue track -------------------------------------------------------------------------------
+
+const waves = new Map();
+/** A data URL of the clip's waveform (mirrored bars), or null while the clip is still loading. */
+E.waveSrc = (ev) => {
+  if (!ev.src) return null;
+  if (waves.has(ev.src)) return waves.get(ev.src);
+  if (clips.has(ev.src) && !clips.get(ev.src)) return null; // failed to load: no waveform, and no retry loop
+  const buf = clips.get(ev.src);
+  if (!buf) {
+    if (!pending.has(ev.src)) load(ev.src).then((b) => { if (!b) return; const st = X().store; st.set({ waveRev: (st.get().waveRev ?? 0) + 1 }); });
+    return null;
+  }
+  const W = 480, H = 40, c = document.createElement("canvas"), g = c.getContext("2d"), d = buf.getChannelData(0), step = Math.max(1, Math.floor(d.length / W));
+  c.width = W; c.height = H;
+  g.fillStyle = "rgba(235,255,245,.9)";
+  for (let x = 0; x < W; x++) {
+    let m = 0;
+    for (let i = x * step; i < Math.min(d.length, (x + 1) * step); i += 8) m = Math.max(m, Math.abs(d[i]));
+    const h = Math.max(1, Math.min(1, m * 1.6) * (H - 6));
+    g.fillRect(x, (H - h) / 2, 1, h);
+  }
+  const url = c.toDataURL("image/png");
+  waves.set(ev.src, url);
+  return url;
 };
 
 // ---- the user's own voiceover ---------------------------------------------------------
@@ -118,3 +146,16 @@ E.on("Breaking a script into shots", async ({ script }) => {
 });
 
 E.wired("Voice and captions");
+
+// load the dialogue clips as soon as a cut arrives, so the waveforms are on the timeline before anyone presses play
+const waitStore = setInterval(() => {
+  if (!X()?.store) return;
+  clearInterval(waitStore);
+  let last = null;
+  X().store.subscribe(() => {
+    const b = X().store.get().server?.baked;
+    if (!b || b === last) return;
+    last = b;
+    E.preloadClips(b.audio).then(() => { const st = X().store; st.set({ waveRev: (st.get().waveRev ?? 0) + 1 }); });
+  });
+}, 150);

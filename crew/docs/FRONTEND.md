@@ -18,6 +18,20 @@
 
 **Rule: features live in the readable modules, not in `app.js`.** `app.js` only carries small patches marked `// CREW-EXT:` (`grep -n CREW-EXT web/app.js`). Each one calls into `window.CrewExt` and degrades to the bundle's own behaviour if the module or the server is missing. Demo mode (no server, `$u()` true) still works.
 
+## Design: the edit bay
+
+`web/ui.css` is the whole look, and it has one idea: this is a tool you sit in for hours, like Resolve or Final Cut, so only the picture should glow. Neutral grey surfaces (no blue-black, no gradients, no glass), panels butted together with dark 3px seams instead of floating cards, 4px corners, one size of small type with timecode in mono, a slim title bar, and Resolve's row of pages along the bottom. Colour is reserved for meaning: blue picture, green sound, red playhead and errors, amber for selected or live. It re-themes the bundle through its own Tailwind colour variables (`--color-ink-*`, `--color-tx*`, `--color-accent`...), then restyles components; it never changes the bundle's layout. `crew-ui.css` keeps only the v9 layout rules. The home page shows the project instead of a slogan (a `CREW-EXT` patch).
+
+## Features beyond the original buttons
+
+- **Film look panel** (Frame page, bottom of the inspector): a named grade (The Bob's: golden afternoon, library, rain, night, black and white...) or auto from the shot's lighting, then exposure, bloom, halation, contrast, saturation, vignette, grain, fringe and light streaks, per shot or for the whole film, plus the atmosphere switches. Model: `CrewExt.lookPanel` (`web/crew/render.js`); `resolveGrade()` in `render/look.js`.
+- **Client package** (Deliver > Other formats, or the palette): shot list, EDL, Final Cut XML, OTIO, captions, chapters, every camera file, storyboard frames and the shoot pack in one zip with a README and the QC summary. Exports write into `util.sink` while it runs.
+- **Project backup**: show, episode, notes, history, the baked cut and the dialogue clips in a zip.
+- **Ask the crew to fix this** on every QC error and warning, and "fix every QC error" in the palette: the issue goes to the crew as a note.
+- **Waveforms** on the dialogue track, from the rendered clips.
+- **Command palette** (Cmd/Ctrl+K) carries the new actions: look on/off, quality, depth of field, passes, atmosphere, client package, backup, voices, editorial exports, captions, frame, name cards. **F** toggles a fullscreen viewer.
+- **Set shells** (`web/crew/shell.js`): every closed set gets a floor, four walls (one-sided, so the Set view still looks in), skirting, a picture rail, a dado where the style has one, a ceiling with practical lights; streets get asphalt, a kerb, paving, lane markings and a zebra crossing at the `crossing` anchor; parks get grass and a gravel path. Styles are chosen from the set id (kitchen, cafe, living, office, classroom, library, staff, corridor, room) with a default; all textures are procedural.
+
 ## The hook layer
 
 - `sn(what, ctx)` was the "isn't wired up yet" toast. It now runs `CrewExt.handlers[what](ctx)`; `ctx` is the options on screen at the call site (selected shots, frames per shot, handles, passes...). `CrewExt.on(what, fn)` registers a handler. `CrewExt.wired(...sectionTitles)` hides a section's "not wired" badge.

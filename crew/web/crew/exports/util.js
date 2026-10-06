@@ -13,7 +13,15 @@ export const baked = () => {
 export const projectName = () => (server()?.title ?? "crew").replace(/\s+/g, "_");
 export const episodeName = () => (server()?.episode ?? "ep").replace(/\.scene$/, "");
 
+/** While `sink.files` is an array, download() collects files into it instead of saving them (used by the client package). */
+export const sink = { files: null };
+
 export function download(name, data, type = "application/octet-stream") {
+  if (sink.files) {
+    const buf = data instanceof Blob ? data.arrayBuffer() : Promise.resolve(typeof data === "string" ? new TextEncoder().encode(data) : data);
+    sink.files.push(Promise.resolve(buf).then((b) => ({ name, data: b instanceof Uint8Array ? b : new Uint8Array(b) })));
+    return;
+  }
   const blob = data instanceof Blob ? data : new Blob([data], { type });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
