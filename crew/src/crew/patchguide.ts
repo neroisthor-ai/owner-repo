@@ -153,6 +153,15 @@ export function targetListing(c: GuideCtx): string {
     row(b.id, printNode(b.header).slice(b.id.length).trim(), c.role === "dp" || c.role === "director");
     insertable.push(b.id);
     for (const l of b.body) { row(l.addr, printNode(l.node as BodyNode).trim(), mine(c.role, l.node)); insertable.push(l.addr); }
+    // expressions and positions carry over the cut; say what the next shot expects, so a take can end on it
+    const comp = c.ws.compiled, i = comp.shots.findIndex((s) => s.id === b.id), next = comp.shots[i + 1];
+    if (cs && next && !c.targets.includes(next.id)) {
+      const carry = comp.presentIn(next).map((id) => {
+        const st = comp.charAt(next, 0, id), end = comp.charAt(cs, cs.dur, id);
+        return st.present ? `${id} opens ${next.id} ${st.expr ?? "neutral"}${end.present && end.expr !== st.expr ? ` (but ends ${b.id} ${end.expr ?? "neutral"})` : ""}` : "";
+      }).filter(Boolean);
+      if (carry.length) out.push(`  continuity: ${carry.join("; ")}. Faces and positions carry over the cut: if you change one in ${b.id}, end the shot back on what ${next.id} opens with, or ${next.id} changes and the take is rejected.`);
+    }
   }
   out.push(`You may insert after: ${insertable.join(" ")}`);
   if (c.role === "dp") out.push(`You may add a shot after: ${blocks(c).map((b) => b.id).join(" ")}`);
