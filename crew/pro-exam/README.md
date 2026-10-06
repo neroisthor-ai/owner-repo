@@ -16,3 +16,8 @@ How to run it:
 3. Score: `npx tsx scripts/pro-exam.ts --answers pro-exam` (from the `crew` folder). Cases with no reply file are marked as unanswered.
 
 Regenerate the prompts after changing the pipeline with `npx tsx scripts/pro-exam.ts --dump pro-exam`. With an API key, `npx tsx scripts/pro-exam.ts gemini` runs the whole exam live.
+
+## The 3D model question
+
+`prop-kettle.prompt.md` asks Pro to write a stovetop kettle as a prop builder. Save the reply as `prop-kettle.reply.txt`, then
+`npx tsx scripts/prop-exam.ts pro-exam/prop-kettle.reply.txt --preview kettle.png` runs the code in a sandbox, checks size, ground contact, centring, spout side, handle, colour, triangle and material limits, and renders four views.
