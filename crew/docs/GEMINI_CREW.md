@@ -1,12 +1,12 @@
 # Plan: the crew on Gemini
 
-Three models, each with its own jobs. Usage is not rationed, so each job goes to the model that does it best, and speed is the only reason to skip a call.
+Three models, each with its own jobs. Usage is not rationed, so each job goes to the model that does it best. Flash and Pro always think at the maximum level (high); Flash-Lite thinks at low. High thinking is slower, so expect a note to take longer than on Claude.
 
 | Model | Thinking | Character | Jobs |
 | --- | --- | --- | --- |
-| **3.5 Flash-Lite** (`gemini-3.5-flash-lite`) | minimal, low for ranking | fastest, cheap to call many times | Router, ranker, voter, checker's explainer, test audience |
-| **3.8 Flash** (`gemini-3.8-flash`) | medium | the workhorse | Builder for every craft role, repairs, writers' room shots and dialogue |
-| **3.1 Pro** (`gemini-3.1-pro-preview`) | medium, high for scripts | strongest judgement | Director: plans, reviews, debugs, writes outlines, talks to you |
+| **3.5 Flash-Lite** (`gemini-3.5-flash-lite`) | low | fastest, cheap to call many times | Router, ranker, voter, checker's explainer, test audience |
+| **3.8 Flash** (`gemini-3.8-flash`) | high (max) | the workhorse | Builder for every craft role, repairs, writers' room shots and dialogue |
+| **3.1 Pro** (`gemini-3.1-pro-preview`) | high (max) | strongest judgement | Director: plans, reviews, debugs, writes outlines, talks to you |
 
 IDs live in config and are checked against the live model list at startup (Pro is a preview and may be repointed).
 
@@ -27,7 +27,7 @@ Nothing reaches you that has not passed the code checks. If every model fails, t
 
 | Job | Who |
 | --- | --- |
-| **Writers' room** (script to episode) | Pro splits the script into scenes and writes the shot outline (high thinking). Flash writes each shot's lines from the outline, one shot at a time. Code assembles and validates; Flash repairs failing shots; Pro reviews the whole episode once. |
+| **Writers' room** (script to episode) | Pro splits the script into scenes and writes the shot outline. Flash writes each shot's lines from the outline, one shot at a time. Code assembles and validates; Flash repairs failing shots; Pro reviews the whole episode once. |
 | **Test screening** | Lite plays each synthetic viewer (many in parallel); Pro summarises what the audience missed. |
 | **Captions, chapters, shot list wording** | Lite. |
 | **QC "Ask the crew to fix this"** | Goes in as a note: Pro plans it with the QC issue as the goal. |
@@ -48,11 +48,11 @@ Nothing reaches you that has not passed the code checks. If every model fails, t
 
 | Phase | What |
 | --- | --- |
-| 1 | Gemini adapter: `generateContent`, `thinking_level`, `response_json_schema`, schema-too-complex fallback, retries on 429/5xx, live model list check, key setup in the Crew AI menu |
+| 1 | Gemini adapter: `generateContent`, `thinking_level` (Lite low, Flash and Pro high; set explicitly on every call), `response_json_schema`, schema-too-complex fallback, retries on 429/5xx, live model list check, key setup in the Crew AI menu |
 | 2 | Step runner (repair with hints, votes, escalation, offline fallback, `.crew/llm-log.jsonl`) and the per-shot schemas |
 | 3 | The note pipeline above, wired into `direct.ts` behind a `gemini` profile; Claude and offline stay as they are |
 | 4 | Golden notes eval (about 60 notes) with recorded answers in CI and a live run per model |
 | 5 | Writers' room and screening on the new roles |
-| 6 | Tuning from the eval: thinking levels, votes, which steps Pro takes |
+| 6 | Tuning from the eval: votes, examples, which steps Pro takes (thinking levels stay fixed) |
 
 Phase 1 needs a Gemini API key to test live; everything else is tested with recorded answers.
