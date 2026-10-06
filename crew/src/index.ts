@@ -12,6 +12,7 @@ import { ClaudeLLM, hasCredentials, type LLM } from "./claude/llm.ts";
 import { GeminiLLM, hasGeminiKey } from "./llm/gemini-llm.ts";
 import { guidedNote } from "./crew/guided.ts";
 import { writeEpisodeGuided } from "./crew/guided-writers.ts";
+import { gripFor } from "./llm/capability.ts";
 import { join } from "node:path";
 import { OfflineLLM } from "./claude/offline.ts";
 import { acceptTake, directNote, rejectNote, type CrewEvent, type CrewOptions } from "./crew/direct.ts";
@@ -120,7 +121,9 @@ export class Crew {
 
   async write(script: string, o: { apply?: boolean } = {}) {
     this.prep();
-    const r = await (this.llm.mode === "gemini" ? writeEpisodeGuided : writeEpisode)(this.project, script, this.llm, this.emit);
+    // a model strong enough at scripts writes the whole episode (with repair passes); otherwise the room works shot by shot
+    const stepwise = this.llm.mode === "gemini" && gripFor(this.llm.modelFor?.("sonnet") ?? "", "script") !== "free";
+    const r = await (stepwise ? writeEpisodeGuided : writeEpisode)(this.project, script, this.llm, this.emit);
     if (r.ok && o.apply) this.setEpisode(r.text);
     return r;
   }

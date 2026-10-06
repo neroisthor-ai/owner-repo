@@ -34,6 +34,8 @@ export class GeminiLLM implements LLM {
     this.log = o.log ?? null;
   }
 
+  modelFor(tier: Tier): string { return GEMINI_MODELS[tier]; }
+
   async call<T = unknown>(c: LLMCall): Promise<LLMResult<T>> {
     const model = GEMINI_MODELS[c.tier];
     const base = { model, system: c.system.join("\n\n"), schema: c.schema, thinking: GEMINI_THINKING[c.tier] };

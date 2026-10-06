@@ -25,12 +25,10 @@ import type { ProposeCtx, RouteCtx } from "./context.ts";
 import { parseRefs, shotCtx, type CrewEvent, type CrewOptions } from "./direct.ts";
 import { examplesFor, patchGuide, targetListing } from "./patchguide.ts";
 import { explainFailure } from "./feedback.ts";
+import { settingsFor } from "../llm/capability.ts";
 
-/** Tunables, in one place so the eval can move them. */
+/** Tunables, in one place so the eval can move them. Votes, examples, repairs and context come from the grip (capability.ts). */
 export const GUIDED = {
-  routeVotes: 3,
-  rankVotes: 3,
-  repairRounds: 2,
   maxTakes: 3,
   /** a note that names its shot, is this short, needs one role, and that code already answers, skips the Pro plan */
   plainTweakWords: 8,
@@ -99,13 +97,18 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
     return rec;
   };
 
+  // how tight a grip each step gets depends on the model behind it and how hard the step is
+  const modelOf = (t: Tier) => o.llm.modelFor?.(t) ?? "";
+  const grip = { read: settingsFor(modelOf("haiku"), "read"), rank: settingsFor(modelOf("haiku"), "rank"), patch: settingsFor(modelOf("sonnet"), "patch") };
+  emit({ kind: "step", message: `hand-holding: reading ${grip.read.grip}, ranking ${grip.rank.grip}, building ${grip.patch.grip}` });
+
   // ---------------------------------------------------------------- 1. read the note (code first, Lite votes)
   const refs = parseRefs(note, ws.compiled);
   const allIds = ws.compiled.shots.map((s) => s.id);
   const routeCtx: RouteCtx = { note, refs: refs.shots, shots: shotCtx(p, allIds), issues: ws.qc.issues };
   const codeRoute = (await offline.call<{ shots: string[]; roles: string[]; intent: string }>({ task: "route", role: "router", tier: "haiku", system, prompt: "", context: routeCtx })).data!;
   const routePrompt = `NOTE: "${note}"\nShots named in the note: ${refs.shots.join(", ") || "none"}${refs.times.length ? `\nTimestamps: ${refs.times.map((t) => `${t.shot} @${t.local.toFixed(1)}s`).join(", ")}` : ""}\n\nEPISODE (one line per shot):\n${listing(ws.doc, ws.compiled, null, false)}\n\nQC issues:\n${issuesText(ws.qc.issues)}\n\nWhich shots is this note about, and which ONE role owns the fix (two only if it truly needs both)?\nRoles:\n${CRAFT_ROLES.map((r) => `- ${r}: ${ROLES[r].owns}`).join("\n")}\nIf the note names shots, use exactly those.`;
-  const votes = (await Promise.all(Array.from({ length: GUIDED.routeVotes }, () => call<{ shots: string[]; roles: string[]; intent: string }>({ task: "route", role: "router", tier: "haiku", system, prompt: routePrompt, schema: routeSchema(allIds), context: routeCtx, maxTokens: 1500 }, "reading the note"))))
+  const votes = (await Promise.all(Array.from({ length: grip.read.votes }, () => call<{ shots: string[]; roles: string[]; intent: string }>({ task: "route", role: "router", tier: "haiku", system, prompt: routePrompt, schema: routeSchema(allIds), context: routeCtx, maxTokens: 1500 }, "reading the note"))))
     .filter((r) => r.ok && r.data).map((r) => r.data!);
   const tally = (xs: string[][]) => { const m = new Map<string, number>(); for (const x of xs) for (const v of new Set(x)) m.set(v, (m.get(v) ?? 0) + 1); return [...m].sort((a, b) => b[1] - a[1]); };
   const voteShots = tally(votes.map((v) => (v.shots ?? []).filter((s) => allIds.includes(s))));
@@ -176,7 +179,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
 
   const buildPrompt = (role: RoleId, extra: string) => {
     const g = { ws, show: p.show, role, targets };
-    const ex = examplesFor(g, 3);
+    const ex = grip.patch.examples ? examplesFor(g, grip.patch.examples) : [];
     return [
       `You are the ${ROLES[role].title} on a film crew. ${ROLES[role].brief}`,
       `NOTE FROM THE DIRECTOR: "${note}"`,
@@ -184,6 +187,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
       plan ? `THE DIRECTOR'S PLAN\nDo: ${plan.brief}\nKeep unchanged: ${plan.keep}\nSuccess looks like: ${plan.success}` : "",
       `HOW TO WRITE A PATCH\n${patchGuide(g)}`,
       `THE LINES YOU MAY CHANGE\n${targetListing(g)}`,
+      grip.patch.context === "episode" ? `THE WHOLE EPISODE, FOR CONTEXT (change only your shots)\n${listing(ws.doc, ws.compiled, allowed)}` : "",
       ex.length ? `EXAMPLES OF VALID PATCHES ON THESE SHOTS (format only; they are not the answer)\n${ex.map((e) => `purpose: ${e.purpose}\npatch:\n${e.patch}`).join("\n\n")}` : "",
       `QC issues in these shots:\n${issuesText(targetIssues)}`,
       taste.accepted.length || taste.rejected.length ? `This director's taste:\n${[...taste.accepted.map((a) => "+ " + a), ...taste.rejected.map((a) => "- " + a)].join("\n")}` : "",
@@ -227,7 +231,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
   const fromModels: Cand[] = [];
   for (const role of roles) {
     let got = await build(role);
-    for (let round = 0; round < GUIDED.repairRounds && !got.length; round++) {
+    for (let round = 0; round < grip.patch.repairs && !got.length; round++) {
       emit({ kind: "step", role, message: `${role}: repair round ${round + 1}` });
       got = await build(role, repairNote(role));
     }
@@ -248,7 +252,8 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
     }
   }
 
-  pool = dedupe([...fromModels, ...pool]);
+  // a model with a loose grip owns the answer; code's moves only stand in when it produced nothing
+  pool = dedupe(grip.patch.codeFirst || !fromModels.length ? [...fromModels, ...pool] : fromModels);
   const fixesError = (c: Cand) => c.ev.fixedIssues.some((i) => i.severity === "error");
   if (targetIssues.some((i) => i.severity === "error") && pool.some(fixesError)) pool = pool.filter(fixesError);
   rec.pushback = pushback;
@@ -298,7 +303,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
     if (cs.length < 2) return cs;
     const list = cs.slice(0, 8);
     const prompt = `NOTE: "${note}"\nGOAL: ${rec.intent}\n\nCANDIDATES (all valid):\n${list.map((c, i) => `${i + 1}. ${c.purpose}\n   ${printPatch(c.ops).replace(/\n/g, "\n   ")}`).join("\n")}\n\nWhich candidates best do what the note asks? Give all the numbers, best first.`;
-    const rs = await Promise.all(Array.from({ length: GUIDED.rankVotes }, () => call<{ order: number[]; why: string }>({ task: "rank", role: "ranker", tier: "haiku", system, prompt, schema: rankSchema, maxTokens: 800 }, "ranking takes")));
+    const rs = await Promise.all(Array.from({ length: grip.rank.votes }, () => call<{ order: number[]; why: string }>({ task: "rank", role: "ranker", tier: "haiku", system, prompt, schema: rankSchema, maxTokens: 800 }, "ranking takes")));
     const pts = new Array(list.length).fill(0);
     let counted = 0;
     for (const r of rs) {

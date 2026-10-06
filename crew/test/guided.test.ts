@@ -53,7 +53,9 @@ test("cleanOrder: 1-based, 0-based, repeats, junk and gaps all become a full per
   assert.deepEqual(cleanOrder(null, 2), [0, 1]);
 });
 
-test("messy but right: split votes, a plan, a fenced patch, a sloppy ranking, a review", async () => {
+test("messy but right (strict grip): split votes, a plan, a fenced patch, a sloppy ranking, a review", async () => {
+  process.env.CREW_GRIP_READ = "strict"; process.env.CREW_GRIP_RANK = "strict";
+  try {
   const s = scripted((c, n) => {
     if (c.task === "route") return n === 3 ? route(["1E"], ["editor"]) : route(["1D"], ["animator"]);
     if (c.task === "plan") return plan;
@@ -75,6 +77,7 @@ test("messy but right: split votes, a plan, a fenced patch, a sloppy ranking, a 
   assert.match(build.prompt, /THE LINES YOU MAY CHANGE/);
   assert.match(build.prompt, /1D\.2/);
   assert.match(build.prompt, /Shorten the shock at 1D\.2/, "the plan reaches the builder");
+  } finally { delete process.env.CREW_GRIP_READ; delete process.env.CREW_GRIP_RANK; }
 });
 
 test("a wrong verb is explained in plain words and fixed on repair", async () => {
@@ -180,11 +183,11 @@ test("GeminiLLM: each job goes to its model at its thinking level, with room for
   const n = await Crew.open(dir, { llm }).note("1D the shock reaction goes on far too long for the joke");
   assert.equal(n.status, "open", n.message);
   const by = (m: string) => seen.filter((x) => x.model === m);
-  assert.ok(by(GEMINI_MODELS.haiku).length >= 3 && by(GEMINI_MODELS.haiku).every((x) => /^low$/i.test(x.level)));
+  assert.ok(by(GEMINI_MODELS.haiku).length >= 1 && by(GEMINI_MODELS.haiku).every((x) => /^low$/i.test(x.level)));
   assert.ok(by(GEMINI_MODELS.sonnet).length >= 1 && by(GEMINI_MODELS.sonnet).every((x) => /^high$/i.test(x.level) && x.max >= 32000));
   assert.ok(by(GEMINI_MODELS.opus).length >= 1 && by(GEMINI_MODELS.opus).every((x) => /^high$/i.test(x.level)));
   const log = readFileSync(join(dir, ".crew", "llm-log.jsonl"), "utf8").trim().split("\n").map((l) => JSON.parse(l));
-  assert.ok(log.length >= 5 && log.every((e) => e.model && e.task));
+  assert.ok(log.length >= 4 && log.every((e) => e.model && e.task));
 });
 
 test("guided writers' room: Pro outlines, Flash writes shots, a bad shot is repaired on its own", async () => {
@@ -203,4 +206,31 @@ test("guided writers' room: Pro outlines, Flash writes shots, a bad shot is repa
   const repair = s.calls.filter((c) => c.task === "shot")[1];
   assert.match(repair.prompt, /1B/);
   assert.ok(!/1A:\n/.test(repair.prompt.split("THESE SHOTS HAD ERRORS")[1] ?? ""), "only the broken shot is sent back");
+});
+
+import { gripFor, settingsFor } from "../src/llm/capability.ts";
+
+test("hand-holding follows capability: strong models run free, weak ones get a tighter grip, pins win", () => {
+  assert.equal(gripFor(GEMINI_MODELS.opus, "plan"), "free");
+  assert.equal(gripFor(GEMINI_MODELS.sonnet, "patch"), "free");
+  assert.equal(gripFor(GEMINI_MODELS.haiku, "read"), "free");
+  assert.notEqual(gripFor(GEMINI_MODELS.haiku, "patch"), "free", "Flash-Lite never builds unaided");
+  assert.notEqual(gripFor(GEMINI_MODELS.sonnet, "script"), "free", "Flash writes episodes shot by shot");
+  assert.notEqual(gripFor("claude-opus-5-5", "prop3d"), "strict");
+  assert.equal(settingsFor("some-tiny-model", "patch").grip, "strict");
+  process.env.CREW_GRIP_PATCH = "strict";
+  try { assert.equal(gripFor(GEMINI_MODELS.sonnet, "patch"), "strict"); } finally { delete process.env.CREW_GRIP_PATCH; }
+});
+
+test("a loose grip lets the model own the answer; code's moves only stand in when it has none", async () => {
+  const s = scripted((c) => {
+    if (c.task === "route") return route(["1A"], ["blocking"]);
+    if (c.task === "plan") return { ...plan, shots: ["1A"], roles: ["blocking"] };
+    if (c.task === "build") return takes(["kiran waits at the door", "1A.4 = kiran walk fridge 0.8"]);
+    if (c.task === "review") return review();
+  });
+  const strong = { ...s.llm, modelFor: () => GEMINI_MODELS.sonnet };
+  const n = await Crew.open(fresh(), { llm: strong }).note("1A kiran and mum bump into each other as he crosses the kitchen");
+  assert.ok(n.takes.length >= 1);
+  assert.ok(n.takes.every((t) => t.tier !== "code"), n.takes.map((t) => t.tier).join());
 });

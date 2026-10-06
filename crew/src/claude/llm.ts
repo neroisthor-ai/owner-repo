@@ -55,6 +55,8 @@ export interface LLMResult<T = unknown> {
 export interface LLM {
   readonly mode: "claude" | "gemini" | "offline";
   call<T = unknown>(c: LLMCall): Promise<LLMResult<T>>;
+  /** the model id behind a tier, so the harness can size its hand-holding to that model */
+  modelFor?(tier: Tier): string;
 }
 
 export const MODELS: Record<Tier, string> = {
