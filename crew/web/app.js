@@ -54692,6 +54692,8 @@ function D4() {
     [E, T] = Z.useState(null),
     [U, R] = Z.useState(null),
     [, A] = Z.useState(0),
+    // CREW-EXT: passes per frame (The Bob's accumulation renderer)
+    [sp, setSp] = Z.useState(window.CrewExt?.render?.spp ?? 1),
     O = Z.useRef(null),
     I = xw[r],
     j = Z.useMemo(
@@ -54701,12 +54703,13 @@ function D4() {
         fps: t.fps || 24,
         partSeconds: c,
         burn: p,
+        passes: sp,
       }),
-      [I, t.fps, c, p],
+      [I, t.fps, c, p, sp],
     ),
     F = Z.useMemo(() => w4(t, c), [t, c]),
     Y = F.reduce(($, be) => $ + Math.round((be.end - be.start) * j.fps), 0),
-    X = `${I.w}x${I.h}|${c}|${p.timecode}${p.shot}${p.subs}|${T4(t)}`,
+    X = `${I.w}x${I.h}|${c}|${p.timecode}${p.shot}${p.subs}|${sp}|${T4(t)}`,
     Q = !!g && g.key === X && g.ok,
     B = Z.useRef(X);
   (Z.useEffect(() => {
@@ -54926,6 +54929,36 @@ function D4() {
               }),
             ],
           }),
+          window.CrewExt?.render &&
+            u.jsxs("label", {
+              className: "block",
+              children: [
+                u.jsx(ki, { className: "mb-1", children: "Passes per frame" }),
+                u.jsx("select", {
+                  value: sp,
+                  onChange: ($) => {
+                    (setSp(Number($.target.value)),
+                      window.CrewExt.render.setSpp(Number($.target.value)));
+                  },
+                  disabled: m !== "idle",
+                  className: "field w-full",
+                  title:
+                    "More passes per frame give true lens blur, motion blur on a 180 degree shutter and clean edges, at the cost of render time",
+                  children: [
+                    [1, "1 (fast, real-time look)"],
+                    [4, "4"],
+                    [8, "8 (high quality)"],
+                    [16, "16"],
+                    [24, "24"],
+                    [32, "32"],
+                    [48, "48"],
+                    [96, "96"],
+                  ].map(([$, be]) =>
+                    u.jsx("option", { value: $, children: be }, $),
+                  ),
+                }),
+              ],
+            }),
           u.jsxs("fieldset", {
             className: "flex flex-wrap items-center gap-x-4 gap-y-1",
             children: [
@@ -61774,7 +61807,7 @@ window.__crew = Object.assign(window.__crew ?? {}, {
   store: ke, api: Ji, toast: _n, go: Mi, demo: () => $u(), Viewer: da, still: C4,
   clock: Me, audio: Uf, framing: () => qi, sp: sP,
   // the bundle's own three.js classes (render targets and shaders must come from the same copy as the renderer)
-  three: { ShaderMaterial: ba, WebGLRenderTarget: Ks, DepthTexture: xd, OrthographicCamera: Up, Mesh: On, Scene: fR, PlaneGeometry: Nd, Vector2: vt, Vector3: ie },
+  three: { ShaderMaterial: ba, WebGLRenderTarget: Ks, DepthTexture: xd, OrthographicCamera: Up, Mesh: On, Scene: fR, PlaneGeometry: Nd, SphereGeometry: hp, Vector2: vt, Vector3: ie, Vector4: wb, Matrix4: Tp, Data3DTexture: aR },
   look: () => Oo, setLook: Po, body: () => Hw(), burn: A4, mixAudio: S4, parts: w4, renderPanelOpts: () => window.__crewRender ?? {},
 });
 TC.createRoot(document.getElementById("root")).render(

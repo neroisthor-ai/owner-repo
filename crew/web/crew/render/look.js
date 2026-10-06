@@ -8,6 +8,7 @@
 // The shaders are The Bob's, unchanged except where noted. The render targets and materials come
 // from the app bundle's own three.js copy (window.__crew.three) so they match its renderer.
 import { gradeFor } from "./grades.js";
+import { Atmosphere, envFor, sunDir } from "./atmos.js";
 
 const HALF = 1016, FLOAT = 1015, UINT = 1014, LINEAR = 1006, NEAREST = 1003, ADDITIVE = 2;
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -24,13 +25,15 @@ const BLUR_FS = `uniform sampler2D tSrc;uniform vec2 uDir;varying vec2 vUv;void 
 const ACC_FS = `uniform sampler2D tSrc;uniform float uW;varying vec2 vUv;void main(){gl_FragColor=vec4(min(texture2D(tSrc,vUv).rgb,vec3(200.))*uW,1.);}`;
 const METER_FS = `uniform sampler2D tSrc;varying vec2 vUv;void main(){vec2 px=vec2(1./48.,1./20.);vec2 o=vUv-px*0.5;float s=0.;for(int i=0;i<4;i++)for(int j=0;j<4;j++){vec3 c=texture2D(tSrc,o+px*vec2((float(i)+0.5)/4.,(float(j)+0.5)/4.)).rgb;float l=dot(min(c,vec3(40.)),vec3(0.2126,0.7152,0.0722));s+=log(max(l,1e-4));}float w=1.-0.65*smoothstep(0.12,0.72,length((vUv-0.5)*vec2(1.7,1.)));gl_FragColor=vec4(s/16.,w,0.,1.);}`;
 // uMaxC is new: The Bob clamped the blur radius at 18 px (tuned for 1080p); here it scales with the render height.
-const COMP_FS = `uniform sampler2D tScene,tDepth,tBloom;uniform vec2 uRes,uSun;uniform float uNear,uFar,uFocus,uDof,uExp,uBloom,uHal,uZoom,uCA,uVig,uSat,uCon,uSplit,uSunVis,uAsp,uMaxC;uniform vec3 uLift,uGain,uShT,uHiT;varying vec2 vUv;
+const COMP_FS = `uniform sampler2D tScene,tDepth,tBloom;uniform vec2 uRes,uSun;uniform float uNear,uFar,uFocus,uDof,uExp,uBloom,uHal,uZoom,uCA,uVig,uSat,uCon,uSplit,uSunVis,uAsp,uMaxC,uStreak,uDirt;uniform vec3 uLift,uGain,uShT,uHiT;varying vec2 vUv;
+  float hs(vec2 p){return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453);}
+  float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hs(i),hs(i+vec2(1,0)),f.x),mix(hs(i+vec2(0,1)),hs(i+vec2(1,1)),f.x),f.y);}
   float lin(float d){float z=d*2.-1.;return 2.*uNear*uFar/(uFar+uNear-z*(uFar-uNear));}
   float coc(float d){return clamp(abs(d-uFocus)/max(d,1e-3)*uDof,0.,uMaxC);}
   vec3 aces(vec3 x){return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.,1.);}
   void main(){vec2 uv=(vUv-0.5)/uZoom+0.5;
     float dc=lin(texture2D(tDepth,uv).r);float cc=uDof>0.?coc(dc):0.;vec3 base=texture2D(tScene,uv).rgb;vec3 col=base;
-    if(cc>0.6){vec3 acc=base*0.5;float ws=0.5;for(int i=0;i<SAMPLES;i++){float fi=float(i);float r=sqrt((fi+0.5)/float(SAMPLES))*cc;float a=fi*2.39996323;vec2 su=uv+vec2(cos(a),sin(a))*r/uRes;float sc=coc(lin(texture2D(tDepth,su).r));float w=smoothstep(r-1.5,r+0.5,sc);acc+=texture2D(tScene,su).rgb*w;ws+=w;}col=acc/ws;}
+    if(cc>0.6){vec3 acc=base*0.5;float ws=0.5;for(int i=0;i<SAMPLES;i++){float fi=float(i);float r=sqrt((fi+0.5)/float(SAMPLES))*cc;float a=fi*2.39996323;vec2 su=uv+vec2(cos(a),sin(a))*r/uRes;float zs=lin(texture2D(tDepth,su).r);float sc=coc(zs);if(zs>dc)sc=min(sc,cc*1.5+0.5);float w=smoothstep(r-1.5,r+0.5,sc);acc+=texture2D(tScene,su).rgb*w;ws+=w;}col=acc/ws;}
     vec2 rc=uv-0.5;vec2 cao=rc*uCA*length(rc)*2.;float cm=1.-smoothstep(2.,8.,cc);
     col.r=mix(col.r,texture2D(tScene,uv+cao).r,0.85*cm);col.b=mix(col.b,texture2D(tScene,uv-cao).b,0.85*cm);
     vec3 bl=texture2D(tBloom,uv).rgb;col+=bl*uBloom+bl*vec3(1.0,0.42,0.22)*uHal;
@@ -38,6 +41,8 @@ const COMP_FS = `uniform sampler2D tScene,tDepth,tBloom;uniform vec2 uRes,uSun;u
       vec2 d=(uv-uSun)*as;float L=length(d);vec3 fl=vec3(1.0,0.66,0.36)*exp(-L*6.)*0.7+vec3(1.,0.82,0.6)*exp(-L*30.)*1.6;fl+=vec3(1.0,0.6,0.32)*exp(-abs(d.y)*120.)*exp(-abs(d.x)*2.5)*0.22;
       vec2 ax=vec2(0.5)-uSun;for(int k=0;k<6;k++){float g=0.25+float(k)*0.38;vec2 gp=uSun+ax*g*2.;float gs=0.018+0.02*float(k);float gl=length((uv-gp)*as);float disc=smoothstep(gs,gs*0.6,gl)*0.06;float ring=smoothstep(gs*1.7,gs*1.5,gl)*smoothstep(gs*1.25,gs*1.5,gl)*0.035;vec3 tint=mix(vec3(0.45,0.75,1.0),vec3(1.0,0.55,0.25),fract(float(k)*0.37+0.2));fl+=(disc+ring)*tint;}
       col+=fl*uSunVis*occ*3.;}
+    if(uStreak>0.){vec3 st=vec3(0.);for(int i=-12;i<=12;i++){if(i==0)continue;vec3 c=texture2D(tScene,uv+vec2(float(i)*0.011,0.)).rgb;st+=max(c-vec3(3.),vec3(0.))*exp(-abs(float(i))*0.22);}col+=st*vec3(0.30,0.5,1.0)*uStreak;} // Low Pass: anamorphic streaks off bright lights
+    if(uDirt>0.&&uSunVis>0.001){float sg=uSunVis*exp(-length((vUv-uSun)*vec2(uAsp,1.))*2.4);float dn=smoothstep(0.55,0.85,vn(vUv*vec2(uAsp,1.)*7.)+0.45*vn(vUv*vec2(uAsp,1.)*21.+3.));col+=vec3(1.,0.72,0.45)*(dn*0.9+0.2)*sg*0.14*uDirt;} // lens dirt catching the sun
     col*=uExp;col=aces(col);col=pow(col,vec3(1./2.2));
     col=col*(uGain-uLift)+uLift;
     float l=dot(col,vec3(0.2126,0.7152,0.0722));
@@ -88,7 +93,7 @@ export class Pipeline {
     this.samples = 24;
     this.comp = mk({
       tScene: { value: null }, tDepth: { value: null }, tBloom: { value: null }, uRes: { value: new V2() }, uNear: { value: 0.05 }, uFar: { value: 3000 }, uFocus: { value: 5 },
-      uDof: { value: 0 }, uMaxC: { value: 18 }, uExp: { value: 1 }, uBloom: { value: 0.2 }, uHal: { value: 0.1 }, uZoom: { value: 1 }, uCA: { value: 0.01 }, uVig: { value: 0.4 }, uSat: { value: 1 },
+      uDof: { value: 0 }, uMaxC: { value: 18 }, uStreak: { value: 0 }, uDirt: { value: 0 }, uExp: { value: 1 }, uBloom: { value: 0.2 }, uHal: { value: 0.1 }, uZoom: { value: 1 }, uCA: { value: 0.01 }, uVig: { value: 0.4 }, uSat: { value: 1 },
       uCon: { value: 0.2 }, uSplit: { value: 0.5 }, uLift: { value: new V3() }, uGain: { value: new V3(1, 1, 1) }, uShT: { value: new V3(1, 1, 1) }, uHiT: { value: new V3(1, 1, 1) },
       uSun: { value: new V2(-9, -9) }, uSunVis: { value: 0 }, uAsp: { value: 1.78 },
     }, COMP_FS, { defines: { SAMPLES: 24 } });
@@ -102,7 +107,7 @@ export class Pipeline {
   ensure(w, h) {
     if (w === this.W && h === this.H) return;
     const T = this.T;
-    [this.rtScene, this.rtAcc, this.rtLDR, this.rtA, this.rtB].forEach((r) => r && r.dispose());
+    [this.rtScene, this.rtAcc, this.rtLDR, this.rtAtm, this.rtCloud, this.rtA, this.rtB].forEach((r) => r && r.dispose());
     this.W = w; this.H = h;
     const lf = { minFilter: LINEAR, magFilter: LINEAR };
     this.rtScene = new T.WebGLRenderTarget(w, h, { type: HALF, ...lf });
@@ -110,16 +115,21 @@ export class Pipeline {
     this.rtScene.depthTexture.type = UINT;
     this.rtAcc = new T.WebGLRenderTarget(w, h, { type: this.accType, depthBuffer: false, ...lf });
     this.rtLDR = new T.WebGLRenderTarget(w, h, lf);
+    this.rtAtm = new T.WebGLRenderTarget(w, h, { type: HALF, depthBuffer: false, ...lf });
+    this.rtCloud = new T.WebGLRenderTarget(Math.max(2, w >> 1), Math.max(2, h >> 1), { type: HALF, depthBuffer: false, ...lf });
     const bw = Math.max(2, w >> 2), bh = Math.max(2, h >> 2);
     this.rtA = new T.WebGLRenderTarget(bw, bh, { type: HALF, ...lf });
     this.rtB = this.rtA.clone();
   }
 
   dispose() {
-    [this.rtScene, this.rtAcc, this.rtLDR, this.rtA, this.rtB, this.meterRT].forEach((r) => r && r.dispose());
+    [this.rtScene, this.rtAcc, this.rtLDR, this.rtAtm, this.rtCloud, this.rtA, this.rtB, this.meterRT].forEach((r) => r && r.dispose());
+    this.atmos?.dispose();
     [this.bright, this.blur, this.acc, this.meterMat, this.comp, this.final].forEach((m) => m.dispose());
     this.quad.geometry.dispose();
   }
+
+  atmosphere() { return (this.atmos ??= new Atmosphere(this)); }
 
   pass(mat, target) { this.quad.material = mat; this.renderer.setRenderTarget(target); this.renderer.render(this.quadScene, this.quadCam); }
 
@@ -164,7 +174,7 @@ export class Pipeline {
     const u = this.comp.uniforms;
     u.tScene.value = srcTex; u.tDepth.value = this.rtScene.depthTexture; u.tBloom.value = this.rtA.texture; u.uRes.value.set(W, H);
     u.uNear.value = cam.near; u.uFar.value = cam.far; u.uFocus.value = S.focus;
-    u.uDof.value = physical ? 0 : S.dof; u.uMaxC.value = 18 * (H / 1080);
+    u.uDof.value = physical ? 0 : S.dof; u.uMaxC.value = 18 * (H / 1080); u.uStreak.value = gr.streak ?? 0; u.uDirt.value = gr.dirt ?? 0;
     u.uExp.value = EXPO; u.uBloom.value = gr.bloom; u.uHal.value = gr.hal; u.uZoom.value = S.zoom || 1;
     u.uCA.value = gr.ca; u.uVig.value = gr.vig; u.uSat.value = gr.sat; u.uCon.value = gr.con; u.uSplit.value = gr.split;
     u.uLift.value.set(...gr.lift); u.uGain.value.set(...gr.gain); u.uShT.value.set(...gr.sh); u.uHiT.value.set(...gr.hi); u.uAsp.value = S.aspect;
@@ -225,22 +235,33 @@ function readCamera(viewer, info) {
   return { cam, mm, sensorH, focus, fstop: look?.fstop ?? 2.8, dofOn: !!look?.dof };
 }
 
-function sunFor(viewer, baked, shot, info, cam) {
-  // only daylight outdoors has a visible sun; the key light's direction is the sun's
-  const open = baked.sets?.[shot.set]?.open;
-  if (!open || !["day", "warm", "bright"].includes(shot.light)) return null;
+/** Where the sun is for this shot's mood, and whether it can be seen (open sets in daylight only). */
+function sunFor(viewer, baked, shot, cam, es) {
+  if (!es.open || es.env.sunBoost <= 0.2) return null;
   const T = window.__crew.three;
-  const dir = viewer.key.position.clone().normalize();
-  const p = cam.position.clone().addScaledVector(dir, 500).project(cam);
-  const fwd = cam.getWorldDirection(new T.Vector3());
-  return { dir, ndc: p, facing: fwd.dot(dir) };
+  const p = cam.position.clone().addScaledVector(es.sun, 500).project(cam);
+  return { ndc: p, facing: cam.getWorldDirection(new T.Vector3()).dot(es.sun) };
 }
 
-function frameState(viewer, info, rc) {
+/** Mood -> environment: sky, sun and haze; the effect switches for the quality tier. */
+function envState(viewer, baked, shot, SPP) {
+  const env = envFor(shot), open = !!baked.sets?.[shot.set]?.open;
+  const T = window.__crew.three;
+  const tier = viewer.liveLook ? Math.min(2, Math.max(0, settings.quality | 0)) : 2;
+  const A = settings.atmos ?? {};
+  const render = SPP > 1;
+  return {
+    env, open, sun: sunDir(T, viewer.key.position, env),
+    ao: A.ao ?? (render || tier >= 1), rays: A.rays ?? (render || tier >= 1), clouds: A.clouds ?? (render || tier >= 2),
+    cloudSteps: render ? 48 : 30, aoRadius: 1,
+  };
+}
+
+function frameState(viewer, info, rc, es) {
   const baked = viewer.baked, shot = info.shot, gr = gradeFor(shot, settings.grade);
   // The Bob's grades were tuned for its own lighting; Crew's room lights are stronger, so closed sets meter darker
   if (!baked.sets?.[shot.set]?.open && !settings.grade?.key) gr.key *= 0.5;
-  const sun = sunFor(viewer, baked, shot, info, rc.cam);
+  const sun = sunFor(viewer, baked, shot, rc.cam, es);
   const rt = viewer.look.pipe;
   const dof = rc.dofOn ? cocFactor(rc.mm, rc.fstop, rc.focus, rt.H, rc.sensorH) : 0;
   return { gr, cam: rc.cam, focus: rc.focus, dof, sun: !!sun, sunNdc: sun?.ndc, sunFacing: sun?.facing, aspect: rc.cam.aspect, t: info.t, shotId: shot.id, zoom: 1, fade: 1 };
@@ -279,6 +300,35 @@ function frameBudget(viewer, info, SPP, rc, H, W) {
   return { n, nt: Math.min(nt, n), R, mv };
 }
 
+/** Render the scene into the HDR target, then run the atmosphere on it. Returns the texture to post-process. */
+function sceneTo(viewer, pipe, es, o) {
+  const r = viewer.renderer, cam = viewer.cam;
+  const atm = pipe.atmosphere();
+  const sky = atm.skyMesh();
+  if (!sky.parent) viewer.scene.add(sky);
+  const useSky = es.open;
+  sky.visible = useSky;
+  setSkyProps(viewer, !useSky);
+  r.setRenderTarget(pipe.rtScene); r.clear(); r.render(viewer.scene, cam);
+  if (!useSky && !es.ao) return pipe.rtScene.texture;
+  const ar = atm.apply(es.env, { open: es.open, aoOn: es.ao, aoRadius: es.aoRadius, clouds: es.clouds, rays: es.rays, t: o.t, cam, aspect: cam.aspect, sunDir: es.sun, cloudsFresh: o.cloudsFresh, cloudSteps: es.cloudSteps });
+  pipe.lastAtm = ar;
+  return pipe.rtAtm.texture;
+}
+
+/** Library sky models (sky_london...) are replaced by the atmosphere's own sky while the look is on. */
+function setSkyProps(viewer, show) {
+  const L = viewer.look;
+  if (L.skyFor !== viewer.baked) { L.skyFor = viewer.baked; L.skies = []; viewer.scene.traverse((o) => { if (o.userData?.isSky) L.skies.push(o); }); }
+  for (const o of L.skies) o.visible = show;
+}
+export function restoreSky(viewer) {
+  const L = viewer.look;
+  if (!L) return;
+  for (const o of L.skies ?? []) o.visible = true;
+  if (L.pipe.atmos?.sky) L.pipe.atmos.sky.visible = false;
+}
+
 function ensurePipe(viewer) {
   if (!viewer.look) viewer.look = { pipe: new Pipeline(viewer.renderer), last: null };
   const size = viewer.renderer.getDrawingBufferSize(viewer.look.pipe.size2 ?? (viewer.look.pipe.size2 = new (window.__crew.three.Vector2)()));
@@ -292,10 +342,11 @@ export function* run(viewer, info) {
   const SPP = Math.max(1, viewer.lookSpp | 0), fps = info.fps, shot = info.shot;
   pipe.samples = SPP > 1 ? 36 : (window.CrewExt?.look?.dofTaps?.(viewer) ?? 24);
   const base = readCamera(viewer, info);
+  const es = envState(viewer, viewer.baked, shot, SPP);
   if (SPP === 1) {
     // single pass: real-time look, lens blur and anti-aliasing happen in the shader
-    r.setRenderTarget(pipe.rtScene); r.clear(); r.render(scene, cam);
-    pipe.post(frameState(viewer, info, base), pipe.rtScene.texture, false);
+    const tex = sceneTo(viewer, pipe, es, { t: info.t, cloudsFresh: true });
+    pipe.post(frameState(viewer, info, base, es), tex, false);
     viewer.look.last = { n: 1 };
     return;
   }
@@ -330,8 +381,8 @@ export function* run(viewer, info) {
       }
       cam.setViewOffset(pipe.W, pipe.H, jit.px[0], jit.px[1], pipe.W, pipe.H);
       cam.updateMatrixWorld();
-      r.setRenderTarget(pipe.rtScene); r.clear(); r.render(scene, cam);
-      pipe.acc.uniforms.tSrc.value = pipe.rtScene.texture; pipe.acc.uniforms.uW.value = 1 / NN;
+      const tex = sceneTo(viewer, pipe, es, { t: sub, cloudsFresh: j === 0 });
+      pipe.acc.uniforms.tSrc.value = tex; pipe.acc.uniforms.uW.value = 1 / NN;
       const ac = r.autoClear; r.autoClear = false; pipe.pass(pipe.acc, pipe.rtAcc); r.autoClear = ac;
     }
     scene.matrixWorldAutoUpdate = mwu;
@@ -340,7 +391,7 @@ export function* run(viewer, info) {
   }
   pose(viewer, info.t);
   const rc = readCamera(viewer, info);
-  pipe.post(frameState(viewer, info, rc), pipe.rtAcc.texture, true);
+  pipe.post(frameState(viewer, info, rc, es), pipe.rtAcc.texture, true);
 }
 
 /** Synchronous frame for previews and stills. */
@@ -352,7 +403,7 @@ export async function renderAsync(viewer, info, yieldNow) {
   for (;;) { const s = g.next(); if (s.done) return; await yieldNow(); }
 }
 
-export function disposeLook(viewer) { viewer.look?.pipe.dispose(); viewer.look = null; }
+export function disposeLook(viewer) { if (!viewer.look) return; restoreSky(viewer); viewer.look.pipe.dispose(); viewer.look = null; }
 
 /** Which shot a cut time lands in, as the viewer's own frame() decides it. */
 export function infoAt(baked, t) {

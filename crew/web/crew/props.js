@@ -10,7 +10,7 @@ const HUGE = 30; // metres; skies, water and backdrops over this are decor, not 
 /** A model for one baked box, or null (the viewer then draws its grey cube). */
 function buildBox(box) {
   if (!registry || !box?.prop) return null;
-  try { return registry.buildBox(box, THREE); } catch (e) { console.warn(`[crew] prop ${box.prop} failed`, e); return null; }
+  try { const m = registry.buildBox(box, THREE); if (m && box.prop.startsWith("sky_")) m.userData.isSky = true; return m; } catch (e) { console.warn(`[crew] prop ${box.prop} failed`, e); return null; }
 }
 
 /** The box list the viewer draws: server boxes plus floor and three walls for indoor sets (the server bake has none). */

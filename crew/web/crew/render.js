@@ -47,6 +47,7 @@ function sync() {
   if (q !== S.quality) { S.quality = q; Look.saveSettings(); }
   for (const v of live) {
     v.lookOn = on;
+    if (!on) Look.restoreSky(v);
     if (qChanged || on) { // pixel ratio follows the tier
       const c = v.canvas, r = c.getBoundingClientRect();
       if (r.width > 1) v.resize(r.width, r.height, window.devicePixelRatio || 1);

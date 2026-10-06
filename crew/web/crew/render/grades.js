@@ -15,7 +15,8 @@ export const GRADES = {
   campusN: G({ exp: 1.0,  bloom: 0.4,  hal: 0.25, th: 0.9, lift: [0.004, 0.008, 0.02],  gain: [1.04, 0.98, 0.9],  sh: [0.75, 0.95, 1.25], hi: [1.15, 0.98, 0.78], split: 0.8,  sat: 0.85, con: 0.36, ca: 0.004, vig: 0.65, grain: 0.05,  cam: 0, key: 0.032, tau: 0.8 }),
   campusS: G({ exp: 1.0,  bloom: 0.25, hal: 0.12, th: 1.0, lift: [0.012, 0.016, 0.022], gain: [0.96, 1.0, 1.05],  sh: [0.85, 0.98, 1.12], hi: [1.04, 1.0, 0.92],  split: 0.5,  sat: 0.62, con: 0.34, ca: 0.004, vig: 0.6,  grain: 0.05,  cam: 0, key: 0.13,  tau: 0.5 }),
 };
-for (const g of Object.values(GRADES)) { g.emin = 0.12; g.emax = 8; }
+// The Bob metered scenes lit in physical units (a range of 1:70); Crew scenes are lit flat, so exposure stays in a narrow band
+for (const g of Object.values(GRADES)) { g.emin = 0.35; g.emax = 1.8; }
 
 /** Crew's light moods mapped onto The Bob's grades. */
 const MOOD = {
@@ -35,5 +36,8 @@ export function gradeFor(shot, overrides = {}) {
   const g = { ...base, lift: [...base.lift], gain: [...base.gain], sh: [...base.sh], hi: [...base.hi] };
   if (shot?.light === "bright") { g.vig *= 0.5; g.con *= 0.75; g.key *= 1.5; g.bloom *= 1.3; }
   if (shot?.palette === "night" && shot?.light !== "night" && shot?.light !== "moon") { g.sat *= 0.9; g.key *= 0.6; g.vig = Math.max(g.vig, 0.55); }
+  // Low Pass: anamorphic streaks off bright lights at night, lens dirt catching a low sun
+  g.streak = ["night", "moon", "practical", "dim"].includes(shot?.light) ? 0.035 : 0;
+  g.dirt = ["day", "warm", "bright"].includes(shot?.light) ? 1 : 0;
   return Object.assign(g, overrides);
 }
