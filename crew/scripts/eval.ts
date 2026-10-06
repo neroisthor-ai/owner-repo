@@ -7,13 +7,17 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Crew, type LLMChoice } from "../src/index.ts";
 import { CREW_ROOT } from "../src/project.ts";
+import { relayLLM } from "./relay.ts";
 
 try { process.loadEnvFile(join(CREW_ROOT, ".env")); } catch { /* keys may come from the environment */ }
 const args = process.argv.slice(2);
-const llm = (args.find((a) => !a.startsWith("--")) ?? "offline") as LLMChoice;
+const choice = args.filter((a, i) => !a.startsWith("--") && !(i > 0 && args[i - 1].startsWith("--")))[0] ?? "offline";
+const llm = (choice === "relay" ? relayLLM() : choice) as LLMChoice;
 const only = args.includes("--only") ? Number(args[args.indexOf("--only") + 1]) : Infinity;
 const out = args.includes("--json") ? args[args.indexOf("--json") + 1] : null;
-const notes: { note: string; shots: string[]; roles: string[]; patch?: string }[] = JSON.parse(readFileSync(join(CREW_ROOT, "test/fixtures/notes.json"), "utf8")).slice(0, only);
+const pick = args.includes("--pick") ? args[args.indexOf("--pick") + 1].split(",").map(Number) : null;
+const all: { note: string; shots: string[]; roles: string[]; patch?: string }[] = JSON.parse(readFileSync(join(CREW_ROOT, "test/fixtures/notes.json"), "utf8"));
+const notes = (pick ? pick.map((i) => all[i - 1]).filter(Boolean) : all).slice(0, only);
 const SHOW = join(CREW_ROOT, "shows", "kitchen");
 
 const rows = [];
@@ -35,5 +39,5 @@ for (const g of notes) {
 }
 const pass = rows.filter((r) => r.ok).length;
 const role = rows.filter((r) => (r as { roleOk?: boolean }).roleOk).length;
-console.log(`\n${llm}: ${pass}/${rows.length} notes resolved (${Math.round((100 * pass) / Math.max(1, rows.length))}%), right role ${role}/${rows.length}, ${Math.round(rows.reduce((a, r) => a + r.ms, 0) / 1000)}s total`);
-if (out) writeFileSync(out, JSON.stringify({ llm, at: new Date().toISOString(), pass, total: rows.length, rows }, null, 2));
+console.log(`\n${choice}: ${pass}/${rows.length} notes resolved (${Math.round((100 * pass) / Math.max(1, rows.length))}%), right role ${role}/${rows.length}, ${Math.round(rows.reduce((a, r) => a + r.ms, 0) / 1000)}s total`);
+if (out) writeFileSync(out, JSON.stringify({ llm: choice, at: new Date().toISOString(), pass, total: rows.length, rows }, null, 2));
