@@ -64,7 +64,10 @@ test("vocabulary lists only characters from the target shot", () => {
 test("targetListing has every address of the target shot and none of the others", () => {
   const l = targetListing(ctx("animator", ["1D"]));
   for (const a of ["1D", "1D.1", "1D.2", "1D.3", "1D.4", "1D.5"]) assert.ok(new RegExp(`^[* ]${a.replace(".", "\\.")}\\s`, "m").test(l), a);
-  assert.ok(!/\b1E(\.\d)?\b/.test(l) && !/\b1C(\.\d)?\b/.test(l));
+  // other shots appear only in the continuity note (what the next shot opens with), never as an address to edit
+  const rows = l.split("\n").filter((x) => !x.trimStart().startsWith("continuity:"));
+  assert.ok(rows.every((x) => !/\b1E(\.\d)?\b/.test(x) && !/\b1C(\.\d)?\b/.test(x)));
+  assert.match(l, /continuity: .*opens 1E/);
   assert.match(l, /^\*1D\.2\s+kiran shock ~2\.5$/m);
   assert.match(l, /^ 1D\.1\s+kiran turn mum$/m);
   assert.match(l, /shot 1D: set kitchen; characters kiran mum; \d/);
