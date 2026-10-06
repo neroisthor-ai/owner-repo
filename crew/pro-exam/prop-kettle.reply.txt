@@ -1,0 +1,52 @@
+export function stovetop_kettle({ color = "#b83a2e" } = {}) {
+  const g = new THREE.Group();
+
+  const enamel = mat(color, { roughness: 0.2, metalness: 0.1 });
+  const black = mat("#111111", { roughness: 0.8, metalness: 0.1 });
+  const steel = mat("#dddddd", { roughness: 0.3, metalness: 0.8 });
+
+  // Offset X center to perfectly balance the bounding box with the spout on the right
+  const cx = -0.04;
+
+  // Body Base (metal ring)
+  cyl(g, 0.095, 0.095, 0.01, steel, cx, 0, 0, 32);
+  
+  // Main Body
+  cyl(g, 0.065, 0.095, 0.12, enamel, cx, 0.01, 0, 32);
+
+  // Lid & Rims
+  cyl(g, 0.067, 0.067, 0.005, steel, cx, 0.13, 0, 32);
+  cyl(g, 0.05, 0.065, 0.015, enamel, cx, 0.135, 0, 32);
+
+  // Lid Knob
+  cyl(g, 0.006, 0.01, 0.01, steel, cx, 0.15, 0, 16);
+  cyl(g, 0.015, 0.015, 0.01, black, cx, 0.16, 0, 16);
+
+  // Spout Assembly
+  const spoutAngle = -Math.PI / 4;
+  const spoutCx = 0.064;
+  const spoutCy = 0.095;
+  
+  const spoutGeom = new THREE.CylinderGeometry(0.012, 0.025, 0.15, 16);
+  const spout = mesh(spoutGeom, enamel, g, spoutCx, spoutCy, 0);
+  spout.rotation.z = spoutAngle;
+
+  // Spout Whistle/Cap
+  const whistleGeom = new THREE.CylinderGeometry(0.016, 0.016, 0.02, 16);
+  const whistleOffset = 0.085; // slightly beyond half spout length to cap it
+  const wx = spoutCx + whistleOffset * Math.sin(-spoutAngle);
+  const wy = spoutCy + whistleOffset * Math.cos(-spoutAngle);
+  const whistle = mesh(whistleGeom, steel, g, wx, wy, 0);
+  whistle.rotation.z = spoutAngle;
+
+  // Handle Connectors
+  cyl(g, 0.006, 0.008, 0.04, steel, cx, 0.13, 0.07, 16);
+  cyl(g, 0.006, 0.008, 0.04, steel, cx, 0.13, -0.07, 16);
+
+  // Arcing Handle
+  const handleGeom = new THREE.TorusGeometry(0.07, 0.008, 16, 32, Math.PI);
+  const handle = mesh(handleGeom, black, g, cx, 0.17, 0);
+  handle.rotation.y = Math.PI / 2;
+
+  return finish(g, "stovetop_kettle", { onSurface: true });
+}
