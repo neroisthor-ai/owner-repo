@@ -9,7 +9,8 @@
     "crew": "tsx src/cli.ts",
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "e2e": "node test/e2e/run.mjs"
+    "e2e": "node test/e2e/run.mjs",
+    "claude": "node scripts/claude.mjs"
   },
   "license": "UNLICENSED",
   "description": "The AI film crew that takes direction. SCENE film language + Claude crew + 3D animatic.",
