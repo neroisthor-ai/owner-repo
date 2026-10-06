@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crew</title>
+  <link rel="stylesheet" href="/classic/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="tally"></span>CREW</div>
+    <div class="show"><strong id="title">…</strong><span id="episode" class="dim"></span></div>
+    <div class="chips">
+      <button id="mode" class="chip" title="Who is crewing: Claude or the offline heuristics">…</button>
+      <button id="pipeline" class="chip" title="full: Haiku proposes, Sonnet refines, Opus picks. fast: Sonnet only.">…</button>
+      <span id="qcChip" class="chip"></span>
+      <span id="rate" class="chip" title="North star: notes fixed in one round with no side effects"></span>
+      <span id="cost" class="chip"></span>
+      <button id="undo" class="btn ghost" title="Undo the last change (⌘Z)">Undo</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="left">
+      <div class="stage" id="stage">
+        <canvas id="view"></canvas>
+        <div class="ov tl" id="ovShot"></div>
+        <div class="ov tr" id="ovTime"></div>
+        <div class="ov preview" id="ovPreview" hidden></div>
+        <div class="ov sub" id="ovSub"></div>
+        <div class="guides" id="guides" hidden><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="transport">
+        <button id="prevShot" class="icon" title="Previous shot (↑)">⏮</button>
+        <button id="play" class="icon play" title="Play / pause (space)">▶</button>
+        <button id="nextShot" class="icon" title="Next shot (↓)">⏭</button>
+        <span id="tc" class="tc">00:00:00</span>
+        <span id="shotInfo" class="dim"></span>
+        <span class="spacer"></span>
+        <label class="toggle"><input type="checkbox" id="guidesOn"> guides</label>
+        <label class="toggle"><input type="checkbox" id="mute"> mute</label>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="lane shots" id="laneShots"></div>
+        <div class="lane audio" id="laneAudio"></div>
+        <div class="lane heat" id="laneHeat" hidden></div>
+        <div class="playhead" id="playhead"></div>
+      </div>
+    </section>
+
+    <aside class="right">
+      <nav class="tabs">
+        <button data-tab="notes" class="on">Notes</button>
+        <button data-tab="script">Script</button>
+        <button data-tab="qc">QC <span id="qcCount" class="badge"></span></button>
+        <button data-tab="crew">Crew</button>
+        <button data-tab="export">Export</button>
+      </nav>
+
+      <div class="tab on" id="tab-notes">
+        <form id="noteForm" class="note-form">
+          <textarea id="noteInput" rows="2" placeholder="Give a note: shot ID + what's wrong.  e.g.  1D 0:03, too long"></textarea>
+          <div class="row">
+            <div class="examples" id="examples"></div>
+            <button class="btn primary" id="noteSend">Send</button>
+          </div>
+        </form>
+        <div id="noteResult"></div>
+        <h4 class="section">Recent notes</h4>
+        <div id="noteList" class="list"></div>
+      </div>
+
+      <div class="tab" id="tab-script">
+        <div class="row between"><span class="dim">Episode source. Every line has an address.</span><button class="btn" id="saveSource">Save</button></div>
+        <div class="editor"><div class="gutter" id="gutter"></div><textarea id="source" spellcheck="false"></textarea></div>
+        <h4 class="section">Patch</h4>
+        <div class="patch">
+          <textarea id="patchText" rows="3" spellcheck="false" placeholder="1D.2 ~2.5 -> ~1.4"></textarea>
+          <div class="row">
+            <select id="patchRole"><option>director</option><option>writer</option><option>blocking</option><option>dp</option><option>animator</option><option>editor</option><option>sound</option></select>
+            <button class="btn" id="patchDry">Dry run</button>
+            <button class="btn primary" id="patchApply">Apply</button>
+          </div>
+          <pre id="patchOut" class="out" hidden></pre>
+        </div>
+        <details class="section"><summary>Show bible</summary><pre id="bible" class="code"></pre></details>
+      </div>
+
+      <div class="tab" id="tab-qc">
+        <div id="qcSummary" class="qc-summary"></div>
+        <div id="qcList" class="list"></div>
+        <h4 class="section">Test screening</h4>
+        <div class="row"><span class="dim">Persona viewers (Haiku) rate every shot.</span><button class="btn" id="screen">Run screening</button></div>
+        <div id="screenOut"></div>
+        <details class="section"><summary>Checked / not checked</summary><div id="qcScope"></div></details>
+      </div>
+
+      <div class="tab" id="tab-crew">
+        <h4 class="section">Live</h4>
+        <div id="log" class="log"></div>
+        <h4 class="section">History</h4>
+        <div id="history" class="list"></div>
+      </div>
+
+      <div class="tab" id="tab-export">
+        <h4 class="section">Render MP4</h4>
+        <div class="form">
+          <label>Size <select id="exSize"><option>720p</option><option selected>1080p</option><option>1440p</option><option>4K</option></select></label>
+          <label>Parts <select id="exParts"><option value="0" selected>one file</option><option value="20">~20s, on cuts</option><option value="60">~60s, on cuts</option></select></label>
+          <label class="toggle"><input type="checkbox" id="exBurn" checked> burn-ins (shot, timecode, subtitles)</label>
+          <label>Resume from part <input type="number" id="exFrom" min="1" value="1"></label>
+        </div>
+        <div class="row">
+          <button class="btn" id="exTest">1. Test run</button>
+          <button class="btn primary" id="exGo" disabled>2. Render</button>
+          <button class="btn ghost" id="exStop" hidden>Stop</button>
+        </div>
+        <p class="dim small">Long jobs are gated: a short test on this machine first, with a projected finish time, before the full render. Parts end on shot cuts and download as they finish, so a crash costs one part.</p>
+        <div class="progress" id="exProg" hidden><div></div></div>
+        <div id="exStatus" class="dim"></div>
+        <div id="exParts2" class="list"></div>
+        <h4 class="section">Interchange</h4>
+        <div class="row wrap">
+          <a class="btn" href="/api/otio" download="cut.otio">Cut (OTIO)</a>
+          <button class="btn" id="dlBaked">Baked frames (JSON)</button>
+          <button class="btn" id="dlScene">Episode (SCENE)</button>
+          <button class="btn" id="still">Still (PNG)</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+  <div id="toast" class="toast" hidden></div>
+  <script type="module" src="/classic/app.js"></script>
+</body>
+</html>
