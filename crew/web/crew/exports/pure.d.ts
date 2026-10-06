@@ -1,0 +1,22 @@
+export function tc(seconds: number, fps: number): string;
+export function frames(seconds: number, fps: number): number;
+export function csv(rows: unknown[][]): string;
+export function srtTime(t: number): string;
+export function srt(events: { t: number; dur: number; text: string }[]): string;
+export function chapters(list: { t: number; title: string }[]): { text: string; warnings: string[] };
+export interface ClipPlan { id: string; name: string; label: string; recIn: number; recOut: number; lead: number; tail: number; srcIn: number; srcOut: number; clipLen: number }
+export function clipPlan(shots: { id: string; label?: string; cutStart: number; cutDur: number }[], fps: number, handles?: number, duration?: number, o?: { keepIds?: boolean }): ClipPlan[];
+export function clipName(plan: ClipPlan): string;
+export function edl(title: string, fps: number, plans: ClipPlan[]): string;
+export function fcpxml(title: string, fps: number, plans: ClipPlan[], o?: { width?: number; height?: number }): string;
+export function crc32(u8: Uint8Array): number;
+export function zipStore(files: { name: string; data: Uint8Array }[]): Uint8Array;
+export function qmul(a: number[], b: number[]): number[];
+export function eulerZXY(q: number[]): number[];
+export function toBlenderPos(p: number[]): number[];
+export function toBlenderQuat(q: number[]): number[];
+export function focalFromFov(fov: number, sensorH?: number): number;
+export function parseEdl(text: string, fps: number): { name: string; srcIn: number; srcOut: number; recIn: number; recOut: number }[];
+export function parseOtio(json: any, fps: number): { name: string; recIn: number; recOut: number }[];
+export function patchOtio(otio: any, plans: ClipPlan[], fps: number): any;
+export function compareCuts(plans: ClipPlan[], events: { name: string; recIn: number; recOut: number }[]): { rows: { id: string; ours: number; theirs: number | null; diff: number | null }[]; unmatched: string[] };

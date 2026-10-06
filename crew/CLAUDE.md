@@ -16,4 +16,5 @@ An AI film crew that takes direction. Films are SCENE source (`shows/<show>/show
 - `src/crew/` holds roles, schemas (grammar-constrained outputs), the note pipeline (`direct.ts`), the guard, writers' room and screening.
 - `src/claude/llm.ts` is the only place that talks to the Anthropic API. `offline.ts` mirrors it without a network.
 - `library/` is the backend-only asset library (characters, props, sets, kits, music, voices): never add a user-facing page or browse API for it. `library/props/` is the prop registry (`meta.js` data, `index.js` builders); `library/sets/*.scene` are the ready-made sets.
-- `web/` is the browser animatic and UI. The frontend brief is `docs/FRONTEND_PROMPT.md`.
+- `web/` is the browser frontend (the v9 bundle plus readable modules in `web/crew/`). Read `docs/FRONTEND.md` first: change features in `web/crew/`, keep `web/app.js` patches small and marked `// CREW-EXT:`. The brief is `docs/FRONTEND_PROMPT.md`.
+- `npm run e2e` runs the browser tests (Chromium; set `PW_NODE` and `CHROMIUM`).

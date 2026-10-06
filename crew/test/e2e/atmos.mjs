@@ -1,9 +1,9 @@
 // Ultra quality on an open set: clouds, haze, god rays, occlusion compile and draw. Prints shader errors.
 import { createRequire } from "node:module";
-const require = createRequire("/opt/node-tools/");
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
 const { chromium } = require("playwright");
 const [url = "http://localhost:4311/", out = "/tmp/crew-shots"] = process.argv.slice(2);
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
 const errs = [];
 page.on("console", (m) => { if (/Shader Error|ERROR|rror:/.test(m.text()) && !/404/.test(m.text())) errs.push(m.text().slice(0, 900)); });

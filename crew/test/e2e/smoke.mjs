@@ -1,8 +1,9 @@
-// Browser smoke test for the v9 frontend. Needs the server running (npm start) and Chromium.
+// Browser smoke test for the v9 frontend. Needs the server running (npm start), Chromium and Playwright.
+// PW_NODE = a directory whose node_modules holds playwright, CHROMIUM = the browser binary.
 // Usage: node test/e2e/smoke.mjs [url] [shotsDir]
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
-const require = createRequire("/opt/node-tools/");
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
 const { chromium } = require("playwright");
 const url = process.argv[2] ?? "http://localhost:4310/";
 const out = process.argv[3] ?? "/tmp/crew-shots";

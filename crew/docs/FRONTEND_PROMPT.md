@@ -22,13 +22,9 @@ cd ~/Projects/crew && npm install && npm start
 
 That serves `web/` at http://localhost:4310. Offline mode (no API key) uses deterministic heuristics, so every flow works without Claude. With `ANTHROPIC_API_KEY` set, Claude does the work. Static files come from `web/`, three.js from `/vendor/three/three.module.js`, mp4-muxer from `/vendor/mp4-muxer/mp4-muxer.mjs`, and assets from `/library/...` (see Characters, and Sets, props and set dressing). No bundler is required. Plain ES modules are fine, and so is a build step whose output lands in `web/`.
 
-## What exists today (keep or replace)
+## What exists today
 
-The current `web/` is a working but plain prototype. Treat it as a reference for the data flow, not the design:
-- `player.js`: three.js renderer that plays baked frames, with toon shading, ink outlines, a procedural rig and canvas-drawn faces. **Keep its contract:** `new Player(canvas)`, `load(baked)`, `frame(t)`, `setFixedSize([w,h]|null)`.
-- `audio.js`: Web Audio sfx, music and ambience, TTS dialogue live, and offline rendering for export.
-- `export.js`: WebCodecs MP4 export with a test run, projected time, parts cut on shot boundaries, and resume.
-- `app.js`, `index.html`, `style.css`: the UI. Redesign these freely.
+The v9 frontend is built into `web/` and wired to this API: see `docs/FRONTEND.md` for its layout, the hook layer, the film look (The Bob's real-time and accumulation pipeline, Low Pass's atmosphere), the encoder, every export and what the browser genuinely can't do. The old viewer is at `/classic/`. Any further frontend work extends the modules in `web/crew/`, not `web/app.js`.
 
 ## API (JSON over HTTP, same origin)
 

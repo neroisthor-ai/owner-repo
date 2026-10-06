@@ -1,0 +1,23 @@
+episode 1 "Three Sets"
+
+scene 1 cafe day act 1
+1A WS
+  kiran@door enter
+  with mum@seat_a1 sit ~0.3
+  kiran walk till 1.2
+1B MCU kiran
+  kiran smile ~2
+
+scene 2 london_street day act 1
+2A WS
+  kiran@edge_w enter
+  kiran walk crossing 1.3
+2B MS kiran
+  kiran look ~2
+
+scene 3 living_room night act 1
+3A WS
+  mum enter
+  mum sit ~1
+3B CU mum
+  mum smile ~2

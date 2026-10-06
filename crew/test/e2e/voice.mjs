@@ -1,8 +1,8 @@
 // Dialogue clips load and decode in the browser. Needs a server whose show has rendered voices.
 import { createRequire } from "node:module";
-const require = createRequire("/opt/node-tools/");
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
 const { chromium } = require("playwright");
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 const page = await browser.newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));

@@ -1,5 +1,7 @@
 # Frontend build plan (v9)
 
+> Status: executed. What was built, and what differs from this plan, is in `docs/FRONTEND.md`. Kept as the record of the plan.
+
 Plan for building out the v9 frontend so every button does something real. Written for an executor model (Sonnet) to follow step by step. Read this whole file first, then `CLAUDE.md`, `docs/HANDOFF.md` and `docs/FRONTEND_PROMPT.md`.
 
 ## Ground rules (the user's, non-negotiable)

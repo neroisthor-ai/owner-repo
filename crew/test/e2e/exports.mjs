@@ -1,11 +1,11 @@
 // Clicks every Deliver/Create export and checks a file arrives. Usage: node test/e2e/exports.mjs [url] [outDir]
 import { createRequire } from "node:module";
 import { mkdirSync, statSync } from "node:fs";
-const require = createRequire("/opt/node-tools/");
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
 const { chromium } = require("playwright");
 const [url = "http://localhost:4310/", out = "/tmp/crew-dl"] = process.argv.slice(2);
 mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 const ctx = await browser.newContext({ acceptDownloads: true, viewport: { width: 1600, height: 900 } });
 const page = await ctx.newPage();
 const errors = [];

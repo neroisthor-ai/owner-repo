@@ -49,14 +49,15 @@ The asset library (`library/`, backend-only) holds characters, 86 props, 10 read
 - Offline crew and the full Claude pipeline (request shapes tested against a mock client)
 - Writers' room and screening
 - MCP server, CLI and HTTP API
-- Browser animatic with MP4 export
+- Browser frontend (v9): the animatic with The Bob's film look (real time and accumulation passes), Low Pass's atmosphere, MP4 export, and every export a crew hands to editorial, 3D apps and a phone shoot (`docs/FRONTEND.md`)
+- Props, sets and a physics library (`library/props`, `library/sets`, `library/physics`)
 
 **Not yet verified live:**
 - Real Claude calls: no API key was available while building.
-- WebCodecs export and the GLB characters: they are not wired into the current player yet (see `docs/FRONTEND_PROMPT.md`).
+- The film renderer on a real GPU: it is tested in Chromium on software GL (`npm run e2e`); speeds on hardware are untested.
 
 **Not built (roadmap weeks 2+):**
-- Phone capture
+- Phone capture (the shoot pack lines the shot up over the camera; nothing is captured back)
 - Blender finals
 - Dubbing
 - Re-shot formats

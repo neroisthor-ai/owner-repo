@@ -1,0 +1,12 @@
+show "Library Sets"
+# A second sample show: three ready-made sets from the library (a cafe, a London street, a living room).
+style lens 35
+style sensor 36x24
+style fps 24
+style move static
+style pace 165
+cast kiran name "Kiran" height 1.74 color teal voice male pace 175 model male tts preset:bob
+cast mum name "Mum" height 1.63 color coral voice female pace 150 model female tts preset:anna
+include cafe
+include london_street
+include living_room

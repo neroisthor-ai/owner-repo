@@ -1,11 +1,11 @@
 // Screenshot the viewer at the start of each shot. Usage: node test/e2e/frames.mjs <url> <outDir> [prefix]
 import { createRequire } from "node:module";
 import { mkdirSync } from "node:fs";
-const require = createRequire("/opt/node-tools/");
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
 const { chromium } = require("playwright");
 const [url = "http://localhost:4310/", out = "/tmp/crew-shots", prefix = "f"] = process.argv.slice(2);
 mkdirSync(out, { recursive: true });
-const browser = await chromium.launch({ executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
 const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
 const errors = [];
 page.on("console", (m) => { if (m.type() === "error" || m.type() === "warning") errors.push(m.text()); });
