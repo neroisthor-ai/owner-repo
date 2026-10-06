@@ -16,7 +16,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import type { Effort, Tier } from "../crew/roles.ts";
 
-export type Task = "route" | "plan" | "propose" | "direct" | "write" | "screen";
+export type Task = "route" | "plan" | "propose" | "direct" | "write" | "screen" | "build" | "repair" | "rank" | "review" | "outline" | "shot";
 
 export interface LLMCall {
   task: Task;
@@ -53,7 +53,7 @@ export interface LLMResult<T = unknown> {
 }
 
 export interface LLM {
-  readonly mode: "claude" | "offline";
+  readonly mode: "claude" | "gemini" | "offline";
   call<T = unknown>(c: LLMCall): Promise<LLMResult<T>>;
 }
 

@@ -31,6 +31,7 @@ note ──► route (Haiku) ──► plan (Opus, only if the note is ambiguous
 | Way | Use |
 |---|---|
 | Built-in crew | Open the **Crew AI** menu in the title bar and paste your Anthropic API key: the server checks it with one tiny Haiku call, keeps it in a private `.env` (git-ignored), and switches on. Or set `ANTHROPIC_API_KEY` (or `ant auth login`) yourself. Models: `CREW_MODEL_OPUS/SONNET/HAIKU`. `CREW_FALLBACKS=0` disables server-side fallbacks. |
+| Gemini | Pick **Gemini** in the Crew AI menu and paste a Google AI Studio key. Flash-Lite reads and ranks, Flash builds, Pro directs, on a guided pipeline built for less reliable models (`docs/GEMINI_CREW.md`). `npm run eval -- gemini` measures it. |
 | Claude Code / Desktop (no API key, uses your Claude plan) | `npm run claude` starts the editor and opens Claude Code (see `docs/CLAUDE_CODE.md`). `.mcp.json` registers the `crew` MCP server: `crew_overview`, `crew_patch`, `crew_note`, `crew_accept`, `crew_check`, `crew_shot_state`, `crew_screen`, `crew_export_otio`, and more. `CLAUDE.md` teaches the workflow. |
 | Library | `import { Crew } from "./src/index.ts"`. Then `Crew.open(dir).note("1D too long")`, `.accept()` and `.patch()`. Pass any object with a `call()` method as `llm` to plug in another client. |
 | CLI | `crew note "1A, kiran clips mum" --accept`, `crew patch "1D.2 ~2.5 -> ~1.4" --role animator`, `crew check`, `crew write script.txt`, `crew screen`, `crew export otio`. |

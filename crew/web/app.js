@@ -12629,10 +12629,8 @@ function ad(n, e) {
 }
 const Cw = (n) => (typeof n == "number" ? `${n}mm` : String(n));
 function Ep(n) {
-  return (typeof n == "string" ? n : (n?.llm ?? n?.mode ?? "offline")) ===
-    "claude"
-    ? "claude"
-    : "offline";
+  const m = typeof n == "string" ? n : (n?.llm ?? n?.mode ?? "offline"); // CREW-EXT: gemini is a mode too
+  return m === "claude" || m === "gemini" ? m : "offline";
 }
 function EC(n) {
   return (typeof n == "string" ? n : (n?.pipeline ?? "full")) === "fast"
@@ -47679,8 +47677,8 @@ function CrewMenu({ server: n, kind: k }) {
         "aria-expanded": open,
         title: "Crew settings",
         children: [
-          u.jsx("span", { className: "cm-dot " + (mode === "claude" ? "live" : "off") }),
-          mode === "claude" ? "Crew AI" : "Crew AI · offline",
+          u.jsx("span", { className: "cm-dot " + (mode !== "offline" ? "live" : "off") }),
+          mode === "claude" ? "Crew AI · Claude" : mode === "gemini" ? "Crew AI · Gemini" : "Crew AI · offline",
           u.jsx("svg", {
             viewBox: "0 0 10 6", width: 9, height: 6, fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round",
             children: u.jsx("path", { d: "M1 1l4 4 4-4" }),
@@ -47693,10 +47691,10 @@ function CrewMenu({ server: n, kind: k }) {
           role: "menu",
           children: [
             u.jsx("div", { className: "cm-h", children: "Who does the work" }),
-            row(mode === "claude", "Crew AI", n.hasKey ? "AI agents write, block, shoot and cut." : "Needs an Anthropic API key. Click to add one.", () => (n.hasKey ? Qa({ llm: "claude" }) : setKeyOpen(!0))),
+            row(mode === "claude", "Claude", n.hasKey ? "Opus directs, Sonnet builds, Haiku reads notes." : "Needs an Anthropic API key. Click to add one.", () => (n.hasKey ? Qa({ llm: "claude" }) : setKeyOpen("anthropic"))),
+            row(mode === "gemini", "Gemini", n.hasGemini ? "Pro directs, Flash builds, Flash-Lite reads and ranks. Slower: every step is checked and voted on." : "Needs a Gemini API key. Click to add one.", () => (n.hasGemini ? Qa({ llm: "gemini" }) : setKeyOpen("gemini"))),
             // CREW-EXT: first-run setup. The key goes to the local server, which checks it and keeps it in .env
             keyOpen &&
-              !n.hasKey &&
               u.jsxs("form", {
                 className: "cm-key",
                 onSubmit: async (ev) => {
@@ -47704,29 +47702,33 @@ function CrewMenu({ server: n, kind: k }) {
                   setKeyBusy(!0);
                   setKeyErr("");
                   try {
-                    const r = await fetch("/api/key", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ key: keyVal }) }),
+                    const r = await fetch("/api/key", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ key: keyVal, provider: keyOpen }) }),
                       j = await r.json().catch(() => null);
                     if (!r.ok) throw new Error(j?.error ?? "Couldn't use that key.");
                     setKeyVal("");
                     setKeyOpen(!1);
-                    await Qa({ llm: "claude" });
-                    _n("Crew AI is on.", "ok");
+                    await Qa({ llm: keyOpen === "gemini" ? "gemini" : "claude" });
+                    _n(keyOpen === "gemini" ? "Crew AI is on, running on Gemini." : "Crew AI is on, running on Claude.", "ok");
                   } catch (e) {
                     setKeyErr(e.message);
                   }
                   setKeyBusy(!1);
                 },
                 children: [
-                  u.jsx("input", { type: "password", autoComplete: "off", spellCheck: !1, placeholder: "sk-ant-…", value: keyVal, onChange: (ev) => setKeyVal(ev.target.value), "aria-label": "Anthropic API key", autoFocus: !0 }),
+                  u.jsx("input", { type: "password", autoComplete: "off", spellCheck: !1, placeholder: keyOpen === "gemini" ? "Gemini API key" : "sk-ant-…", value: keyVal, onChange: (ev) => setKeyVal(ev.target.value), "aria-label": "Anthropic API key", autoFocus: !0 }),
                   u.jsx("button", { type: "submit", className: "xe-btn accent", disabled: keyBusy || !keyVal.trim(), children: keyBusy ? "Checking…" : "Connect" }),
                   keyErr && u.jsx("div", { className: "cm-key-err", children: keyErr }),
-                  u.jsx("div", { className: "cm-key-note", children: "Kept in a private .env file on this machine and sent only to Anthropic. Get a key at console.anthropic.com." }),
+                  u.jsx("div", { className: "cm-key-note", children: keyOpen === "gemini" ? "Kept in a private .env file on this machine and sent only to Google. Get a key in Google AI Studio (aistudio.google.com)." : "Kept in a private .env file on this machine and sent only to Anthropic. Get a key at console.anthropic.com." }),
                 ],
               }),
             row(mode !== "claude", "Offline", "Built-in rules, free, works without a key. Handles common notes.", () => Qa({ llm: "offline" })),
             // CREW-EXT: one crew, no thoroughness setting: Opus directs (rarely), Sonnet builds, Haiku routes
             u.jsx("div", { className: "cm-h", children: "The crew" }),
-            u.jsxs("div", { className: "cm-crew", children: [
+            u.jsxs("div", { className: "cm-crew", children: mode === "gemini" ? [
+              u.jsxs("div", { children: [u.jsx("b", { children: "Flash-Lite" }), " reads the note (three votes) and ranks the takes."] }),
+              u.jsxs("div", { children: [u.jsx("b", { children: "Flash" }), " builds the takes and repairs what the checks reject."] }),
+              u.jsxs("div", { children: [u.jsx("b", { children: "Pro" }), " plans the note, debugs, and reviews the takes before you see them."] }),
+            ] : [
               u.jsxs("div", { children: [u.jsx("b", { children: "Haiku" }), " reads the note and picks the shots."] }),
               u.jsxs("div", { children: [u.jsx("b", { children: "Sonnet" }), " builds and edits the takes."] }),
               u.jsxs("div", { children: [u.jsx("b", { children: "Opus" }), " plans tricky notes, fixes what Sonnet can't, and picks between close takes. Most notes never reach it."] }),

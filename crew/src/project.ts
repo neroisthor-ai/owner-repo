@@ -62,7 +62,7 @@ export interface NoteRecord {
   cost: number;
   tokens: number;
   ms: number;
-  mode: "claude" | "offline";
+  mode: "claude" | "gemini" | "offline";
 }
 
 export class Project {

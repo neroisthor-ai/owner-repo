@@ -171,3 +171,42 @@ export function toOps(take: RawTake): PatchOp[] {
     return { op: "replace", addr: o.addr, node };
   });
 }
+
+// ---------------------------------------------------------------- guided crew (weaker models)
+// Small schemas only: the patch itself is text that code parses and checks, so the schema never carries the grammar.
+
+export const textTakesSchema: Schema = obj({
+  takes: {
+    type: "array", minItems: 1, maxItems: 3,
+    description: "1 to 3 alternative takes, smallest change first",
+    items: obj({
+      purpose: str("one sentence: what this take does for the story"),
+      patch: str("patch lines in the SCENE patch language, one change per line, separated by newlines"),
+    }),
+  },
+  pushback: nullable(str("if the note would hurt the cut, say why")),
+  idea: nullable(str("one idea the director didn't ask for, in one sentence")),
+});
+
+export const rankSchema: Schema = obj({
+  order: { type: "array", items: { type: "integer" }, description: "candidate numbers, best first" },
+  why: str("one sentence on why the first one is best"),
+});
+
+export const reviewSchema: Schema = obj({
+  order: { type: "array", items: { type: "integer" }, description: "take numbers, best first" },
+  fits: { type: "array", items: { type: "boolean" }, description: "for each take in the order given to you: does it do what the plan asked?" },
+  message: str("2-4 short sentences to the human director, results first"),
+  pushback: nullable(str()),
+  idea: nullable(str()),
+  redo: nullable(str("only if no take fits: exactly what the builder should change, 1-3 sentences")),
+});
+
+export const planDetailSchema = (shotIds: string[]): Schema => obj({
+  shots: { type: "array", items: en(shotIds.length ? shotIds : ["none"]), description: "the shots this note is about" },
+  roles: { type: "array", items: en(["writer", "blocking", "dp", "animator", "editor", "sound"]), description: "1 role, at most 2" },
+  intent: str("the note restated as a concrete goal, one sentence"),
+  brief: str("1-3 sentences for the builder: what to do"),
+  keep: str("what must not change"),
+  success: str("how to tell a take did it, one sentence"),
+});

@@ -11,7 +11,8 @@ import { fmtTime } from "./crew/prompts.ts";
 import { structure } from "./scene/parse.ts";
 import { designFor } from "./voice/bank.ts";
 import { CREW_ROOT, LIBRARY_DIR } from "./project.ts";
-import { connectKey, sameOrigin } from "./claude/setup.ts";
+import { connectKey, ENV_VAR, sameOrigin } from "./claude/setup.ts";
+import { hasGeminiKey } from "./llm/gemini-llm.ts";
 import { hasCredentials } from "./claude/llm.ts";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -40,7 +41,7 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
       addresses: (() => { const st = structure(p.ws.doc); return p.ws.doc.lines.map((_l, i) => st.addrOf.get(i) ?? ""); })(),
       baked: crew.bake(), qc: crew.qc, grammar: p.ws.grammar, history: p.history.slice(-40).reverse(),
       assets: { characters: { male: "/library/characters/makehuman_male/human_male.glb", female: "/library/characters/makehuman_female/human_female.glb", rig: "/library/rigs/makehuman.json" }, props: { registry: "/library/props/index.js" } },
-      notes: p.notes.slice(-25).reverse(), metrics: p.metrics(), mode: crew.llm.mode, hasKey: hasCredentials(),
+      notes: p.notes.slice(-25).reverse(), metrics: p.metrics(), mode: crew.llm.mode, hasKey: hasCredentials(), hasGemini: hasGeminiKey(),
       shots: crew.compiled.shots.map((s) => ({ id: s.id, label: s.label, start: fmtTime(s.cutStart), dur: s.cutDur, hash: s.hash })),
     };
   };
@@ -85,12 +86,13 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
     "GET /api/otio": () => crew.otio(),
     "POST /api/key": async (b, req) => {
       if (!sameOrigin(req.headers.host, req.headers.origin, req.headers["content-type"])) throw new HttpError(403, "That request didn't come from the Crew page.");
-      const r = await connectKey({ key: b.key, envPath: join(CREW_ROOT, ".env"), apply: (k) => { process.env.ANTHROPIC_API_KEY = k; crew.llm = pickLLM("claude"); } });
+      const provider = b.provider === "gemini" ? "gemini" : "anthropic";
+      const r = await connectKey({ key: b.key, provider, envPath: join(CREW_ROOT, ".env"), apply: (k) => { process.env[ENV_VAR[provider]] = k; crew.llm = pickLLM(provider === "gemini" ? "gemini" : "claude"); } });
       if (!r.ok) throw new HttpError(400, r.error ?? "Couldn't use that key.");
-      return { mode: crew.llm.mode, hasKey: true };
+      return { mode: crew.llm.mode, hasKey: hasCredentials(), hasGemini: hasGeminiKey() };
     },
     "POST /api/mode": (b) => {
-      if (b.llm === "claude" || b.llm === "offline") crew.llm = pickLLM(b.llm);
+      if (b.llm === "claude" || b.llm === "gemini" || b.llm === "offline") crew.llm = pickLLM(b.llm);
       return { mode: crew.llm.mode };
     },
   };
@@ -134,6 +136,9 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
 
   return new Promise((ok, fail) => {
     server.once("error", fail);
+    // a note on the guided Gemini crew runs many high-thinking calls in a row and can take minutes; never cut it off
+    server.requestTimeout = 0;
+    server.headersTimeout = 0;
     server.listen(port, "127.0.0.1", () => ok({ url: `http://localhost:${port}`, close: () => { for (const c of clients) c.end(); server.close(); } }));
   });
 }

@@ -9,6 +9,10 @@
 
 import { EventEmitter } from "node:events";
 import { ClaudeLLM, hasCredentials, type LLM } from "./claude/llm.ts";
+import { GeminiLLM, hasGeminiKey } from "./llm/gemini-llm.ts";
+import { guidedNote } from "./crew/guided.ts";
+import { writeEpisodeGuided } from "./crew/guided-writers.ts";
+import { join } from "node:path";
 import { OfflineLLM } from "./claude/offline.ts";
 import { acceptTake, directNote, rejectNote, type CrewEvent, type CrewOptions } from "./crew/direct.ts";
 import type { Evaluation } from "./crew/guard.ts";
@@ -22,13 +26,14 @@ import { parsePatch, PatchError } from "./scene/patch.ts";
 import { pickEngine } from "./voice/engines.ts";
 import type { RoleId } from "./scene/registry.ts";
 
-export type LLMChoice = LLM | "claude" | "offline" | "auto";
+export type LLMChoice = LLM | "claude" | "gemini" | "offline" | "auto";
 
 export function pickLLM(choice: LLMChoice = (process.env.CREW_LLM as LLMChoice) ?? "auto"): LLM {
   if (typeof choice === "object") return choice;
   if (choice === "claude") return new ClaudeLLM();
+  if (choice === "gemini") return new GeminiLLM();
   if (choice === "offline") return new OfflineLLM();
-  return hasCredentials() ? new ClaudeLLM() : new OfflineLLM();
+  return hasCredentials() ? new ClaudeLLM() : hasGeminiKey() ? new GeminiLLM() : new OfflineLLM();
 }
 
 export interface PatchOptions {
@@ -57,8 +62,15 @@ export class Crew {
   private emit = (e: CrewEvent) => this.events.emit("crew", e);
 
   /** Give the crew a note ("1D 0:03, too long"). Returns 2-3 checked takes; nothing is applied yet. */
+  /** Gemini calls are logged next to the project's notes, for the eval and tuning. */
+  private prep() {
+    if (this.llm instanceof GeminiLLM && !this.llm.log) this.llm.log = join(this.project.dir, ".crew", "llm-log.jsonl");
+  }
+
   note(text: string, o: Partial<CrewOptions> = {}) {
-    return directNote(this.project, text, { llm: this.llm, emit: this.emit, ...o });
+    this.prep();
+    // weaker models get the guided pipeline: small steps, votes, repairs and code checks at every turn
+    return (this.llm.mode === "gemini" ? guidedNote : directNote)(this.project, text, { llm: this.llm, emit: this.emit, ...o });
   }
 
   accept(noteId: string, takeId: string) {
@@ -107,7 +119,8 @@ export class Crew {
   }
 
   async write(script: string, o: { apply?: boolean } = {}) {
-    const r = await writeEpisode(this.project, script, this.llm, this.emit);
+    this.prep();
+    const r = await (this.llm.mode === "gemini" ? writeEpisodeGuided : writeEpisode)(this.project, script, this.llm, this.emit);
     if (r.ok && o.apply) this.setEpisode(r.text);
     return r;
   }
@@ -122,7 +135,7 @@ export class Crew {
     return { ...r, engine: engine.name };
   }
 
-  screen(viewers?: number) { return screen(this.project, this.llm, viewers, this.emit); }
+  screen(viewers?: number) { this.prep(); return screen(this.project, this.llm, viewers, this.emit); }
 
   get qc() { return this.project.ws.qc; }
   get compiled() { return this.project.ws.compiled; }

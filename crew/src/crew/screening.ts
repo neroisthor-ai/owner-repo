@@ -25,7 +25,7 @@ export interface ScreeningResult {
   shots: { id: string; confusion: number; boredom: number; notes: string[] }[];
   understoodShare: number;
   cost: number;
-  mode: "claude" | "offline";
+  mode: "claude" | "gemini" | "offline";
 }
 
 export async function screen(p: Project, llm: LLM, n = PERSONAS.length, emit: (e: CrewEvent) => void = () => {}): Promise<ScreeningResult> {

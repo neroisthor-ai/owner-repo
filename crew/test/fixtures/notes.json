@@ -1,0 +1,22 @@
+[
+  { "note": "1A 0:02, kiran clips mum", "shots": ["1A"], "roles": ["blocking"] },
+  { "note": "1D, the shock is too long", "shots": ["1D"], "roles": ["animator", "editor"], "patch": "1D\\.2" },
+  { "note": "1D the shock reaction drags and kills the joke", "shots": ["1D"], "roles": ["animator", "editor"] },
+  { "note": "1B, push in closer on kiran", "shots": ["1B"], "roles": ["dp"] },
+  { "note": "1C should be wider so we see mum at the table", "shots": ["1C"], "roles": ["dp"] },
+  { "note": "1E feels slow, tighten it", "shots": ["1E"], "roles": ["editor", "animator"] },
+  { "note": "1F, hold on kiran a beat longer after he says very", "shots": ["1F"], "roles": ["editor", "animator"] },
+  { "note": "1G needs a sound when he grabs the fork", "shots": ["1G"], "roles": ["sound"] },
+  { "note": "drop the music in 1G, let it be quiet", "shots": ["1G"], "roles": ["sound"] },
+  { "note": "1B, kiran should look guilty before he takes the cake", "shots": ["1B"], "roles": ["animator"] },
+  { "note": "1E mum's smile should be smaller, more knowing", "shots": ["1E"], "roles": ["animator"] },
+  { "note": "1C, mum's line is a bit long, make it shorter", "shots": ["1C"], "roles": ["writer"] },
+  { "note": "1F kiran's answer should be funnier", "shots": ["1F"], "roles": ["writer"] },
+  { "note": "1A, kiran should walk in slower, sneaking", "shots": ["1A"], "roles": ["blocking"] },
+  { "note": "1A, add some night ambience under the whole shot", "shots": ["1A"], "roles": ["sound"] },
+  { "note": "1B is too dark, warm it up", "shots": ["1B"], "roles": ["dp"] },
+  { "note": "1G, kiran laughs too long", "shots": ["1G"], "roles": ["animator", "editor"] },
+  { "note": "at 0:12 the cut feels abrupt", "shots": [], "roles": ["editor"] },
+  { "note": "the fridge moment in 1B needs a sound sting", "shots": ["1B"], "roles": ["sound"] },
+  { "note": "make the whole ending in 1G warmer and slower", "shots": ["1G"], "roles": ["editor", "sound", "dp", "animator"] }
+]

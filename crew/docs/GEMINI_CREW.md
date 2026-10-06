@@ -1,4 +1,24 @@
-# Plan: the crew on Gemini
+# The crew on Gemini
+
+**Status: built.** Pick **Gemini** in the Crew AI menu (or set `GEMINI_API_KEY` in `.env`, or `--llm gemini`). It has not yet run against the live API from this repo; the first live run should be `npm run eval -- gemini`.
+
+| Piece | File |
+| --- | --- |
+| REST client: retries, rate limits, thinking level, schema fallback, cut-off and blocked replies | `src/llm/gemini.ts` |
+| Tolerant JSON: fences, prose, trailing commas, smart quotes, near-miss enums | `src/llm/json.ts`, `src/llm/schema-lower.ts` |
+| Model per job, thinking per job, format repair, call log (`.crew/llm-log.jsonl`) | `src/llm/gemini-llm.ts` |
+| The note pipeline below | `src/crew/guided.ts` |
+| Role guide, the editable lines, worked examples built from the real shots | `src/crew/patchguide.ts` |
+| Failure reasons turned into plain fixes ("moonwalk is not a verb; closest: walk") | `src/crew/feedback.ts` |
+| Writers' room in steps | `src/crew/guided-writers.ts` |
+| Golden notes and the eval | `test/fixtures/notes.json`, `scripts/eval.ts` (`npm run eval -- offline|gemini|claude`) |
+| Tests with a deliberately sloppy fake model | `test/guided.test.ts`, `test/gemini.test.ts`, `test/patchguide.test.ts` |
+
+Model ids are `CREW_GEMINI_LITE`, `CREW_GEMINI_FLASH`, `CREW_GEMINI_PRO` in `.env` (defaults below). Key setup lists the models the key can use and names any that are missing.
+
+Not built yet from the plan: Pro summarising the test screening, Pro rewriting the taste memory, Lite rewording failures for the crew log (code does it today), and adaptive tuning from the log.
+
+## The plan
 
 Three models, each with its own jobs. Usage is not rationed, so each job goes to the model that does it best. Flash and Pro always think at the maximum level (high); Flash-Lite thinks at low. High thinking is slower, so expect a note to take longer than on Claude.
 

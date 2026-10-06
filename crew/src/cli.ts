@@ -63,7 +63,7 @@ async function main() {
       const { url } = await startServer(crew, port);
       console.log(`Crew is rolling: ${url}`);
       console.log(`  show: ${crew.project.show.title} (${crew.project.dir})`);
-      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI (Opus directs, Sonnet builds, Haiku routes)" : "offline heuristics (set ANTHROPIC_API_KEY for Crew AI)"}`);
+      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI on Claude (Opus directs, Sonnet builds, Haiku routes)" : crew.llm.mode === "gemini" ? "Crew AI on Gemini (Pro directs, Flash builds, Flash-Lite reads and ranks; guided pipeline)" : "offline heuristics (set ANTHROPIC_API_KEY for Crew AI)"}`);
       crew.events.on("crew", (e) => console.log(`  [${e.role ?? "crew"}${e.tier ? "/" + e.tier : ""}] ${e.message}${e.cost ? `  $${e.cost.toFixed(4)}` : ""}`));
       return;
     }

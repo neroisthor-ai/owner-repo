@@ -36,7 +36,8 @@ export class OfflineLLM implements LLM {
       case "propose": return ok(propose(c.context as ProposeCtx));
       case "direct": return ok(direct(c.context as DirectCtx));
       case "screen": return ok(screen(c.context as ScreenCtx));
-      case "write": return fail("the writers' room needs Claude: set ANTHROPIC_API_KEY (offline mode can't write dialogue)");
+      case "write": return fail("the writers' room needs Crew AI: add a Claude or Gemini key (offline mode can't write dialogue)");
+      default: return fail(`the offline crew has no "${c.task}" step`);
     }
   }
 }
