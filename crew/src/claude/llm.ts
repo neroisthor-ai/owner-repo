@@ -1,6 +1,6 @@
 // One door to Claude for the whole crew.
 //
-//  - Model per tier (Haiku proposes, Sonnet refines, Opus decides), overridable by env.
+//  - Model per tier (Haiku routes, Sonnet builds, Opus plans and checks), overridable by env.
 //  - Stable context (crew rules, SCENE grammar, show bible) goes first in `system`
 //    with a cache breakpoint, so every agent call after the first reads it from cache.
 //  - Structured outputs (`output_config.format`) constrain every reply to the
@@ -16,7 +16,7 @@ import { homedir } from "node:os";
 import { join } from "node:path";
 import type { Effort, Tier } from "../crew/roles.ts";
 
-export type Task = "route" | "propose" | "refine" | "direct" | "write" | "screen";
+export type Task = "route" | "plan" | "propose" | "direct" | "write" | "screen";
 
 export interface LLMCall {
   task: Task;
@@ -111,7 +111,7 @@ export class ClaudeLLM implements LLM {
     const output_config: Anthropic.OutputConfig = {};
     if (c.schema) output_config.format = { type: "json_schema", schema: c.schema };
     // Haiku 4.5 does not take `effort`; Opus 5.5 defaults to medium, so set it explicitly.
-    if (c.effort && c.tier !== "haiku") output_config.effort = c.effort;
+    if (c.tier !== "haiku") output_config.effort = c.effort ?? "medium"; // Opus and Sonnet always run on medium unless a call says otherwise
     const base = {
       model,
       max_tokens: c.maxTokens ?? 16000,

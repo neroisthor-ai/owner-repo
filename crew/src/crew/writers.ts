@@ -1,5 +1,5 @@
-// Writers' room: a pasted script becomes a SCENE episode. Opus owns writing
-// from the start. It writes SCENE text directly (cheaper than JSON for a whole
+// Writers' room: a pasted script becomes a SCENE episode. Sonnet drafts and
+// repairs; if the validator still rejects it, Opus debugs it. It writes SCENE text directly (cheaper than JSON for a whole
 // episode); the validator then feeds any errors back for a repair pass.
 
 import { parseEpisode, printDoc } from "../scene/parse.ts";
@@ -32,8 +32,9 @@ export async function writeEpisode(p: Project, script: string, llm: LLM, emit: (
   let text = "";
   let errors: string[] = [];
   for (let attempt = 1; attempt <= 3; attempt++) {
-    emit({ kind: "call", role: "writer", tier: "opus", message: attempt === 1 ? "writers' room: drafting the episode" : `writers' room: repair pass ${attempt - 1}` });
-    const r = await llm.call({ task: "write", role: "writer", tier: "opus", system, prompt, effort: "high", maxTokens: 16000, context: { script } });
+    const tier = attempt < 3 ? "sonnet" : "opus"; // the last pass is Opus debugging what Sonnet could not fix
+    emit({ kind: "call", role: "writer", tier, message: attempt === 1 ? "writers' room: drafting the episode" : `writers' room: repair pass ${attempt - 1}${tier === "opus" ? " (director)" : ""}` });
+    const r = await llm.call({ task: "write", role: "writer", tier, system, prompt, effort: "medium", maxTokens: 16000, context: { script } });
     cost += r.cost;
     if (!r.ok) return { ok: false, text, errors, cost, attempts: attempt, error: r.error };
     text = r.text.replace(/^```\w*\n?|```\s*$/g, "").trim() + "\n";

@@ -6,7 +6,7 @@ Read this first. Then `CLAUDE.md`, `README.md` and `docs/FRONTEND_PROMPT.md`.
 
 An AI film crew that takes direction. A film is SCENE source compiled into a 3D animatic. Director notes become 2-3 checked "takes" from a crew of Claude agents:
 
-- Haiku proposes, Sonnet refines, Opus picks.
+- Haiku routes, Sonnet builds and edits, Opus plans, debugs and picks (rarely, on medium effort).
 - Each role can only edit its own line types.
 - A locality guard rejects any change that leaks into other shots.
 - QC is done in code.

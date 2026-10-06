@@ -11,15 +11,17 @@ npm test
 ## How it works
 
 ```
-note ──► router (Haiku) ──► role proposes wide (Haiku ×2, grammar-constrained JSON)
+note ──► route (Haiku) ──► plan (Opus, only if the note is ambiguous)
+     ──► build (Sonnet, one call per role, grammar-constrained JSON)
      ──► code filter: permissions → grammar → locality guard → QC
-     ──► refine (Sonnet) ──► filter ──► director picks + explains (Opus) ──► 2-3 takes
+     ──► retry (Sonnet, sees why) ──► debug (Opus, only if both Sonnet passes failed)
+     ──► pick and explain (Opus, only if the takes are close or one adds issues) ──► 1-3 takes
 ```
 
 - **SCENE.** A terse, closed-vocabulary film language. Every line has an address, and patches are a few tokens (`1D.2 ~2.5 -> ~1.5`). Run `crew grammar` for the reference.
 - **Grammar-constrained output.** Each role's JSON schema is generated from the registry and the show bible, and holds only the line kinds that role owns. Claude can't emit an unknown word or another role's line.
 - **Locality guard.** Every shot is content-hashed from its rendered frames. A patch that changes a shot you didn't name is rejected with the reason.
-- **Escalation on failure only.** A role climbs Haiku → Sonnet → Opus only when every candidate failed the checks, and the next tier sees why they failed.
+- **Three models, Opus kept light.** Haiku routes, Sonnet builds and edits, Opus directs: it plans tricky notes, debugs what Sonnet could not fix, and picks between close takes. Opus and Sonnet run on medium effort. A plain note costs one Haiku call and one Sonnet call.
 - **Real-world compile.** The compile uses walking speed, speaking pace from the cast list, and real lenses on a 36x24 sensor. The framing solver handles headroom, look room, the 180° line, and keeping the lens out of walls with focal-length compensation. Characters animate on twos; cameras on ones.
 - **QC in code.** Framing, intersection, bodies in furniture, camera in geometry, occluded faces, foot slide, head snaps, eyelines, 180°, continuity, reach, dialogue timing and clipping, and ASL. Every report lists what was **not** checked.
 - **Persistence.** Plain files: `show.scene` and `epNN.scene`. `.crew/` holds history, snapshots for undo, notes and taste memory. The north star is the **note resolution rate**.
@@ -28,7 +30,7 @@ note ──► router (Haiku) ──► role proposes wide (Haiku ×2, grammar-c
 
 | Way | Use |
 |---|---|
-| Built-in crew | Set `ANTHROPIC_API_KEY` (or `ant auth login`). Models: `CREW_MODEL_OPUS/SONNET/HAIKU`. `CREW_PIPELINE=fast` skips Haiku and Opus. `CREW_FALLBACKS=0` disables server-side fallbacks. |
+| Built-in crew | Set `ANTHROPIC_API_KEY` (or `ant auth login`). Models: `CREW_MODEL_OPUS/SONNET/HAIKU`. `CREW_FALLBACKS=0` disables server-side fallbacks. |
 | Claude Code / Desktop | `.mcp.json` registers the `crew` MCP server: `crew_overview`, `crew_patch`, `crew_note`, `crew_accept`, `crew_check`, `crew_shot_state`, `crew_screen`, `crew_export_otio`, and more. `CLAUDE.md` teaches the workflow. |
 | Library | `import { Crew } from "./src/index.ts"`. Then `Crew.open(dir).note("1D too long")`, `.accept()` and `.patch()`. Pass any object with a `call()` method as `llm` to plug in another client. |
 | CLI | `crew note "1A, kiran clips mum" --accept`, `crew patch "1D.2 ~2.5 -> ~1.4" --role animator`, `crew check`, `crew write script.txt`, `crew screen`, `crew export otio`. |

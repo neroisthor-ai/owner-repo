@@ -38,7 +38,7 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
       addresses: (() => { const st = structure(p.ws.doc); return p.ws.doc.lines.map((_l, i) => st.addrOf.get(i) ?? ""); })(),
       baked: crew.bake(), qc: crew.qc, grammar: p.ws.grammar, history: p.history.slice(-40).reverse(),
       assets: { characters: { male: "/library/characters/makehuman_male/human_male.glb", female: "/library/characters/makehuman_female/human_female.glb", rig: "/library/rigs/makehuman.json" }, props: { registry: "/library/props/index.js" } },
-      notes: p.notes.slice(-25).reverse(), metrics: p.metrics(), mode: crew.llm.mode, pipeline: crew.pipeline,
+      notes: p.notes.slice(-25).reverse(), metrics: p.metrics(), mode: crew.llm.mode,
       shots: crew.compiled.shots.map((s) => ({ id: s.id, label: s.label, start: fmtTime(s.cutStart), dur: s.cutDur, hash: s.hash })),
     };
   };
@@ -83,8 +83,7 @@ export function startServer(crew: Crew, port = 4310): Promise<{ url: string; clo
     "GET /api/otio": () => crew.otio(),
     "POST /api/mode": (b) => {
       if (b.llm === "claude" || b.llm === "offline") crew.llm = pickLLM(b.llm);
-      if (b.pipeline === "full" || b.pipeline === "fast") crew.pipeline = b.pipeline;
-      return { mode: crew.llm.mode, pipeline: crew.pipeline };
+      return { mode: crew.llm.mode };
     },
   };
 

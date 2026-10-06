@@ -34,7 +34,7 @@ function parseArgs(argv: string[]) {
     if (a.startsWith("--")) {
       const [k, v] = a.slice(2).split("=");
       if (v !== undefined) flags[k] = v;
-      else if (argv[i + 1] && !argv[i + 1].startsWith("--") && ["port", "role", "dir", "episode", "llm", "pipeline", "out", "engine"].includes(k)) flags[k] = argv[++i];
+      else if (argv[i + 1] && !argv[i + 1].startsWith("--") && ["port", "role", "dir", "episode", "llm", "out", "engine"].includes(k)) flags[k] = argv[++i];
       else flags[k] = true;
     } else pos.push(a);
   }
@@ -52,7 +52,7 @@ function showDir(flags: Record<string, string | true>, candidate?: string): stri
 async function main() {
   const [cmd = "help", ...rest] = process.argv.slice(2);
   const { pos, flags } = parseArgs(rest);
-  const open = (dir: string) => Crew.open(dir, { llm: (flags.llm as "claude") ?? undefined, episode: typeof flags.episode === "string" ? flags.episode : undefined, pipeline: (flags.pipeline as "fast") ?? undefined });
+  const open = (dir: string) => Crew.open(dir, { llm: (flags.llm as "claude") ?? undefined, episode: typeof flags.episode === "string" ? flags.episode : undefined });
 
   switch (cmd) {
     case "serve": {
@@ -61,7 +61,7 @@ async function main() {
       const { url } = await startServer(crew, port);
       console.log(`Crew is rolling: ${url}`);
       console.log(`  show: ${crew.project.show.title} (${crew.project.dir})`);
-      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI (agents on Haiku / Sonnet / Opus)" : "offline heuristics (set ANTHROPIC_API_KEY for Crew AI)"}, ${crew.pipeline} pipeline`);
+      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI (Opus directs, Sonnet builds, Haiku routes)" : "offline heuristics (set ANTHROPIC_API_KEY for Crew AI)"}`);
       crew.events.on("crew", (e) => console.log(`  [${e.role ?? "crew"}${e.tier ? "/" + e.tier : ""}] ${e.message}${e.cost ? `  $${e.cost.toFixed(4)}` : ""}`));
       return;
     }

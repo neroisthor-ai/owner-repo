@@ -22,7 +22,7 @@
 
 `web/ui.css` is the whole look. The reference is today's pro apps (Final Cut Pro 11, Logic, the macOS system apps): a quiet charcoal canvas, panels as softly rounded sheets (10px) with 6px of air between them, a title bar and a toolbar on top with the pages as one segmented control, native-feeling controls (macOS segmented controls, filled buttons, soft fields with a blue focus ring), one blue for selection and primary actions, and timeline colour that means something: indigo picture, green sound, red playhead and errors. No gradients or glows; vibrancy only on menus, the palette and toasts. It re-themes the bundle through its own Tailwind colour variables, then restyles components. The one layout change moves the page bar from the bottom into the toolbar with flex `order`. `crew-ui.css` keeps only the v9 layout rules; the home page shows the project instead of a slogan (a `CREW-EXT` patch).
 
-The title bar is deliberately plain: `crew / Show · Episode N` on the left; on the right one **Crew AI menu** (`CrewMenu` in `app.js`: who does the work, how thorough, project type, each with a one-line explanation), an issues count only when there are issues, search, undo, Share and Help. The model is branded **Crew AI** everywhere the user sees it. **Deliver** is two tabs (`ke.deliverTab`): Render (the render panel, "Check before you render", the crew log) and Export (every package as a card). Each page shows a one-line hint in the toolbar, and the advanced inspector sections (camera body, depth of field, film look, vertical, controls) start collapsed so a beginner sees the essentials first.
+The title bar is deliberately plain: `crew / Show · Episode N` on the left; on the right one **Crew AI menu** (`CrewMenu` in `app.js`: who does the work, and who the crew is: Haiku routes, Sonnet builds, Opus directs), an issues count only when there are issues, search, undo, Share and Help. The model is branded **Crew AI** everywhere the user sees it. **Deliver** is two tabs (`ke.deliverTab`): Render (the render panel, "Check before you render", the crew log) and Export (every package as a card). Each page shows a one-line hint in the toolbar, and the advanced inspector sections (camera body, depth of field, film look, vertical, controls) start collapsed so a beginner sees the essentials first.
 
 ## Features beyond the original buttons
 
@@ -47,7 +47,7 @@ A feature lives on one page and is not repeated. The map:
 | **Plan** | Every shot at a glance |
 | **Deliver > Render** | Size, passes, burn-ins, the pre-render check, the crew log |
 | **Deliver > Export** | Every file: the whole project (client package, backup, baked JSON, SCENE source, current frame), camera files, storyboard, shot list, editorial, shoot pack |
-| **Title bar** | Crew AI menu (who does the work, how thorough), search, Undo (timeline edits first, then the crew's changes), Share |
+| **Title bar** | Crew AI menu (who does the work, who the crew is), search, Undo (timeline edits first, then the crew's changes), Share |
 
 ## Editing on the timeline (`media.js`, `editui.js`, `keying.js`)
 

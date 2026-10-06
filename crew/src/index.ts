@@ -43,24 +43,22 @@ export interface PatchOptions {
 export class Crew {
   readonly project: Project;
   llm: LLM;
-  pipeline: "full" | "fast";
   readonly events = new EventEmitter();
 
-  constructor(project: Project, llm: LLM, pipeline: "full" | "fast" = (process.env.CREW_PIPELINE as "fast") ?? "full") {
+  constructor(project: Project, llm: LLM) {
     this.project = project;
     this.llm = llm;
-    this.pipeline = pipeline;
   }
 
-  static open(dir: string, o: { llm?: LLMChoice; episode?: string; pipeline?: "full" | "fast" } = {}) {
-    return new Crew(new Project(dir, o.episode), pickLLM(o.llm), o.pipeline);
+  static open(dir: string, o: { llm?: LLMChoice; episode?: string } = {}) {
+    return new Crew(new Project(dir, o.episode), pickLLM(o.llm));
   }
 
   private emit = (e: CrewEvent) => this.events.emit("crew", e);
 
   /** Give the crew a note ("1D 0:03, too long"). Returns 2-3 checked takes; nothing is applied yet. */
   note(text: string, o: Partial<CrewOptions> = {}) {
-    return directNote(this.project, text, { llm: this.llm, pipeline: this.pipeline, emit: this.emit, ...o });
+    return directNote(this.project, text, { llm: this.llm, emit: this.emit, ...o });
   }
 
   accept(noteId: string, takeId: string) {

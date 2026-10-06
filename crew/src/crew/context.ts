@@ -4,7 +4,6 @@
 import type { BodyNode, Show, ShotHeader } from "../scene/ast.ts";
 import type { QcIssue } from "../qc/checks.ts";
 import type { RoleId } from "../scene/registry.ts";
-import type { RawTake } from "./schema.ts";
 
 export interface ShotCtx {
   id: string;
@@ -38,8 +37,7 @@ export interface ProposeCtx {
   issues: QcIssue[];
   show: Show;
   failures: string[];
-  candidates?: RawTake[];
-  /** which proposer this is in a parallel fan-out (offline uses it to vary takes) */
+  /** which attempt this is (offline uses it to vary takes) */
   seed: number;
 }
 

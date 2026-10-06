@@ -47635,7 +47635,7 @@ function CrewMenu({ server: n, kind: k }) {
   const [open, setOpen] = Z.useState(!1),
     ref = Z.useRef(null),
     mode = Ep(n.mode),
-    pipe = EC(n.pipeline);
+    pipe = 0;
   Z.useEffect(() => {
     if (!open) return;
     const h = (ev) => ref.current && !ref.current.contains(ev.target) && setOpen(!1),
@@ -47691,9 +47691,13 @@ function CrewMenu({ server: n, kind: k }) {
             u.jsx("div", { className: "cm-h", children: "Who does the work" }),
             row(mode === "claude", "Crew AI", "AI agents write, block, shoot and cut. Needs an API key on the server.", () => Qa({ llm: "claude" })),
             row(mode !== "claude", "Offline", "Built-in rules, free, works without a key. Handles common notes.", () => Qa({ llm: "offline" })),
-            u.jsx("div", { className: "cm-h", children: "How thorough" }),
-            row(pipe === "full", "Full", "Every role, then a checker picks the best takes.", () => Qa({ pipeline: "full" })),
-            row(pipe === "fast", "Fast", "Fewer agents. Quicker and cheaper.", () => Qa({ pipeline: "fast" })),
+            // CREW-EXT: one crew, no thoroughness setting: Opus directs (rarely), Sonnet builds, Haiku routes
+            u.jsx("div", { className: "cm-h", children: "The crew" }),
+            u.jsxs("div", { className: "cm-crew", children: [
+              u.jsxs("div", { children: [u.jsx("b", { children: "Haiku" }), " reads the note and picks the shots."] }),
+              u.jsxs("div", { children: [u.jsx("b", { children: "Sonnet" }), " builds and edits the takes."] }),
+              u.jsxs("div", { children: [u.jsx("b", { children: "Opus" }), " plans tricky notes, fixes what Sonnet can't, and picks between close takes. Most notes never reach it."] }),
+            ] }),
           ],
         }),
     ],

@@ -117,3 +117,61 @@ test("server: state, assets and a note over HTTP", async () => {
     assert.equal((await fetch(`${srv.url}/../../etc/passwd`)).status, 404);
   } finally { srv.close(); }
 });
+
+// ---- the crew's three models: Opus stays light --------------------------------------------------------------------------
+
+import type { LLM, LLMCall, LLMResult } from "../src/claude/llm.ts";
+import { OfflineLLM } from "../src/claude/offline.ts";
+
+/** Wraps the offline crew and records every call by task and tier; `override` can replace a result. */
+function spy(override: (c: LLMCall) => unknown | undefined = () => undefined) {
+  const off = new OfflineLLM(), calls: { task: string; tier: string; effort?: string }[] = [];
+  const llm: LLM = {
+    mode: "offline",
+    async call<T>(c: LLMCall): Promise<LLMResult<T>> {
+      calls.push({ task: c.task, tier: c.tier, effort: c.effort });
+      const o = override(c);
+      if (o !== undefined) return { ok: true, data: o as T, text: "", model: c.tier, tier: c.tier, usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, cost: 0, ms: 0 };
+      return off.call<T>(c);
+    },
+  };
+  return { llm, calls };
+}
+
+test("a plain note never touches Opus: Haiku routes, Sonnet builds, code checks", async () => {
+  const { llm, calls } = spy((c) => (c.task === "route" ? { shots: ["1A"], roles: ["blocking"], intent: "stop kiran clipping mum" } : undefined));
+  const crew = Crew.open(fresh(), { llm });
+  const n = await crew.note("1A 0:02, kiran clips mum");
+  assert.deepEqual(calls.map((c) => `${c.task}:${c.tier}`), ["route:haiku", "propose:sonnet"]);
+  assert.ok(n.takes.length >= 1, n.message);
+  assert.equal(calls.filter((c) => c.tier === "opus").length, 0);
+});
+
+test("an ambiguous note gets one Opus plan; Sonnet still builds", async () => {
+  const { llm, calls } = spy((c) => {
+    if (c.task === "route") return { shots: ["1D"], roles: ["animator", "editor"], intent: "react faster" };
+  });
+  const crew = Crew.open(fresh(), { llm });
+  await crew.note("1D, kiran should react faster and the cut should breathe");
+  assert.equal(calls.filter((c) => c.task === "plan" && c.tier === "opus").length, 1);
+  assert.ok(calls.filter((c) => c.task === "propose").every((c) => c.tier === "sonnet"), "builders are Sonnet");
+});
+
+test("Opus is the debug rung: it is called only after Sonnet failed twice", async () => {
+  const { llm, calls } = spy((c) => {
+    if (c.task === "route") return { shots: ["1D"], roles: ["animator"], intent: "x" };
+    if (c.task === "propose" && c.tier === "sonnet") return { takes: [{ purpose: "bad", ops: [{ op: "replace", addr: "1D.2", text: "kiran moonwalk" }] }], pushback: null, idea: null };
+  });
+  const crew = Crew.open(fresh(), { llm });
+  await crew.note("1D, change the shock");
+  const proposes = calls.filter((c) => c.task === "propose").map((c) => c.tier);
+  assert.deepEqual(proposes, ["sonnet", "sonnet", "opus"]);
+});
+
+test("Opus and Sonnet calls run on medium effort", async () => {
+  const { llm, calls } = spy((c) => {
+    if (c.task === "route") return { shots: ["1D"], roles: ["animator", "editor"], intent: "x" };
+  });
+  await Crew.open(fresh(), { llm }).note("1D, react faster and trim it");
+  for (const c of calls.filter((c) => c.tier !== "haiku")) assert.equal(c.effort ?? "medium", "medium", `${c.task} on ${c.tier}`);
+});

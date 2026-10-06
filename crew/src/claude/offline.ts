@@ -32,8 +32,8 @@ export class OfflineLLM implements LLM {
     const fail = (error: string): LLMResult<T> => ({ ...ok(null), ok: false, error });
     switch (c.task) {
       case "route": return ok(route(c.context as RouteCtx));
+      case "plan": return ok({ ...route(c.context as RouteCtx), brief: "" });
       case "propose": return ok(propose(c.context as ProposeCtx));
-      case "refine": return ok(refine(c.context as ProposeCtx));
       case "direct": return ok(direct(c.context as DirectCtx));
       case "screen": return ok(screen(c.context as ScreenCtx));
       case "write": return fail("the writers' room needs Claude: set ANTHROPIC_API_KEY (offline mode can't write dialogue)");
@@ -247,11 +247,6 @@ function propose(c: ProposeCtx): RawTakes {
   if (!takes.length && !out.pushback) out.pushback = `The offline ${c.role} has no heuristic for this note. Switch to Crew AI for open-ended notes.`;
   if (c.seed > 0) takes.reverse();
   return out;
-}
-
-function refine(c: ProposeCtx): RawTakes {
-  const takes: RawTake[] = (c.candidates ?? []).slice(0, 3);
-  return { takes, pushback: null, idea: null };
 }
 
 function direct(c: DirectCtx) {

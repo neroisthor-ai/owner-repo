@@ -123,7 +123,7 @@ export interface Taste { accepted: string[]; rejected: string[] }
 
 export function proposePrompt(o: {
   role: RoleId; note: string; intent: string; targets: string[]; listingText: string; issues: QcIssue[];
-  taste: Taste; failures: string[]; candidates?: string; stage: "propose" | "refine";
+  taste: Taste; failures: string[]; stage: "propose";
 }): string {
   const r = ROLES[o.role];
   const parts = [
@@ -139,11 +139,7 @@ export function proposePrompt(o: {
     parts.push(`This director's taste so far:\n${o.taste.accepted.map((a) => `+ accepted: ${a}`).join("\n")}\n${o.taste.rejected.map((a) => `- rejected: ${a}`).join("\n")}`);
   }
   if (o.failures.length) parts.push(`Earlier attempts were rejected by the checks. Do not repeat them:\n${o.failures.map((f) => `- ${f}`).join("\n")}`);
-  if (o.stage === "refine" && o.candidates) {
-    parts.push(`CANDIDATE TAKES that passed the code checks (from faster crew members):\n${o.candidates}\n\nPolish these into the best 2 or 3 distinct takes. Keep what works, fix weak purposes, merge near-duplicates, and keep each take as small as possible.`);
-  } else {
-    parts.push("Write 2 or 3 distinct takes, smallest first.");
-  }
+  parts.push("Write 1 to 3 distinct takes, smallest first. One is enough when the note has one obvious answer.");
   return parts.join("\n\n");
 }
 

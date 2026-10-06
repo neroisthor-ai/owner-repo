@@ -1,11 +1,10 @@
-// A note goes in, 2-3 takes come out.
+// A note goes in, 1-3 takes come out.
 //
-//   route (Haiku)  ->  propose wide (Haiku x N, parallel)  ->  code filter
-//   (permissions, grammar, locality guard, QC)  ->  refine (Sonnet)  ->  filter
-//   ->  choose & explain (Opus)
+//   route (Haiku)  ->  plan (Opus, only if the note is ambiguous)  ->  build (Sonnet, one call per role)
+//   ->  code filter (permissions, grammar, locality guard, QC)  ->  retry (Sonnet, sees why it failed)
+//   ->  debug (Opus, only if both Sonnet passes failed)  ->  pick and explain (Opus, only if the takes are close or one adds issues)
 //
-// A role only climbs to a bigger model when every candidate from the smaller
-// one failed the checks, and the next tier sees why they failed.
+// Opus is the expensive one, so most notes never touch it: Haiku routes, Sonnet builds, code checks.
 
 import type { Compiled } from "../scene/compile.ts";
 import { locate } from "../scene/compile.ts";
@@ -16,7 +15,7 @@ import type { NoteRecord, Project, TakeRecord } from "../project.ts";
 import { evaluate, type Evaluation } from "./guard.ts";
 import { listing, proposePrompt, stableSystem } from "./prompts.ts";
 import { CRAFT_ROLES, ROLES, type Tier } from "./roles.ts";
-import { directorSchema, routeSchema, takesSchema, toOps, type RawTake, type RawTakes } from "./schema.ts";
+import { directorSchema, planSchema, routeSchema, takesSchema, toOps, type RawTake, type RawTakes } from "./schema.ts";
 import type { DirectCtx, ProposeCtx, RouteCtx, ShotCtx } from "./context.ts";
 import { structure } from "../scene/parse.ts";
 
@@ -33,9 +32,6 @@ export interface CrewEvent {
 
 export interface CrewOptions {
   llm: LLM;
-  /** full = Haiku fan-out + Sonnet refine + Opus pick; fast = Sonnet only, no Opus pick */
-  pipeline?: "full" | "fast";
-  fanout?: number;
   emit?: (e: CrewEvent) => void;
   /** the note this one follows up (counts as round 2+) */
   parent?: string;
@@ -84,7 +80,6 @@ export function shotCtx(p: Project, ids: string[]): ShotCtx[] {
 export async function directNote(p: Project, note: string, o: CrewOptions): Promise<NoteRecord> {
   const t0 = Date.now();
   const emit = o.emit ?? (() => {});
-  const pipeline = o.pipeline ?? "full";
   const system = stableSystem(p.showSrc);
   const ws = p.ws;
   const rec: NoteRecord = {
@@ -115,6 +110,16 @@ export async function directNote(p: Project, note: string, o: CrewOptions): Prom
   for (const tier of ["haiku", "sonnet"] as Tier[]) {
     const r = await call<{ shots: string[]; roles: string[]; intent: string }>({ task: "route", role: "router", tier, system, prompt: routePrompt, schema: routeSchema(allIds), context: routeCtx, maxTokens: 2000 });
     if (r.ok && r.data && r.data.roles?.length) { route = r.data; break; }
+  }
+  // Opus plans only when the note is ambiguous: Haiku could not route it, it needs two roles, or it reaches across many shots
+  let brief = "";
+  const ambiguous = !route || route.roles.length > 1 || (refs.shots.length ? refs.shots.length : route.shots.length) > 3;
+  if (ambiguous) {
+    const pr = await call<{ shots: string[]; roles: string[]; intent: string; brief: string }>({
+      task: "plan", role: "director", tier: "opus", system, schema: planSchema(allIds), context: routeCtx, maxTokens: 1500,
+      prompt: `${routePrompt}\n\nA quick read said: ${route ? `shots ${route.shots.join(", ") || "none"}, roles ${route.roles.join(" + ")}, "${route.intent}"` : "it could not place this note"}.\nYou are the director. Decide the plan: which shots, which one or two roles, the goal in one sentence, and a short brief for the builder (what to do, what to leave alone).`,
+    });
+    if (pr.ok && pr.data?.roles?.length) { route = pr.data; brief = pr.data.brief ?? ""; }
   }
   const targets = refs.shots.length ? refs.shots : (route?.shots ?? []).filter((s) => allIds.includes(s));
   rec.targets = targets;
@@ -161,14 +166,14 @@ export async function directNote(p: Project, note: string, o: CrewOptions): Prom
 
   const runRole = async (role: RoleId) => {
     const def = ROLES[role];
-    const ladder = pipeline === "fast" ? def.ladder.filter((t) => t !== "haiku") : def.ladder;
+    const ladder = def.ladder;
     const failures: string[] = [];
     let survivors: Candidate[] = [];
     let pushback: string | null = null, idea: string | null = null;
     const ctxBase: Omit<ProposeCtx, "seed"> = { role, note, intent: rec.intent, targets: shotCtx(p, targets), issues: targetIssues, show: p.show, failures };
-    for (const tier of ladder) {
-      const n = tier === "haiku" ? (o.fanout ?? 2) : 1;
-      const prompt = proposePrompt({ role, note, intent: rec.intent, targets, listingText, issues: targetIssues, taste, failures: failures.slice(-8), stage: "propose" });
+    for (const [rung, tier] of ladder.entries()) {
+      const n = 1;
+      const prompt = proposePrompt({ role, note, intent: brief ? `${rec.intent}\nDirector's brief: ${brief}` : rec.intent, targets, listingText, issues: targetIssues, taste, failures: failures.slice(-8), stage: "propose" });
       const results = await Promise.all(Array.from({ length: n }, (_, seed) => call<RawTakes>({
         task: "propose", role, tier, system, prompt, schema: takesSchema(p.show, role), effort: def.effort, context: { ...ctxBase, failures: [...failures], seed },
       })));
@@ -189,28 +194,8 @@ export async function directNote(p: Project, note: string, o: CrewOptions): Prom
       survivors = dedupe(pool.sort((a, b) => a.score - b.score));
       const total = results.reduce((a, r) => a + (r.data?.takes?.length ?? 0), 0);
       emit({ kind: "filter", role, tier, message: `${role}: ${survivors.length}/${total} ${tier} takes passed the checks` });
-      if (!survivors.length) { if (ladder.indexOf(tier) < ladder.length - 1) emit({ kind: "step", role, message: `${role}: escalating past ${tier}` }); continue; }
+      if (!survivors.length) { if (rung < ladder.length - 1) emit({ kind: "step", role, message: ladder[rung + 1] === "opus" ? `${role}: handing it to the director to debug` : `${role}: retrying with the failures` }); continue; }
 
-      // Sonnet polishes the best Haiku candidates
-      if (tier === "haiku" && pipeline === "full") {
-        const top = survivors.slice(0, 3);
-        const candText = top.map((c, i) => `Take ${i + 1} (${c.raw.purpose}):\n${printPatch(c.ops)}`).join("\n\n");
-        const r = await call<RawTakes>({
-          task: "refine", role, tier: "sonnet", system, effort: def.effort, schema: takesSchema(p.show, role),
-          prompt: proposePrompt({ role, note, intent: rec.intent, targets, listingText, issues: targetIssues, taste, failures: failures.slice(-6), candidates: candText, stage: "refine" }),
-          context: { ...ctxBase, candidates: top.map((c) => c.raw), seed: 0 },
-        });
-        if (r.ok && r.data) {
-          pushback = r.data.pushback ?? pushback;
-          idea = r.data.idea ?? idea;
-          const refined: Candidate[] = [];
-          for (const raw of r.data.takes ?? []) {
-            const t = tryTake(raw, role, "sonnet", r.model);
-            if ("reason" in t) rec.rejected.push({ tier: "sonnet", reason: t.reason }); else refined.push(t);
-          }
-          survivors = dedupe([...refined.sort((a, b) => a.score - b.score), ...survivors]);
-        }
-      }
       break;
     }
     return { role, survivors: survivors.slice(0, 3), pushback, idea };
@@ -259,8 +244,10 @@ export async function directNote(p: Project, note: string, o: CrewOptions): Prom
     takes: rec.takes.map((t) => ({ purpose: t.purpose, patch: t.patch, changed: t.changedShots, fixed: t.fixed.length, added: t.added.length })),
   };
   const dPrompt = `NOTE: "${note}"\nGoal: ${rec.intent}\n\nTAKES (all passed permissions, grammar, the locality guard and QC):\n${rec.takes.map((t, i) => `Take ${i} - ${t.purpose}\n${t.patch}\nchanges: ${t.changedShots.join(", ")}; fixes ${t.fixed.length} QC issues; adds ${t.added.length}${t.added.length ? ` (${t.added.join("; ")})` : ""}`).join("\n\n")}\n\nCrew pushback: ${rec.pushback ?? "none"}\nCrew idea: ${rec.idea ?? "none"}\n\nDirector's taste so far:\n${[...taste.accepted.map((a) => "+ " + a), ...taste.rejected.map((a) => "- " + a)].join("\n") || "no history yet"}\n\nOrder the takes best first, write the message to the human director (results first, short), keep or sharpen the pushback (null if none), and give exactly one idea they didn't ask for.\n\nEPISODE CONTEXT:\n${listingText}`;
-  if (pipeline === "full") {
-    const r = await call<{ message: string; order: number[]; pushback: string | null; idea: string | null }>({ task: "direct", role: "director", tier: "opus", system, prompt: dPrompt, schema: directorSchema, effort: ROLES.director.effort, context: dctx, maxTokens: 8000 });
+  // Opus picks only when it matters: two or more takes that are close in score, or one that adds QC issues. Otherwise code orders them by score.
+  const close = rec.takes.length >= 2 && (rec.takes[1].score - rec.takes[0].score < 1.5 || rec.takes.some((t) => t.added.length));
+  if (close) {
+    const r = await call<{ message: string; order: number[]; pushback: string | null; idea: string | null }>({ task: "direct", role: "director", tier: "opus", system, prompt: dPrompt, schema: directorSchema, effort: ROLES.director.effort, context: dctx, maxTokens: 2500 });
     if (r.ok && r.data) {
       const order = [...new Set((r.data.order ?? []).filter((i) => Number.isInteger(i) && i >= 0 && i < rec.takes.length))];
       for (let i = 0; i < rec.takes.length; i++) if (!order.includes(i)) order.push(i);

@@ -109,6 +109,13 @@ export const routeSchema = (shotIds: string[]): Schema => obj({
   intent: str("the note restated as a concrete goal, one sentence"),
 });
 
+export const planSchema = (shotIds: string[]): Schema => obj({
+  shots: { type: "array", items: en(shotIds.length ? shotIds : ["none"]), description: "the shots this note is about" },
+  roles: { type: "array", items: en(["writer", "blocking", "dp", "animator", "editor", "sound"]), description: "1 role, at most 2" },
+  intent: str("the note restated as a concrete goal, one sentence"),
+  brief: str("1-3 sentences for the builder: what to do and what to leave alone"),
+});
+
 export const directorSchema: Schema = obj({
   message: str("2-4 short sentences to the human director, results first"),
   order: { type: "array", items: { type: "integer" }, description: "take indices, best first" },
