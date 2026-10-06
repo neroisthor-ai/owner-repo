@@ -12,7 +12,7 @@ const rows: [string, "ok" | "fix" | "warn" | "skip", string][] = [];
 const row = (what: string, state: (typeof rows)[number][1], detail: string) => { rows.push([what, state, detail]); };
 
 const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
-const { GEMINI_MODELS, GEMINI_THINKING, GeminiLLM } = await import("../src/llm/gemini-llm.ts");
+const { GEMINI_MODELS, GEMINI_THINKING, GeminiLLM, PRO_MODE, FLASH_GROUP } = await import("../src/llm/gemini-llm.ts");
 const { GeminiClient } = await import("../src/llm/gemini.ts");
 const tts = process.env.CREW_GEMINI_TTS ?? "gemini-3.8-flash-tts";
 
@@ -21,7 +21,7 @@ row("GEMINI_API_KEY", key ? "ok" : "fix", key ? `set (${key.slice(0, 4)}...${key
 const jobs: [string, string, string][] = [
   ["Flash-Lite (reads notes, ranks)", GEMINI_MODELS.haiku, `CREW_GEMINI_LITE, thinking ${GEMINI_THINKING.haiku}`],
   ["Flash (builds takes, props, shots)", GEMINI_MODELS.sonnet, `CREW_GEMINI_FLASH, thinking ${GEMINI_THINKING.sonnet}`],
-  ["Pro (plans, debugs, reviews)", GEMINI_MODELS.opus, `CREW_GEMINI_PRO, thinking ${GEMINI_THINKING.opus}`],
+  ["Pro (plans, debugs, reviews)", GEMINI_MODELS.opus, `CREW_GEMINI_PRO, thinking ${GEMINI_THINKING.opus}${PRO_MODE === "flash" ? `; unused, CREW_PRO_MODE=flash` : ""}`],
   ["Voices (TTS)", tts, "CREW_GEMINI_TTS"],
 ];
 
@@ -41,7 +41,12 @@ if (key && !offline) {
       if (!ids.includes(GEMINI_MODELS[tier])) { row(label, "skip", "model id missing"); continue; }
       const t0 = Date.now();
       const r = await llm.call<{ ok: boolean }>({ task: "route", role: "doctor", tier, system: ["You check that an API works."], prompt: 'Reply with {"ok": true}.', schema: { type: "object", properties: { ok: { type: "boolean" } }, required: ["ok"] }, maxTokens: 2000 });
-      row(label, r.ok && r.data?.ok === true ? "ok" : "fix", r.ok ? `structured reply in ${((Date.now() - t0) / 1000).toFixed(1)}s` : r.error ?? "no reply");
+      const secs = ((Date.now() - t0) / 1000).toFixed(1);
+      if (tier === "opus" && llm.standIn) {
+        row("Pro's jobs", r.ok && r.data?.ok === true ? "ok" : "fix", r.ok ? `done by ${FLASH_GROUP} Flash calls on high thinking plus a final pass (${PRO_MODE === "flash" ? "CREW_PRO_MODE=flash" : "Pro isn't on this key's tier"}); answered in ${secs}s` : r.error ?? "no reply");
+        continue;
+      }
+      row(label, r.ok && r.data?.ok === true ? "ok" : "fix", r.ok ? `structured reply in ${secs}s` : r.error ?? "no reply");
     }
     if (ids.includes(tts)) {
       try {

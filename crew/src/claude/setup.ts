@@ -8,7 +8,7 @@ import type { GeminiClient } from "../llm/gemini.ts";
 export type Provider = "anthropic" | "gemini";
 export const ENV_VAR: Record<Provider, string> = { anthropic: "ANTHROPIC_API_KEY", gemini: "GEMINI_API_KEY" };
 export const keyLooksRight = (k: string, provider: Provider = "anthropic") =>
-  provider === "gemini" ? /^[A-Za-z0-9_-]{30,}$/.test(k.trim()) : /^sk-ant-[A-Za-z0-9_-]{20,}$/.test(k.trim());
+  provider === "gemini" ? /^[A-Za-z0-9._-]{30,}$/.test(k.trim()) : /^sk-ant-[A-Za-z0-9_-]{20,}$/.test(k.trim());
 
 /** Sets the provider's key in an env file, replacing an existing line and leaving every other line alone. */
 export function saveKey(envPath: string, key: string, provider: Provider = "anthropic"): void {

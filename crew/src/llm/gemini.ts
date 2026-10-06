@@ -167,6 +167,8 @@ export class GeminiClient {
         if (st === 404) return fail("not_found", `model "${model}" was not found: ${message}. Check the model id (listModels shows what this key can use).`);
 
         if (st === 429) {
+          // "limit: 0" means the model isn't on this key's tier at all (Pro on the free tier): waiting won't help
+          if (/limit:\s*0\b/.test(message)) return fail("quota", `not available on this key's tier (limit 0): ${message}`);
           const daily = /per day|daily|quota exceeded for the day|perday/i.test(message) || /perday/i.test(JSON.stringify(e?.details ?? ""));
           if (daily) return fail("quota", `daily quota exhausted: ${message}`);
           if (transient >= this.maxRetries) return fail("rate", `rate limited after ${attempts} attempts: ${message}`);

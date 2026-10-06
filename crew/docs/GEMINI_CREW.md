@@ -30,6 +30,8 @@ Three models, each with its own jobs. Usage is not rationed, so each job goes to
 
 IDs live in config and are checked against the live model list at startup (Pro is a preview and may be repointed).
 
+**No Pro on your key? The Flash group stands in.** The free API tier has no Pro (Google reports `limit: 0`; a Gemini app subscription doesn't change that). With `CREW_PRO_MODE=flash`, every Pro job above goes to a group of `CREW_FLASH_GROUP` (default 3) Flash calls on high thinking with the largest output room (65,536 tokens), run side by side. If they all agree, that answer is used as it is. If they disagree, one more Flash call sees the task and every answer, works out which is right, fixes what they all missed and writes the final answer in the same format. If that pass fails, the first good answer is used. `CREW_PRO_MODE=auto` (the default) tries Pro and switches to the group for the rest of the run the first time Google says Pro is out of quota. The grips follow the model doing the work, so Pro's jobs get Flash's guidance while the group stands in. Each Pro job then costs up to four Flash requests, which counts against the free tier's Flash limits.
+
 ## A note, step by step
 
 1. **Read the note (Lite).** Find the shots, timestamps and the one or two roles that own the fix. Code resolves shot ids and timestamps first; Lite fills in the rest. Three votes; majority wins.
