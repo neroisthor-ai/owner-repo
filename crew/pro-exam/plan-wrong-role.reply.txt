@@ -1,0 +1,12 @@
+{
+  "shots": [
+    "1E"
+  ],
+  "roles": [
+    "animator"
+  ],
+  "intent": "Make Mum's reaction to catching Kiran clearly amused rather than suspicious.",
+  "brief": "Change Mum's performance in 1E to show more obvious amusement, such as having her laugh instead of or alongside her smile.",
+  "keep": "The OTS framing and her dialogue line.",
+  "success": "Mum visibly laughs or expresses amusement in shot 1E."
+}
