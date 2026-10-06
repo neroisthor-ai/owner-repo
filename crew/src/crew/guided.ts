@@ -271,7 +271,7 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
     const shown = pool.slice(0, GUIDED.maxTakes);
     const r = await call<{ order: number[]; fits: boolean[]; message: string; pushback: string | null; idea: string | null; redo: string | null }>({
       task: "review", role: "director", tier: "opus", system, schema: reviewSchema, maxTokens: 4000,
-      prompt: `NOTE: "${note}"\nGOAL: ${rec.intent}${plan ? `\nPLAN: ${plan.brief}\nKEEP: ${plan.keep}\nSUCCESS: ${plan.success}` : ""}\n\nTAKES (all passed the grammar, permission, locality and QC checks):\n${shown.map((c, i) => `${i + 1}. ${c.purpose}\n${printPatch(c.ops)}\nchanges ${c.ev.changedShots.join(", ")}; fixes ${c.ev.fixedIssues.length} QC issue(s); adds ${c.ev.newIssues.length}`).join("\n\n")}\n\nTHE SHOTS:\n${listing(ws.doc, ws.compiled, allowed)}\n\nOrder the takes best first by number, say for each (in that order) whether it does what the plan asked, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.`,
+      prompt: reviewPrompt({ note, intent: rec.intent, plan, shots: listing(ws.doc, ws.compiled, allowed), takes: shown.map((c) => ({ purpose: c.purpose, patch: printPatch(c.ops), changed: c.ev.changedShots, fixed: c.ev.fixedIssues.length, added: c.ev.newIssues.length })) }),
     }, "director reviewing");
     if (!r.ok || !r.data) break;
     const order = cleanOrder(r.data.order, shown.length);
@@ -318,6 +318,11 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
 }
 
 type RawTextTakes = { takes?: { purpose?: string; patch?: string }[]; pushback?: string | null; idea?: string | null };
+
+/** What Pro sees when it reviews takes. Exported so the review eval sends exactly the same thing. */
+export function reviewPrompt(o: { note: string; intent: string; plan: { brief: string; keep: string; success: string } | null; shots: string; takes: { purpose: string; patch: string; changed: string[]; fixed: number; added: number }[] }): string {
+  return `NOTE: "${o.note}"\nGOAL: ${o.intent}${o.plan ? `\nPLAN: ${o.plan.brief}\nKEEP: ${o.plan.keep}\nSUCCESS: ${o.plan.success}` : ""}\n\nTAKES (all passed the grammar, permission, locality and QC checks; that says nothing about whether they do what was asked):\n${o.takes.map((t, i) => `${i + 1}. ${t.purpose}\n${t.patch}\nchanges ${t.changed.join(", ")}; fixes ${t.fixed} QC issue(s); adds ${t.added}`).join("\n\n")}\n\nTHE SHOTS (before any take):\n${o.shots}\n\nJudge each take by its patch, not by its purpose line: purposes can be wrong. Order the takes best first by number, say for each (in that order) whether it does what the note and plan asked without breaking what the plan says to keep, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.`;
+}
 
 /** Models number from 1, sometimes from 0, repeat numbers and skip some: return a full 0-based permutation. */
 export function cleanOrder(order: unknown, n: number): number[] {
