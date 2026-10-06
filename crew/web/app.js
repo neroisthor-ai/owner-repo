@@ -49849,6 +49849,12 @@ function J5() {
                   }),
                 ],
               }),
+              u.jsx(Je, {
+                size: "sm",
+                onClick: () => sn("Rendering voices", {}),
+                title: "Render the cast's dialogue with the voice bank (temp voices) and retime the cut to them",
+                children: "Render voices",
+              }),
               u.jsxs(Je, {
                 size: "sm",
                 onClick: () => sn("Recording a voiceover", {}),
@@ -53832,6 +53838,12 @@ function ZE(n, e, t, i, r, o) {
     }
     case "say": {
       if (o !== "offline") return;
+      const cb = window.CrewExt?.clipBuffer?.(t.src); // CREW-EXT: rendered clip instead of the guide murmur
+      if (cb) {
+        const s = n.createBufferSource();
+        ((s.buffer = cb), s.connect(e), s.start(i, t.off ?? 0, r));
+        break;
+      }
       const h = n.createOscillator();
       ((h.type = "sawtooth"), (h.frequency.value = KE(t.voice)));
       const p = n.createBiquadFilter();
@@ -53859,12 +53871,15 @@ async function S4(n, e, t, i = 48e3) {
     o = new OfflineAudioContext(2, r, i),
     c = o.createGain();
   ((c.gain.value = 0.9), c.connect(o.destination));
+  // CREW-EXT: decode rendered dialogue clips and mix the user voiceover into renders
+  await window.CrewExt?.preloadClips?.(n.audio);
+  window.CrewExt?.mixVo?.(o, c, e, t);
   for (const h of n.audio ?? []) {
     if (h.type === "silence" || h.t + h.dur <= e || h.t >= t) continue;
     const p = Math.max(0, e - h.t),
       f = Math.max(0, h.t - e),
       g = Math.min(h.dur - p, t - Math.max(h.t, e));
-    g > 0.02 && ZE(o, c, h, f, g, "offline");
+    g > 0.02 && ZE(o, c, { ...h, off: p }, f, g, "offline");
   }
   return o.startRendering();
 }
@@ -53903,6 +53918,8 @@ class M4 {
       i = this.ensure();
     if (!t || !i || !this.master) return;
     const r = i.currentTime + 0.03;
+    window.CrewExt?.preloadClips?.(t.audio);
+    window.CrewExt?.startVo?.(this, e, r); // CREW-EXT: user voiceover track
     for (const o of t.audio ?? []) {
       const c = o.t + o.dur;
       if (o.type === "silence" || c <= e) continue;
@@ -53929,7 +53946,13 @@ class M4 {
         (this.master.gain.value = this.muted ? 0 : 0.9),
         this.master.connect(this.ctx.destination)));
   }
+  // CREW-EXT: rendered clips (e.src) play through the audio engine; browser speech is the fallback
   speak(e) {
+    if (this.muted) return;
+    if (e.src && window.CrewExt?.playClip?.(this, e, () => this.speakTts(e))) return;
+    this.speakTts(e);
+  }
+  speakTts(e) {
     if (this.muted || !("speechSynthesis" in window) || !e.text) return;
     const t = new SpeechSynthesisUtterance(e.text),
       i = e.text.split(/\s+/).length;

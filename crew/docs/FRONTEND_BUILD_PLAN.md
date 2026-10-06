@@ -189,4 +189,5 @@ Keep this in sync with `grep -n "CREW-EXT" web/app.js`.
 
 - 49108 `sn` dispatches to `CrewExt.handlers`; `Fp`/`ds`/`ti` pass section titles and `ctx` (options in scope at each call site)
 - `sP` keeps the whole box; `da.buildSet` uses `CrewExt.setBoxes` (walls, drop giant decor) and `CrewExt.buildBox` (library models), rotates plain cubes by `ry`
+- `M4.speak` plays rendered clips (`CrewExt.playClip`) before browser speech; `M4.start`/`S4` preload clips and mix the user voiceover; `ZE` "say" uses the clip buffer in renders
 - end of file: `window.__crew` exposes store, api, toast, go, demo, Viewer, still, clock, audio, framing, sp
