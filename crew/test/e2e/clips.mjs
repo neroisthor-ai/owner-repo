@@ -1,0 +1,21 @@
+// Per-shot clips with handles, zipped. Small size so software GL finishes. Usage: node test/e2e/clips.mjs [url] [outDir]
+import { createRequire } from "node:module";
+import { mkdirSync, statSync } from "node:fs";
+const require = createRequire(process.env.PW_NODE ?? "/opt/node-tools/");
+const { chromium } = require("playwright");
+const [url = "http://localhost:4310/", out = "/tmp/crew-clips"] = process.argv.slice(2);
+mkdirSync(out, { recursive: true });
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM ?? "/opt/pw-browsers/chromium-1194/chrome-linux/chrome", args: ["--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--no-sandbox"] });
+const ctx = await browser.newContext({ acceptDownloads: true });
+const page = await ctx.newPage();
+const errors = [];
+page.on("pageerror", (e) => errors.push(e.message));
+await page.goto(url, { waitUntil: "load" });
+await page.waitForTimeout(2500);
+const dl = page.waitForEvent("download", { timeout: 600000 });
+await page.evaluate(() => { window.CrewExt.clipsZip({ handles: 4, width: 320, height: 180, passes: 1, takeLetters: true }); });
+const d = await dl;
+await d.saveAs(`${out}/${d.suggestedFilename()}`);
+console.log(d.suggestedFilename(), statSync(`${out}/${d.suggestedFilename()}`).size, "bytes");
+console.log("errors:", errors);
+await browser.close();

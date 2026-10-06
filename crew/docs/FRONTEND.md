@@ -48,7 +48,7 @@ Honest messages instead of features (and why): **FBX** and **ProRes 4444** (no b
 
 ## Tests
 
-`npm test` covers the DOM-free code (`test/web-exports.test.ts`: formats, camera maths against three.js, grades, environments, sampling). `npm run e2e` runs the browser suite against a throwaway server on `shows/sets` (needs Chromium; `PW_NODE` and `CHROMIUM` env vars point at Playwright and the browser; software GL is fine): button handlers, the look on every shot, the atmosphere, clips decode, every export downloads, mattes and the vertical render, and an MP4 rendered at 1 and 8 passes. Run `SLOW=1 node test/e2e/exports.mjs` to include the per-shot clips zip.
+`npm test` covers the DOM-free code (`test/web-exports.test.ts`: formats, camera maths against three.js, grades, environments, sampling). `npm run e2e` runs the browser suite against a throwaway server on `shows/sets` (needs Chromium; `PW_NODE` and `CHROMIUM` env vars point at Playwright and the browser; software GL is fine): button handlers, the look on every shot, the atmosphere, clips decode, every export downloads, mattes and the vertical render, and an MP4 rendered at 1 and 8 passes. `node test/e2e/clips.mjs` runs the per-shot clips zip at a small size (the 720p version is too slow for software GL).
 
 ## Physics
 
