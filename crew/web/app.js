@@ -14940,7 +14940,7 @@ function YC(n) {
   Bw();
 }
 function Bw() {
-  (jw++, c0.forEach((n) => n()));
+  (jw++, c0.forEach((n) => n()), window.CrewExt?.lookChanged?.());
 }
 function Po(n) {
   Oo = { ...Oo, ...n };
@@ -44954,7 +44954,7 @@ class da {
   }
   resize(e, t, i = 1) {
     this.fixed ||
-      (this.renderer.setPixelRatio(Math.min(2, i)),
+      (this.renderer.setPixelRatio(window.CrewExt?.look?.pixelRatio?.(this, i) ?? Math.min(2, i)),
       this.renderer.setSize(Math.max(2, e), Math.max(2, t), !1),
       this.redraw());
   }
@@ -45199,7 +45199,29 @@ class da {
           Math.max(1, Math.round((r.cutDur || r.dur) * t.fps) - 1),
         ),
         this.cam.updateProjectionMatrix(),
-        this.renderer.render(this.scene, this.cam));
+        this.finish({ shot: r, t: e, o, fps: t.fps }));
+  }
+  // CREW-EXT: the final draw. With the look on, window.CrewExt.look runs the film pipeline
+  // (HDR scene, accumulation passes, bloom, depth of field, grade, grain); otherwise a plain render.
+  lookOn = !1;
+  lookSpp = 1;
+  _inLook = !1;
+  _noDraw = !1;
+  _jit = null;
+  finish(i) {
+    if (this._noDraw) return;
+    const L = window.CrewExt?.look;
+    if (this.lookOn && L && !this._inLook) {
+      this._inLook = !0;
+      try {
+        L.render(this, i);
+      } finally {
+        this._inLook = !1;
+      }
+    } else {
+      this._jit?.(this.cam);
+      this.renderer.render(this.scene, this.cam);
+    }
   }
   ignoreFraming = !1;
   _f = new ie();
@@ -45237,7 +45259,9 @@ class da {
         c.focal != null ? $C(Math.min(300, Math.max(8, c.focal))) : o));
   }
   dispose(e = !1) {
-    (this.cleanup.forEach((t) => t()),
+    (window.CrewExt?.look?.disposeLook?.(this),
+      window.CrewExt?.liveGone?.(this),
+      this.cleanup.forEach((t) => t()),
       this.rigs.forEach((t) => {
         (t.proc.dispose(), t.glb?.dispose());
       }),
@@ -48102,7 +48126,7 @@ function SE(n, e, t, i, r) {
       const g = n.current;
       if (g) {
         try {
-          o.current = new da(g);
+          ((o.current = new da(g)), window.CrewExt?.liveViewer?.(o.current));
         } catch (x) {
           f(x instanceof Error ? x.message : String(x));
         }
@@ -54070,6 +54094,8 @@ function A4(n, e, t, i, r, o) {
   }
 }
 async function vw(n, e, t, i = {}) {
+  // CREW-EXT: the film renderer (accumulation passes, post, encoder fallbacks, streamed muxing)
+  if (window.CrewExt?.renderPart) return window.CrewExt.renderPart(n, e, t, i);
   const r = JE();
   if (!r.ok) throw new Error(r.reason);
   const o = performance.now(),
@@ -56610,9 +56636,27 @@ function xb({ frame: n }) {
   const e = Ne((o) => o.thirds),
     t = Ne((o) => o.safe),
     i = Ne((o) => o.setView),
-    r = Ne((o) => o.bypass);
+    r = Ne((o) => o.bypass),
+    lk = Ne((o) => o.look ?? window.CrewExt?.lookDefault ?? !1),
+    lq = Ne((o) => o.lookQ ?? window.CrewExt?.look?.settings?.quality ?? 1);
   return u.jsxs(u.Fragment, {
     children: [
+      // CREW-EXT: the film look in the live viewer (The Bob's real-time pipeline) and its quality tier
+      window.CrewExt?.look &&
+        u.jsx(Xr, {
+          on: lk,
+          onClick: () => ke.set({ look: !lk }),
+          title: "Film look: bloom, depth of field, grade, grain (real-time)",
+          children: "Look",
+        }),
+      window.CrewExt?.look &&
+        lk &&
+        u.jsx(Xr, {
+          on: !1,
+          onClick: () => ke.set({ lookQ: (lq + 1) % 3 }),
+          title: "Viewer quality: Draft, High, Ultra",
+          children: ["Draft", "High", "Ultra"][lq],
+        }),
       u.jsx(Xr, {
         on: e,
         onClick: () => ke.set({ thirds: !e }),
@@ -61729,6 +61773,9 @@ class jz extends Z.Component {
 window.__crew = Object.assign(window.__crew ?? {}, {
   store: ke, api: Ji, toast: _n, go: Mi, demo: () => $u(), Viewer: da, still: C4,
   clock: Me, audio: Uf, framing: () => qi, sp: sP,
+  // the bundle's own three.js classes (render targets and shaders must come from the same copy as the renderer)
+  three: { ShaderMaterial: ba, WebGLRenderTarget: Ks, DepthTexture: xd, OrthographicCamera: Up, Mesh: On, Scene: fR, PlaneGeometry: Nd, Vector2: vt, Vector3: ie },
+  look: () => Oo, setLook: Po, body: () => Hw(), burn: A4, mixAudio: S4, parts: w4, renderPanelOpts: () => window.__crewRender ?? {},
 });
 TC.createRoot(document.getElementById("root")).render(
   u.jsx(Z.StrictMode, { children: u.jsx(jz, { children: u.jsx(zz, {}) }) }),
