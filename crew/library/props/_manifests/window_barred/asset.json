@@ -1,0 +1,38 @@
+{
+  "id": "prop_window_barred",
+  "kind": "prop",
+  "title": "Window with burglar bars and curtains",
+  "tags": [
+    "prop",
+    "openings",
+    "behind",
+    "the-bob",
+    "light"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "window_barred",
+    "category": "openings",
+    "placement": "behind",
+    "size": [
+      2.2,
+      1.7,
+      0.12
+    ],
+    "y0": 0.75,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.window_barred.build(opts)",
+    "scene": "anchor <id> at x z face d is window_barred   |   dress window_barred at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

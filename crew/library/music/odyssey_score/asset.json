@@ -1,0 +1,23 @@
+{
+  "id": "odyssey_score",
+  "kind": "music",
+  "title": "Scylla and Charybdis: score",
+  "tags": [
+    "odyssey",
+    "score",
+    "storm",
+    "epic"
+  ],
+  "source": {
+    "project": "Odyssey (Scylla and Charybdis)",
+    "file": "Odyssey.html (window.__AUDIO_B64)"
+  },
+  "files": {
+    "audio": "score.m4a"
+  },
+  "meta": {
+    "bytes": 954202,
+    "seconds": 30,
+    "codec": "AAC in MP4"
+  }
+}

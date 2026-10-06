@@ -1,0 +1,37 @@
+{
+  "id": "prop_filing_cabinet",
+  "kind": "prop",
+  "title": "Filing cabinet",
+  "tags": [
+    "prop",
+    "office",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "filing_cabinet",
+    "category": "office",
+    "placement": "front",
+    "size": [
+      0.47,
+      1.3,
+      0.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.filing_cabinet.build(opts)",
+    "scene": "anchor <id> at x z face d is filing_cabinet   |   dress filing_cabinet at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

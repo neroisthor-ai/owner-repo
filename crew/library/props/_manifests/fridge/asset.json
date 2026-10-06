@@ -1,0 +1,39 @@
+{
+  "id": "prop_fridge",
+  "kind": "prop",
+  "title": "Fridge with an openable door",
+  "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new",
+    "openable",
+    "light"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "fridge",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+      0.75,
+      1.85,
+      0.77
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": true,
+    "build": "PROPS.fridge.build(opts)",
+    "scene": "anchor <id> at x z face d is fridge   |   dress fridge at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

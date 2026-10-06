@@ -1,0 +1,68 @@
+{
+  "id": "bob_baden",
+  "kind": "character",
+  "title": "Baden (The Bob)",
+  "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "assets/characters/baden.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+  },
+  "files": {
+    "model": "baden.glb",
+    "source": "baden.bob1"
+  },
+  "meta": {
+    "rig": "bob18",
+    "bones": [
+      "root",
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "lSh",
+      "lEl",
+      "lHand",
+      "rSh",
+      "rEl",
+      "rHand",
+      "lHip",
+      "lKnee",
+      "lAnk",
+      "rHip",
+      "rKnee",
+      "rAnk"
+    ],
+    "meshes": [
+      "body",
+      "head",
+      "hair"
+    ],
+    "verts": 84721,
+    "tris": 169314,
+    "defaultLook": "baden",
+    "looks": [
+      "baden",
+      "adultB",
+      "stuB"
+    ],
+    "materialSlots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie"
+    ],
+    "height": 1.84635
+  }
+}

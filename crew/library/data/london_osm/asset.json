@@ -1,0 +1,32 @@
+{
+  "id": "london_osm",
+  "kind": "data",
+  "title": "Central London: OpenStreetMap buildings",
+  "tags": [
+    "london",
+    "osm",
+    "buildings",
+    "gis",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass",
+    "file": "low-pass.html (window.__OSM)"
+  },
+  "files": {
+    "geojson": "buildings.geojson",
+    "compact": "buildings.compact.json"
+  },
+  "meta": {
+    "buildings": 70180,
+    "maxHeight": 310,
+    "medianHeight": 13.8,
+    "frame": {
+      "lat0": 51.5055,
+      "lon0": -0.0754,
+      "kx": 69296,
+      "kz": 111200
+    },
+    "licence": "Map data © OpenStreetMap contributors, ODbL"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "prop_coffee_table",
+  "kind": "prop",
+  "title": "Coffee table",
+  "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "coffee_table",
+    "category": "living",
+    "placement": "front",
+    "size": [
+      1.1,
+      0.44,
+      0.6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.44,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.coffee_table.build(opts)",
+    "scene": "anchor <id> at x z face d is coffee_table   |   dress coffee_table at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

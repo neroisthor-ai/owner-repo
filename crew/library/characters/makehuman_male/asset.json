@@ -1,0 +1,30 @@
+{
+  "id": "makehuman_male",
+  "kind": "character",
+  "title": "Human male (MakeHuman rig)",
+  "tags": [
+    "human",
+    "realistic",
+    "skinned",
+    "makehuman",
+    "male"
+  ],
+  "source": {
+    "project": "Crew",
+    "file": "human_male.glb"
+  },
+  "files": {
+    "model": "human_male.glb",
+    "rig": "../../rigs/makehuman.json"
+  },
+  "meta": {
+    "rig": "makehuman163",
+    "joints": 163,
+    "meshes": 7,
+    "materials": 7,
+    "textures": 8,
+    "facialBones": true,
+    "animations": 0,
+    "height": 1.75
+  }
+}

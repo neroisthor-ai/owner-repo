@@ -1,0 +1,37 @@
+{
+  "id": "prop_st_pauls",
+  "kind": "prop",
+  "title": "St Paul's Cathedral",
+  "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "st_pauls",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+      151,
+      119.2,
+      90
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.st_pauls.build(opts)",
+    "scene": "anchor <id> at x z face d is st_pauls   |   dress st_pauls at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

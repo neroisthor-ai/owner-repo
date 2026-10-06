@@ -1,0 +1,37 @@
+{
+  "id": "prop_sink_unit",
+  "kind": "prop",
+  "title": "Sink unit",
+  "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "sink_unit",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+      0.82,
+      1.14,
+      0.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.92,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sink_unit.build(opts)",
+    "scene": "anchor <id> at x z face d is sink_unit   |   dress sink_unit at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

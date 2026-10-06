@@ -1,0 +1,38 @@
+{
+  "id": "prop_union_jack",
+  "kind": "prop",
+  "title": "Waving Union Jack on a pole",
+  "tags": [
+    "prop",
+    "street",
+    "front",
+    "low-pass",
+    "animated"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "union_jack",
+    "category": "street",
+    "placement": "front",
+    "size": [
+      2.78,
+      12,
+      0.15
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.union_jack.build(opts)",
+    "scene": "anchor <id> at x z face d is union_jack   |   dress union_jack at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

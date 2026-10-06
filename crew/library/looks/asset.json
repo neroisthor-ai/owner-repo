@@ -1,0 +1,64 @@
+{
+  "id": "looks_the_bob",
+  "kind": "looks",
+  "title": "The Bob: 14 character looks",
+  "tags": [
+    "the-bob",
+    "palette",
+    "wardrobe",
+    "looks"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "index_master.html (LOOK)"
+  },
+  "files": {
+    "looks": "the_bob.json"
+  },
+  "meta": {
+    "looks": [
+      "dowie",
+      "baden",
+      "cofer",
+      "teacher",
+      "anna",
+      "orla",
+      "anabela",
+      "saba",
+      "adultD",
+      "adultB",
+      "stuA",
+      "stuB",
+      "stuC",
+      "bob"
+    ],
+    "bodies": {
+      "dowie": "dowie",
+      "baden": "baden",
+      "bob": "bob",
+      "cofer": "cofer",
+      "teacher": "teacher",
+      "anna": "anna",
+      "orla": "witch",
+      "anabela": "witch",
+      "saba": "witch",
+      "adultD": "dowie",
+      "adultB": "baden",
+      "stuA": "dowie",
+      "stuB": "baden",
+      "stuC": "bob"
+    },
+    "slots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie",
+      "brow",
+      "iris"
+    ]
+  }
+}

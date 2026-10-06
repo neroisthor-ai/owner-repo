@@ -1,0 +1,38 @@
+{
+  "id": "prop_phone",
+  "kind": "prop",
+  "title": "Mobile phone",
+  "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "phone",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+      0.08,
+      0.01,
+      0.16
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.phone.build(opts)",
+    "scene": "anchor <id> at x z face d is phone   |   dress phone at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

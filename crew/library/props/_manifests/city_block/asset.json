@@ -1,0 +1,37 @@
+{
+  "id": "prop_city_block",
+  "kind": "prop",
+  "title": "Facade-shaded city block",
+  "tags": [
+    "prop",
+    "building",
+    "front",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "city_block",
+    "category": "building",
+    "placement": "front",
+    "size": [
+      24,
+      18,
+      18
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.city_block.build(opts)",
+    "scene": "anchor <id> at x z face d is city_block   |   dress city_block at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "id": "prop_bedside_lamp",
+  "kind": "prop",
+  "title": "Bedside lamp",
+  "tags": [
+    "prop",
+    "lighting",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "light"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "bedside_lamp",
+    "category": "lighting",
+    "placement": "onSurface",
+    "size": [
+      0.18,
+      0.42,
+      0.18
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bedside_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is bedside_lamp   |   dress bedside_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

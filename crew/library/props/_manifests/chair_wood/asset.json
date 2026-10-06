@@ -1,0 +1,38 @@
+{
+  "id": "prop_chair_wood",
+  "kind": "prop",
+  "title": "Wooden chair",
+  "tags": [
+    "prop",
+    "seating",
+    "at",
+    "the-bob",
+    "sittable"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "chair_wood",
+    "category": "seating",
+    "placement": "at",
+    "size": [
+      0.44,
+      0.92,
+      0.42
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.45,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.chair_wood.build(opts)",
+    "scene": "anchor <id> at x z face d is chair_wood   |   dress chair_wood at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

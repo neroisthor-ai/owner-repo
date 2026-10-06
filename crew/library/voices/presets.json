@@ -1,0 +1,16 @@
+{
+  "format": "crew voice presets v1",
+  "method": "Kokoro-82M voices designed as weighted blends of style vectors, then trimmed, given quiet breaths in long sentence gaps, high-passed at 70 Hz and loudness-normalised (RMS 0.08). Mouth tracks are analysed from the rendered audio. From The Bob previs (pipeline/voices/humanvo.py, timing_lipsync/lipsync.py).",
+  "presets": {
+    "anna":    { "blend": "bf_emma:0.62+af_heart:0.38",     "lang": "en-gb", "speed": 1.0,  "note": "The Bob: Dr Anna, the narrator. Warm British, unhurried." },
+    "bob":     { "blend": "am_puck:0.7+am_michael:0.3",     "lang": "en-us", "speed": 1.04, "note": "The Bob: Bob Cofer at sixteen. Quick, light." },
+    "cofer":   { "blend": "bm_george:0.7+bm_fable:0.3",     "lang": "en-gb", "speed": 0.98, "note": "The Bob: Mr Cofer. Dry British baritone." },
+    "teacher": { "blend": "af_sarah:0.5+af_heart:0.5",      "lang": "en-us", "speed": 1.02, "note": "The Bob: the teacher. Brisk." },
+    "orla":    { "blend": "bf_isabella:0.7+bf_emma:0.3",    "lang": "en-gb", "speed": 0.94, "note": "The Bob: Orla, first witch. Measured, theatrical." },
+    "anabela": { "blend": "af_bella:0.8+af_heart:0.2",      "lang": "en-us", "speed": 0.97, "note": "The Bob: Anabela, second witch. Bright and forceful." },
+    "saba":    { "blend": "af_nicole:0.6+af_heart:0.4",     "lang": "en-us", "speed": 0.93, "note": "The Bob: Saba, third witch. Soft, close." },
+    "narrator_gb": { "blend": "bf_emma",                    "lang": "en-gb", "speed": 0.9,  "note": "The Bob opening narration voice (vo.py)." },
+    "young_man_gb": { "blend": "bm_lewis",                  "lang": "en-gb", "speed": 1.0,  "note": "The Bob: young Baden's laughs and efforts (vo.py)." },
+    "young_woman_gb": { "blend": "bf_alice",                "lang": "en-gb", "speed": 1.0,  "note": "The Bob: young Dowie's calls and laughs (vo.py)." }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "id": "set_classroom",
+  "kind": "set",
+  "title": "Classroom",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "scene": "../../classroom.scene"
+  },
+  "meta": {
+    "set": "classroom",
+    "size": [
+      7,
+      6
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          -2.8,
+          2.6
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "teacher",
+        "at": [
+          0.2,
+          -1.7
+        ],
+        "face": 0,
+        "is": null
+      },
+      {
+        "id": "seat_1",
+        "at": [
+          -1.8,
+          0.5
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "seat_2",
+        "at": [
+          0,
+          0.5
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "seat_3",
+        "at": [
+          1.8,
+          0.5
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "seat_4",
+        "at": [
+          -1.8,
+          1.8
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "seat_5",
+        "at": [
+          0,
+          1.8
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "seat_6",
+        "at": [
+          1.8,
+          1.8
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "board",
+        "at": [
+          0.6,
+          -2.3
+        ],
+        "face": 180,
+        "is": null
+      }
+    ],
+    "dress": [
+      "school_desk",
+      "school_desk",
+      "school_desk",
+      "school_desk",
+      "school_desk",
+      "school_desk",
+      "office_desk",
+      "chalkboard",
+      "whiteboard",
+      "bookshelf",
+      "window_barred",
+      "window_barred",
+      "poster",
+      "ceiling_fan",
+      "ceiling_fan"
+    ],
+    "props": [],
+    "use": "include classroom   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

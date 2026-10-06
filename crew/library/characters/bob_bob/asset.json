@@ -1,0 +1,67 @@
+{
+  "id": "bob_bob",
+  "kind": "character",
+  "title": "Bob (The Bob)",
+  "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "assets/characters/bob.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+  },
+  "files": {
+    "model": "bob.glb",
+    "source": "bob.bob1"
+  },
+  "meta": {
+    "rig": "bob18",
+    "bones": [
+      "root",
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "lSh",
+      "lEl",
+      "lHand",
+      "rSh",
+      "rEl",
+      "rHand",
+      "lHip",
+      "lKnee",
+      "lAnk",
+      "rHip",
+      "rKnee",
+      "rAnk"
+    ],
+    "meshes": [
+      "body",
+      "head",
+      "hair"
+    ],
+    "verts": 85233,
+    "tris": 170338,
+    "defaultLook": "bob",
+    "looks": [
+      "bob",
+      "stuC"
+    ],
+    "materialSlots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie"
+    ],
+    "height": 1.77175
+  }
+}

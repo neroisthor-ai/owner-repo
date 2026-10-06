@@ -1,0 +1,108 @@
+{
+  "id": "set_staffroom",
+  "kind": "set",
+  "title": "Staffroom",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "scene": "../../staffroom.scene"
+  },
+  "meta": {
+    "set": "staffroom",
+    "size": [
+      6,
+      4.5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          2.4,
+          1.85
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "chair_n",
+        "at": [
+          0,
+          -0.95
+        ],
+        "face": 0,
+        "is": "chair_wood"
+      },
+      {
+        "id": "chair_w",
+        "at": [
+          -1.15,
+          -0.2
+        ],
+        "face": 90,
+        "is": "chair_wood"
+      },
+      {
+        "id": "chair_e",
+        "at": [
+          1.15,
+          -0.2
+        ],
+        "face": 270,
+        "is": "chair_wood"
+      },
+      {
+        "id": "armchair_l",
+        "at": [
+          -2.2,
+          1
+        ],
+        "face": 60,
+        "is": "armchair"
+      },
+      {
+        "id": "armchair_r",
+        "at": [
+          2.2,
+          1
+        ],
+        "face": 300,
+        "is": "armchair"
+      },
+      {
+        "id": "kettle_spot",
+        "at": [
+          1.9,
+          -1.3
+        ],
+        "face": 180,
+        "is": null
+      }
+    ],
+    "dress": [
+      "library_table",
+      "coffee_table",
+      "kitchen_counter",
+      "kettle",
+      "bookshelf",
+      "wall_clock",
+      "ceiling_fan",
+      "window_barred",
+      "poster",
+      "newspaper"
+    ],
+    "props": [
+      "mug",
+      "mug_b"
+    ],
+    "use": "include staffroom   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

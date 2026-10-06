@@ -1,0 +1,38 @@
+{
+  "id": "prop_bed_boarding",
+  "kind": "prop",
+  "title": "Boarding-school bed",
+  "tags": [
+    "prop",
+    "bedroom",
+    "at",
+    "the-bob",
+    "sittable"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "bed_boarding",
+    "category": "bedroom",
+    "placement": "at",
+    "size": [
+      1.05,
+      0.9,
+      2.3
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.5,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bed_boarding.build(opts)",
+    "scene": "anchor <id> at x z face d is bed_boarding   |   dress bed_boarding at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

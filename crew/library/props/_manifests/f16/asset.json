@@ -1,0 +1,38 @@
+{
+  "id": "prop_f16",
+  "kind": "prop",
+  "title": "F-16 with afterburner",
+  "tags": [
+    "prop",
+    "aircraft",
+    "front",
+    "low-pass",
+    "animated"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "f16",
+    "category": "aircraft",
+    "placement": "front",
+    "size": [
+      10.34,
+      6.95,
+      23.75
+    ],
+    "y0": -3.1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.f16.build(opts)",
+    "scene": "anchor <id> at x z face d is f16   |   dress f16 at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

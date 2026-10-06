@@ -1,0 +1,119 @@
+{
+  "id": "set_london_street",
+  "kind": "set",
+  "title": "London street",
+  "tags": [
+    "set",
+    "scene",
+    "exterior",
+    "crew"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "scene": "../../london_street.scene"
+  },
+  "meta": {
+    "set": "london_street",
+    "size": [
+      20,
+      10
+    ],
+    "open": true,
+    "entrance": "edge_w",
+    "anchors": [
+      {
+        "id": "edge_w",
+        "at": [
+          -9,
+          -2.5
+        ],
+        "face": 90,
+        "is": null
+      },
+      {
+        "id": "edge_e",
+        "at": [
+          9,
+          -2.5
+        ],
+        "face": 270,
+        "is": null
+      },
+      {
+        "id": "bus_stop",
+        "at": [
+          -5,
+          -2.3
+        ],
+        "face": 180,
+        "is": "bus_stop"
+      },
+      {
+        "id": "box",
+        "at": [
+          1.5,
+          -2.3
+        ],
+        "face": 180,
+        "is": "phone_box"
+      },
+      {
+        "id": "post",
+        "at": [
+          3.6,
+          -2.3
+        ],
+        "face": 180,
+        "is": "post_box"
+      },
+      {
+        "id": "bench",
+        "at": [
+          6.2,
+          -3.2
+        ],
+        "face": 0,
+        "is": "bench"
+      },
+      {
+        "id": "kerb",
+        "at": [
+          -2.5,
+          -1.5
+        ],
+        "face": 0,
+        "is": null
+      },
+      {
+        "id": "crossing",
+        "at": [
+          3.8,
+          0.8
+        ],
+        "face": 0,
+        "is": null
+      }
+    ],
+    "dress": [
+      "city_block",
+      "city_block",
+      "street_lamp",
+      "street_lamp",
+      "street_lamp",
+      "bin",
+      "traffic_light",
+      "tree",
+      "bus",
+      "cab",
+      "car",
+      "bollard",
+      "bollard",
+      "bollard",
+      "sky_london"
+    ],
+    "props": [],
+    "use": "include london_street   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

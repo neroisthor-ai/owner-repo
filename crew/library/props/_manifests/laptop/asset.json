@@ -1,0 +1,38 @@
+{
+  "id": "prop_laptop",
+  "kind": "prop",
+  "title": "Laptop",
+  "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "laptop",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+      0.32,
+      0.09,
+      0.43
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.laptop.build(opts)",
+    "scene": "anchor <id> at x z face d is laptop   |   dress laptop at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

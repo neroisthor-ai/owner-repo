@@ -1,0 +1,38 @@
+{
+  "id": "prop_elizabeth_tower",
+  "kind": "prop",
+  "title": "Elizabeth Tower (Big Ben)",
+  "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass",
+    "animated"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "elizabeth_tower",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+      22.63,
+      100,
+      22.63
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.elizabeth_tower.build(opts)",
+    "scene": "anchor <id> at x z face d is elizabeth_tower   |   dress elizabeth_tower at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

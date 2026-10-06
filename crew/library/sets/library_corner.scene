@@ -1,0 +1,20 @@
+# [The Bob] The library corner where Bob is walled in: a reading table with a
+# banker's lamp, a leather book and a pile of paper, shelves to the ceiling.
+set library_corner size 5 4.2 entrance door
+  anchor door at 1.7 1.7 face 180
+  anchor reading_chair at -0.95 -0.1 face 90 is chair_wood
+  anchor visitor_chair at 1.75 -0.1 face 270 is chair_wood
+  anchor shelf_a at -1.2 -1.3 face 180 is none
+  anchor shelf_b at 1.2 -1.3 face 180 is none
+  anchor stacks at 0.4 1.0 face 180 is none
+  dress library_table at 0.4 -0.1
+  dress bookshelf at -1.2 -1.9
+  dress bookshelf at 1.2 -1.9
+  dress bookshelf at -2.3 0.7 face 90
+  dress rug at 0.4 0.2
+  dress window_barred at 2.46 -0.6 face 270
+  dress book_stack at 0.85 -0.25 height 0.775
+  dress mug at 1.05 0.1 height 0.775
+  prop bankers_lamp at -0.2 0.2 height 0.775 is bankers_lamp
+  prop leather_book at 0.1 0.05 height 0.775 is leather_book
+  prop note at 0.45 0.15 height 0.775 is paper_note

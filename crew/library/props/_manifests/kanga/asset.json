@@ -1,0 +1,38 @@
+{
+  "id": "prop_kanga",
+  "kind": "prop",
+  "title": "Kanga cloth",
+  "tags": [
+    "prop",
+    "decor",
+    "wall",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "kanga",
+    "category": "decor",
+    "placement": "wall",
+    "size": [
+      1.4,
+      0.88,
+      0
+    ],
+    "y0": 1.21,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kanga.build(opts)",
+    "scene": "anchor <id> at x z face d is kanga   |   dress kanga at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

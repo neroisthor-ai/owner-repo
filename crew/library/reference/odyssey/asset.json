@@ -1,0 +1,17 @@
+{
+  "id": "reference_odyssey",
+  "kind": "reference",
+  "title": "Odyssey: original source",
+  "tags": [
+    "source",
+    "reference",
+    "odyssey"
+  ],
+  "files": {
+    "Odyssey_html": "Odyssey.html",
+    "odyssey_js": "odyssey.js"
+  },
+  "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "prop_tree",
+  "kind": "prop",
+  "title": "Park tree (clustered icosahedra)",
+  "tags": [
+    "prop",
+    "nature",
+    "front",
+    "low-pass",
+    "decor"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "tree",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+      5.53,
+      6.54,
+      4.87
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.tree.build(opts)",
+    "scene": "anchor <id> at x z face d is tree   |   dress tree at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

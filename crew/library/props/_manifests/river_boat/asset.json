@@ -1,0 +1,37 @@
+{
+  "id": "prop_river_boat",
+  "kind": "prop",
+  "title": "Thames river cruiser",
+  "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "river_boat",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+      24,
+      5.1,
+      6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.river_boat.build(opts)",
+    "scene": "anchor <id> at x z face d is river_boat   |   dress river_boat at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

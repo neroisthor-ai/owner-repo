@@ -1,0 +1,37 @@
+{
+  "id": "prop_b2",
+  "kind": "prop",
+  "title": "B-2 Spirit flying wing",
+  "tags": [
+    "prop",
+    "aircraft",
+    "front",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "b2",
+    "category": "aircraft",
+    "placement": "front",
+    "size": [
+      54,
+      4.15,
+      21
+    ],
+    "y0": -1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.b2.build(opts)",
+    "scene": "anchor <id> at x z face d is b2   |   dress b2 at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

@@ -1,0 +1,24 @@
+# [The Bob] The covered veranda outside the classrooms, 16 x 4 m: classroom doors
+# and windows in the back wall, the lawn and a bougainvillea hedge in front of the
+# camera side, a second block across the grass and Kilimanjaro on the horizon.
+# The garden is at +z; the camera shoots along the veranda.
+set veranda_corridor size 16 4 entrance door_w
+  anchor door_w at -7.0 -1.3 face 180
+  anchor door_a at -2.5 -1.3 face 180
+  anchor door_b at 2.5 -1.3 face 180
+  anchor mid at 0 0.4 face 0 is none
+  anchor lawn_edge at 0 1.8 face 0 is none
+  anchor bench_a at 5.0 -1.2 face 0 is bench
+  dress window_barred at -5 -1.94
+  dress window_barred at 0 -1.94
+  dress window_barred at 5.0 -1.94
+  dress poster at 7.2 -1.94
+  dress hedge at 6.0 3.6
+  dress hedge at -6.0 3.6
+  dress jacaranda at -3.0 6.0
+  dress jacaranda at 3.5 7.5
+  dress jacaranda at 9.0 6.0
+  dress flower_bed at -1.0 3.2
+  dress campus_block at 0 26 face 180
+  dress kilimanjaro at 0 250 face 180
+  dress sky_campus at 0 0

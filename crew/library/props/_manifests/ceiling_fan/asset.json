@@ -1,0 +1,39 @@
+{
+  "id": "prop_ceiling_fan",
+  "kind": "prop",
+  "title": "Ceiling fan",
+  "tags": [
+    "prop",
+    "decor",
+    "ceiling",
+    "the-bob",
+    "decor",
+    "animated"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "ceiling_fan",
+    "category": "decor",
+    "placement": "ceiling",
+    "size": [
+      1.04,
+      0.59,
+      1.19
+    ],
+    "y0": 2.11,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.ceiling_fan.build(opts)",
+    "scene": "anchor <id> at x z face d is ceiling_fan   |   dress ceiling_fan at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

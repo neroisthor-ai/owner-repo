@@ -1,0 +1,36 @@
+episode 1 "Midnight Snack"
+
+scene 1 kitchen night act 1
+1A WS
+  kiran@door enter
+  with mum@chair sit ~0.3
+  ambience night
+  kiran walk fridge 1.0
+  with sfx footsteps
+1B MCU kiran
+  light practical
+  kiran open fridge.door
+  with sfx fridge.open
+  kiran smile
+  kiran take cake
+1C CU mum
+  mum say "Couldn't sleep either?" to kiran
+1D MCU kiran push.slow
+  kiran turn mum
+  kiran shock ~2.5
+  with sfx sting
+  kiran guilty
+  kiran say "I was... checking the fridge was still cold."
+1E OTS kiran>mum
+  mum look kiran
+  mum smile
+  mum say "And is it?"
+1F CU kiran
+  kiran nod
+  kiran say "Very."
+1G TWO kiran>mum
+  mum say "Get two forks."
+  with music warm
+  kiran laugh
+  kiran walk counter
+  kiran take fork

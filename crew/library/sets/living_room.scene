@@ -1,0 +1,19 @@
+# New. A living room, 6 x 5 m, laid out for profile shots from the camera side: the
+# sofa on the left wall and the TV on the right face each other across a coffee
+# table, with an armchair at the front and a bookshelf and window on the back wall.
+set living_room size 6 5 entrance door
+  anchor door at 2.3 2.0 face 180
+  anchor sofa at -2.3 0.0 face 90
+  anchor tv at 2.1 0.0 face 90 is tv_stand
+  anchor armchair at -0.7 1.7 face 180 is armchair
+  anchor window_seat at -1.0 -1.9 face 180 is none
+  anchor lamp_spot at -2.2 -1.9 face 90 is none
+  dress coffee_table at -0.7 0.0 face 90
+  dress rug at -0.9 0.0 face 90
+  dress floor_lamp at -2.6 -2.1
+  dress potted_plant at 2.6 -2.0
+  dress bookshelf at 1.5 -2.3
+  dress window_barred at -1.0 -2.44
+  dress newspaper at -0.7 0.2 height 0.44
+  dress plate at -0.7 -0.2 height 0.44
+  prop mug at -0.7 0.05 height 0.44

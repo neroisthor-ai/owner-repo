@@ -1,0 +1,39 @@
+{
+  "id": "prop_wall_clock",
+  "kind": "prop",
+  "title": "Wall clock",
+  "tags": [
+    "prop",
+    "decor",
+    "wall",
+    "the-bob",
+    "decor",
+    "animated"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "wall_clock",
+    "category": "decor",
+    "placement": "wall",
+    "size": [
+      0.36,
+      0.36,
+      0.06
+    ],
+    "y0": 1.92,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.wall_clock.build(opts)",
+    "scene": "anchor <id> at x z face d is wall_clock   |   dress wall_clock at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

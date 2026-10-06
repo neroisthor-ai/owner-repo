@@ -1,0 +1,38 @@
+{
+  "id": "prop_book_stack",
+  "kind": "prop",
+  "title": "Stack of books",
+  "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "book_stack",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+      0.27,
+      0.42,
+      0.35
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.book_stack.build(opts)",
+    "scene": "anchor <id> at x z face d is book_stack   |   dress book_stack at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "reference_the_bob",
+  "kind": "reference",
+  "title": "The Bob: original source and pipeline",
+  "tags": [
+    "source",
+    "reference",
+    "the-bob"
+  ],
+  "files": {
+    "README_md": "README.md",
+    "humanvo_py": "humanvo.py",
+    "index_master_html": "index_master.html",
+    "lipsync_py": "lipsync.py",
+    "mii_py": "mii.py",
+    "mix_full_py": "mix_full.py",
+    "people_py": "people.py",
+    "qa_audit_js": "qa_audit.js",
+    "timeline_py": "timeline.py"
+  },
+  "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+  }
+}

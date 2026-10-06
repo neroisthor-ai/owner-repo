@@ -1,0 +1,53 @@
+{
+  "id": "kit_odyssey",
+  "kind": "kit",
+  "title": "Scylla and Charybdis: raymarched storm film",
+  "tags": [
+    "odyssey",
+    "film",
+    "ocean",
+    "storm",
+    "webgl2"
+  ],
+  "source": {
+    "project": "Odyssey",
+    "file": "reference/odyssey/odyssey.js"
+  },
+  "files": {
+    "module": "../../films/odyssey.js",
+    "compat": "../../compat.js"
+  },
+  "meta": {
+    "factory": "createOdyssey",
+    "exports": [
+      "start",
+      "time",
+      "DUR",
+      "SHOTS",
+      "CUTS",
+      "stateAt",
+      "renderFrame",
+      "shotIndex",
+      "shotCam",
+      "simAt",
+      "shipAt",
+      "scyllaAt",
+      "lightningAt",
+      "resize",
+      "fit",
+      "setPlay",
+      "loop",
+      "master",
+      "audioStart",
+      "audioStop",
+      "pickVideoConfig",
+      "pickAudioConfig",
+      "timecode"
+    ],
+    "needs": [
+      "music/odyssey_score/score.m4a"
+    ],
+    "bytes": 108534,
+    "generatedBy": "crew library port"
+  }
+}

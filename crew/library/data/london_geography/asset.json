@@ -1,0 +1,32 @@
+{
+  "id": "london_geography",
+  "kind": "data",
+  "title": "London: Thames centreline, parks, landmarks",
+  "tags": [
+    "london",
+    "river",
+    "thames",
+    "landmarks",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass",
+    "file": "low-pass.html"
+  },
+  "files": {
+    "thames": "thames.geojson",
+    "parks": "parks.geojson",
+    "landmarks": "landmarks.geojson"
+  },
+  "meta": {
+    "riverPoints": 29,
+    "parks": 10,
+    "landmarks": 28,
+    "frame": {
+      "lat0": 51.5055,
+      "lon0": -0.0754,
+      "kx": 69296,
+      "kz": 111200
+    }
+  }
+}

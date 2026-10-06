@@ -1,0 +1,32 @@
+show "Midnight Snack"
+
+# Style Bible: what this show always does. Agents only write what differs.
+style lens 35
+style sensor 36x24
+style fps 24
+style twos on
+style asl 3.5
+style move static
+style speed slow
+style pace 165
+style side left
+style palette warm
+style act 1 palette night
+
+cast kiran name "Kiran" height 1.74 color teal voice male pace 175 model male tts preset:bob
+cast mum name "Mum" height 1.63 color coral voice female pace 150 model female tts preset:anna
+
+# Anchors are stand marks; `face` is where a character settles facing.
+# Furniture is drawn in front of its mark (doors and windows behind it; chairs under it).
+set kitchen size 7 5.5 entrance door
+  anchor door at -3.1 0.9 face 90
+  anchor sink at 1.5 0.9 face 0
+  anchor counter at 0.9 -1.45 face 180
+  anchor fridge at 2.3 -1.45 face 180
+  anchor table at -0.15 0.55 face 180
+  anchor chair at -1.15 -0.2 face 90 is chair
+  anchor window at -1.2 -2.4 face 0 is window
+  prop cake at 2.3 -2.0 on fridge height 1.05
+  prop fridge.door at 2.3 -1.72 on fridge
+  prop fork at 0.9 -1.95 on counter
+  prop mug at -0.4 -0.2 on table

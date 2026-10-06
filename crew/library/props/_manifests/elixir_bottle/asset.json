@@ -1,0 +1,40 @@
+{
+  "id": "prop_elixir_bottle",
+  "kind": "prop",
+  "title": "Glowing elixir bottle",
+  "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "animated",
+    "light"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "elixir_bottle",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+      0.04,
+      0.1,
+      0.04
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.elixir_bottle.build(opts)",
+    "scene": "anchor <id> at x z face d is elixir_bottle   |   dress elixir_bottle at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

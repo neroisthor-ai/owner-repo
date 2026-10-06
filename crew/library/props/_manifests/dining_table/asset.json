@@ -1,0 +1,37 @@
+{
+  "id": "prop_dining_table",
+  "kind": "prop",
+  "title": "Dining table",
+  "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "dining_table",
+    "category": "living",
+    "placement": "front",
+    "size": [
+      1.4,
+      0.75,
+      0.9
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.75,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.dining_table.build(opts)",
+    "scene": "anchor <id> at x z face d is dining_table   |   dress dining_table at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

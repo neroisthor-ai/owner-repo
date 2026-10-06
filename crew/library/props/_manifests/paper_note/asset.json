@@ -1,0 +1,38 @@
+{
+  "id": "prop_paper_note",
+  "kind": "prop",
+  "title": "Sheet of paper",
+  "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "paper_note",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+      0.21,
+      0,
+      0.3
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.paper_note.build(opts)",
+    "scene": "anchor <id> at x z face d is paper_note   |   dress paper_note at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

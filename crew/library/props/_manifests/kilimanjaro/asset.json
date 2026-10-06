@@ -1,0 +1,38 @@
+{
+  "id": "prop_kilimanjaro",
+  "kind": "prop",
+  "title": "Kilimanjaro backdrop",
+  "tags": [
+    "prop",
+    "landscape",
+    "behind",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "kilimanjaro",
+    "category": "landscape",
+    "placement": "behind",
+    "size": [
+      480,
+      56.57,
+      7
+    ],
+    "y0": -8.64,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kilimanjaro.build(opts)",
+    "scene": "anchor <id> at x z face d is kilimanjaro   |   dress kilimanjaro at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "set_boarding_room",
+  "kind": "set",
+  "title": "Boarding room",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "scene": "../../boarding_room.scene"
+  },
+  "meta": {
+    "set": "boarding_room",
+    "size": [
+      4.4,
+      4
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          -0.9,
+          1.7
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "bed_a_side",
+        "at": [
+          -0.75,
+          0
+        ],
+        "face": 270,
+        "is": null
+      },
+      {
+        "id": "bed_b_side",
+        "at": [
+          0.75,
+          0
+        ],
+        "face": 90,
+        "is": null
+      },
+      {
+        "id": "window_sill",
+        "at": [
+          0,
+          -1.1
+        ],
+        "face": 180,
+        "is": null
+      },
+      {
+        "id": "desk_seat",
+        "at": [
+          1.3,
+          1.5
+        ],
+        "face": 90,
+        "is": "chair_wood"
+      },
+      {
+        "id": "foot_a",
+        "at": [
+          -1.5,
+          1.6
+        ],
+        "face": 0,
+        "is": null
+      }
+    ],
+    "dress": [
+      "bed_boarding",
+      "bed_boarding",
+      "mosquito_net",
+      "mosquito_net",
+      "window_barred",
+      "bedside_table",
+      "bedside_lamp",
+      "tin_trunk",
+      "school_desk",
+      "kanga",
+      "poster"
+    ],
+    "props": [
+      "lamp"
+    ],
+    "use": "include boarding_room   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

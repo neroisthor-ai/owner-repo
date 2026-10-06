@@ -1,0 +1,38 @@
+{
+  "id": "prop_jacaranda",
+  "kind": "prop",
+  "title": "Jacaranda in bloom",
+  "tags": [
+    "prop",
+    "nature",
+    "front",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "jacaranda",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+      8.89,
+      6.27,
+      10.06
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.jacaranda.build(opts)",
+    "scene": "anchor <id> at x z face d is jacaranda   |   dress jacaranda at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

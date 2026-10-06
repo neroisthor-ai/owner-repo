@@ -1,0 +1,97 @@
+{
+  "id": "set_office",
+  "kind": "set",
+  "title": "Office",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "crew"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "scene": "../../office.scene"
+  },
+  "meta": {
+    "set": "office",
+    "size": [
+      6,
+      5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          2.4,
+          2.15
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "boss_chair",
+        "at": [
+          0.5,
+          -1.95
+        ],
+        "face": 0,
+        "is": "office_chair"
+      },
+      {
+        "id": "visitor_a",
+        "at": [
+          -0.1,
+          -0.1
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "visitor_b",
+        "at": [
+          1.1,
+          -0.1
+        ],
+        "face": 180,
+        "is": "chair_wood"
+      },
+      {
+        "id": "board",
+        "at": [
+          2.5,
+          -0.5
+        ],
+        "face": 90,
+        "is": null
+      },
+      {
+        "id": "cabinet",
+        "at": [
+          -2.4,
+          -1.4
+        ],
+        "face": 180,
+        "is": null
+      }
+    ],
+    "dress": [
+      "office_desk",
+      "computer",
+      "laptop",
+      "phone",
+      "filing_cabinet",
+      "whiteboard",
+      "window_barred",
+      "potted_plant",
+      "newspaper"
+    ],
+    "props": [
+      "mug"
+    ],
+    "use": "include office   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "prop_sky_london",
+  "kind": "prop",
+  "title": "London low-sun sky dome",
+  "tags": [
+    "prop",
+    "sky",
+    "at",
+    "low-pass",
+    "decor"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "sky_london",
+    "category": "sky",
+    "placement": "at",
+    "size": [
+      800,
+      800,
+      800
+    ],
+    "y0": -400,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sky_london.build(opts)",
+    "scene": "anchor <id> at x z face d is sky_london   |   dress sky_london at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

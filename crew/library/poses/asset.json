@@ -1,0 +1,45 @@
+{
+  "id": "poses_the_bob",
+  "kind": "poses",
+  "title": "The Bob: pose library",
+  "tags": [
+    "the-bob",
+    "poses",
+    "keyframes",
+    "bob18"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "index_master.html (P)"
+  },
+  "files": {
+    "poses": "the_bob.json"
+  },
+  "meta": {
+    "rig": "bob18",
+    "poses": [
+      "stand",
+      "ready",
+      "holdR",
+      "windup",
+      "release",
+      "follow",
+      "catchHigh",
+      "catchMid",
+      "chestHit",
+      "fumble",
+      "laughBack",
+      "doubled",
+      "crouch",
+      "jump",
+      "land",
+      "pickup",
+      "holdL",
+      "cheer",
+      "offer",
+      "reach",
+      "seated"
+    ],
+    "scene": "kiran pose <name> ~N (names in snake_case, e.g. catch_high)"
+  }
+}

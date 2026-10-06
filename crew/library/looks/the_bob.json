@@ -1,0 +1,245 @@
+{
+  "source": "The Bob previs",
+  "bodies": {
+    "dowie": "dowie",
+    "baden": "baden",
+    "bob": "bob",
+    "cofer": "cofer",
+    "teacher": "teacher",
+    "anna": "anna",
+    "orla": "witch",
+    "anabela": "witch",
+    "saba": "witch",
+    "adultD": "dowie",
+    "adultB": "baden",
+    "stuA": "dowie",
+    "stuB": "baden",
+    "stuC": "bob"
+  },
+  "looks": {
+    "dowie": {
+      "skin": "#e3b896",
+      "top": "#c4553e",
+      "topSheen": "#ffb08a",
+      "bottom": "#c4553e",
+      "shoe": "#ece6da",
+      "hair": "#dcb764",
+      "hairSheen": "#fff0c0",
+      "brow": "#9c7a3c",
+      "lips": "#b45d58",
+      "iris": [
+        "#6a4a2a",
+        "#3a2614"
+      ],
+      "scale": 0.94
+    },
+    "baden": {
+      "skin": "#e6bf9e",
+      "top": "#56779c",
+      "topSheen": "#c7dcff",
+      "bottom": "#b3a37c",
+      "shoe": "#6a4630",
+      "shoeCoat": 0.3,
+      "accent": "#4a2e1e",
+      "hair": "#eeece6",
+      "hairSheen": "#ffffff",
+      "brow": "#b9b6ae",
+      "lips": "#b9756a",
+      "iris": [
+        "#4f6f86",
+        "#2e4152"
+      ],
+      "scale": 0.99
+    },
+    "cofer": {
+      "skin": "#e0b08c",
+      "brow": "#6d6a64",
+      "top": "#5a5f66",
+      "bottom": "#3c3f45",
+      "accent": "#f2f0ea",
+      "shoe": "#1a1816",
+      "shoeCoat": 0.5,
+      "hair": "#a3a09a",
+      "hairSheen": "#ffffff",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 1
+    },
+    "teacher": {
+      "skin": "#d9a27c",
+      "brow": "#3a2414",
+      "top": "#2f6b5e",
+      "bottom": "#2f6b5e",
+      "shoe": "#2a2522",
+      "hair": "#5a3622",
+      "hairSheen": "#c0905a",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.95
+    },
+    "anna": {
+      "skin": "#efcfb5",
+      "brow": "#2a170c",
+      "top": "#2b2b33",
+      "bottom": "#2b2b33",
+      "accent": "#5a5662",
+      "shoe": "#121212",
+      "shoeCoat": 0.6,
+      "hair": "#3b2414",
+      "hairSheen": "#9a6a48",
+      "lips": "#9e4a48",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.95
+    },
+    "orla": {
+      "skin": "#f0cdb5",
+      "brow": "#8a5a3a",
+      "top": "#e9e6df",
+      "bottom": "#e9e6df",
+      "shoe": "#3a3a3a",
+      "hair": "#e2ded4",
+      "hairSheen": "#ffffff",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.93
+    },
+    "anabela": {
+      "skin": "#c99772",
+      "brow": "#2a170c",
+      "top": "#7a3550",
+      "bottom": "#7a3550",
+      "shoe": "#3a3a3a",
+      "hair": "#6a2c44",
+      "hairSheen": "#ffb0c8",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.93
+    },
+    "saba": {
+      "skin": "#a9744f",
+      "brow": "#1a0f08",
+      "top": "#2f4f7a",
+      "bottom": "#2f4f7a",
+      "shoe": "#3a3a3a",
+      "hair": "#2a4468",
+      "hairSheen": "#a8c4ff",
+      "lips": "#8e5648",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.92
+    },
+    "adultD": {
+      "skin": "#e3b896",
+      "top": "#2d4a73",
+      "topSheen": "#a8c0e8",
+      "bottom": "#2d4a73",
+      "shoe": "#2a2522",
+      "hair": "#dcb764",
+      "hairSheen": "#fff0c0",
+      "brow": "#9c7a3c",
+      "lips": "#b45d58",
+      "iris": [
+        "#6a4a2a",
+        "#3a2614"
+      ],
+      "scale": 0.94
+    },
+    "adultB": {
+      "skin": "#e6bf9e",
+      "top": "#c9c2b0",
+      "bottom": "#4a4a52",
+      "shoe": "#4a3020",
+      "accent": "#3a2a1a",
+      "hair": "#eeece6",
+      "hairSheen": "#ffffff",
+      "brow": "#b9b6ae",
+      "lips": "#b9756a",
+      "iris": [
+        "#4f6f86",
+        "#2e4152"
+      ],
+      "scale": 0.99
+    },
+    "stuA": {
+      "skin": "#c98e66",
+      "top": "#c8553a",
+      "bottom": "#c8553a",
+      "shoe": "#1a1a1a",
+      "hair": "#3a2418",
+      "brow": "#2a170c",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.92
+    },
+    "stuB": {
+      "skin": "#8a5a3a",
+      "top": "#2f7a6a",
+      "bottom": "#34466a",
+      "shoe": "#ece8e0",
+      "accent": "#2f7a6a",
+      "hair": "#1a120c",
+      "brow": "#1a120c",
+      "lips": "#7e4a3c",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.96
+    },
+    "stuC": {
+      "skin": "#e8c09c",
+      "top": "#d8ccb0",
+      "bottom": "#2f3542",
+      "shoe": "#3a3430",
+      "accent": "#d8ccb0",
+      "tie": "#d8ccb0",
+      "hair": "#7a4a22",
+      "brow": "#4a2a12",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.94
+    },
+    "bob": {
+      "skin": "#c9946f",
+      "brow": "#1e1712",
+      "top": "#56693c",
+      "topSheen": "#c8d8a0",
+      "bottom": "#34466a",
+      "shoe": "#e6e2da",
+      "shoeCoat": 0.2,
+      "accent": "#ece9e2",
+      "tie": "#ece9e2",
+      "hair": "#1e1712",
+      "hairSheen": "#5a4636",
+      "lips": "#9e6658",
+      "iris": [
+        "#4a3220",
+        "#24170d"
+      ],
+      "scale": 0.95
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "prop_hedge",
+  "kind": "prop",
+  "title": "Hedge (green or bougainvillea)",
+  "tags": [
+    "prop",
+    "nature",
+    "front",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "hedge",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+      5.32,
+      2.11,
+      1.91
+    ],
+    "y0": -0.19,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.hedge.build(opts)",
+    "scene": "anchor <id> at x z face d is hedge   |   dress hedge at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

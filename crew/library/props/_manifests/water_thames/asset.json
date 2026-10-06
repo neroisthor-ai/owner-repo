@@ -1,0 +1,39 @@
+{
+  "id": "prop_water_thames",
+  "kind": "prop",
+  "title": "Thames water shader",
+  "tags": [
+    "prop",
+    "water",
+    "flat",
+    "low-pass",
+    "decor",
+    "animated"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "water_thames",
+    "category": "water",
+    "placement": "flat",
+    "size": [
+      200,
+      0,
+      200
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.water_thames.build(opts)",
+    "scene": "anchor <id> at x z face d is water_thames   |   dress water_thames at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

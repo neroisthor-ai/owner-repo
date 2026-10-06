@@ -1,0 +1,37 @@
+{
+  "id": "prop_office_desk",
+  "kind": "prop",
+  "title": "Office desk",
+  "tags": [
+    "prop",
+    "office",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "office_desk",
+    "category": "office",
+    "placement": "front",
+    "size": [
+      1.4,
+      0.75,
+      0.7
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.75,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.office_desk.build(opts)",
+    "scene": "anchor <id> at x z face d is office_desk   |   dress office_desk at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

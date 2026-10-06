@@ -1,0 +1,66 @@
+{
+  "id": "bob_anna",
+  "kind": "character",
+  "title": "Anna (The Bob)",
+  "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "assets/characters/anna.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+  },
+  "files": {
+    "model": "anna.glb",
+    "source": "anna.bob1"
+  },
+  "meta": {
+    "rig": "bob18",
+    "bones": [
+      "root",
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "lSh",
+      "lEl",
+      "lHand",
+      "rSh",
+      "rEl",
+      "rHand",
+      "lHip",
+      "lKnee",
+      "lAnk",
+      "rHip",
+      "rKnee",
+      "rAnk"
+    ],
+    "meshes": [
+      "body",
+      "head",
+      "hair"
+    ],
+    "verts": 84049,
+    "tris": 167972,
+    "defaultLook": "anna",
+    "looks": [
+      "anna"
+    ],
+    "materialSlots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie"
+    ],
+    "height": 1.77175
+  }
+}

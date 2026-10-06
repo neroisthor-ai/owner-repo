@@ -1,0 +1,6505 @@
+{
+ "format": "crew library v1",
+ "generated": "2026-10-06T11:36:47.181Z",
+ "assets": [
+  {
+   "id": "bob_anna",
+   "kind": "character",
+   "title": "Anna (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/anna.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "anna.glb",
+    "source": "anna.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair"
+    ],
+    "verts": 84049,
+    "tris": 167972,
+    "defaultLook": "anna",
+    "looks": [
+     "anna"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.77175
+   },
+   "dir": "characters/bob_anna",
+   "urls": {
+    "model": "/library/characters/bob_anna/anna.glb",
+    "source": "/library/characters/bob_anna/anna.bob1"
+   },
+   "bytes": 7326196
+  },
+  {
+   "id": "bob_baden",
+   "kind": "character",
+   "title": "Baden (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/baden.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "baden.glb",
+    "source": "baden.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair"
+    ],
+    "verts": 84721,
+    "tris": 169314,
+    "defaultLook": "baden",
+    "looks": [
+     "baden",
+     "adultB",
+     "stuB"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.84635
+   },
+   "dir": "characters/bob_baden",
+   "urls": {
+    "model": "/library/characters/bob_baden/baden.glb",
+    "source": "/library/characters/bob_baden/baden.bob1"
+   },
+   "bytes": 7383932
+  },
+  {
+   "id": "bob_bob",
+   "kind": "character",
+   "title": "Bob (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/bob.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "bob.glb",
+    "source": "bob.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair"
+    ],
+    "verts": 85233,
+    "tris": 170338,
+    "defaultLook": "bob",
+    "looks": [
+     "bob",
+     "stuC"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.77175
+   },
+   "dir": "characters/bob_bob",
+   "urls": {
+    "model": "/library/characters/bob_bob/bob.glb",
+    "source": "/library/characters/bob_bob/bob.bob1"
+   },
+   "bytes": 7428024
+  },
+  {
+   "id": "bob_cofer",
+   "kind": "character",
+   "title": "Cofer (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/cofer.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "cofer.glb",
+    "source": "cofer.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair"
+    ],
+    "verts": 84671,
+    "tris": 169214,
+    "defaultLook": "cofer",
+    "looks": [
+     "cofer"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.865
+   },
+   "dir": "characters/bob_cofer",
+   "urls": {
+    "model": "/library/characters/bob_cofer/cofer.glb",
+    "source": "/library/characters/bob_cofer/cofer.bob1"
+   },
+   "bytes": 7378972
+  },
+  {
+   "id": "bob_dowie",
+   "kind": "character",
+   "title": "Dowie (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/dowie.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "dowie.glb",
+    "source": "dowie.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair",
+     "skirt"
+    ],
+    "verts": 99507,
+    "tris": 198572,
+    "defaultLook": "dowie",
+    "looks": [
+     "dowie",
+     "adultD",
+     "stuA"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.7530999999999999
+   },
+   "dir": "characters/bob_dowie",
+   "urls": {
+    "model": "/library/characters/bob_dowie/dowie.glb",
+    "source": "/library/characters/bob_dowie/dowie.bob1"
+   },
+   "bytes": 8651980
+  },
+  {
+   "id": "bob_teacher",
+   "kind": "character",
+   "title": "Teacher (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/teacher.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "teacher.glb",
+    "source": "teacher.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair",
+     "skirt"
+    ],
+    "verts": 88401,
+    "tris": 176356,
+    "defaultLook": "teacher",
+    "looks": [
+     "teacher"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.77175
+   },
+   "dir": "characters/bob_teacher",
+   "urls": {
+    "model": "/library/characters/bob_teacher/teacher.glb",
+    "source": "/library/characters/bob_teacher/teacher.bob1"
+   },
+   "bytes": 7696808
+  },
+  {
+   "id": "bob_witch",
+   "kind": "character",
+   "title": "Witch (The Bob)",
+   "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/characters/witch.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+   },
+   "files": {
+    "model": "witch.glb",
+    "source": "witch.bob1"
+   },
+   "meta": {
+    "rig": "bob18",
+    "bones": [
+     "root",
+     "hips",
+     "spine",
+     "chest",
+     "neck",
+     "head",
+     "lSh",
+     "lEl",
+     "lHand",
+     "rSh",
+     "rEl",
+     "rHand",
+     "lHip",
+     "lKnee",
+     "lAnk",
+     "rHip",
+     "rKnee",
+     "rAnk"
+    ],
+    "meshes": [
+     "body",
+     "head",
+     "hair",
+     "skirt"
+    ],
+    "verts": 127517,
+    "tris": 254306,
+    "defaultLook": "witch",
+    "looks": [
+     "orla",
+     "anabela",
+     "saba"
+    ],
+    "materialSlots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie"
+    ],
+    "height": 1.7530999999999999
+   },
+   "dir": "characters/bob_witch",
+   "urls": {
+    "model": "/library/characters/bob_witch/witch.glb",
+    "source": "/library/characters/bob_witch/witch.bob1"
+   },
+   "bytes": 11055676
+  },
+  {
+   "id": "makehuman_female",
+   "kind": "character",
+   "title": "Human female (MakeHuman rig)",
+   "tags": [
+    "human",
+    "realistic",
+    "skinned",
+    "makehuman",
+    "female"
+   ],
+   "source": {
+    "project": "Crew",
+    "file": "human_female.glb"
+   },
+   "files": {
+    "model": "human_female.glb",
+    "rig": "../../rigs/makehuman.json"
+   },
+   "meta": {
+    "rig": "makehuman163",
+    "joints": 163,
+    "meshes": 8,
+    "materials": 8,
+    "textures": 9,
+    "facialBones": true,
+    "animations": 0,
+    "height": 1.61
+   },
+   "dir": "characters/makehuman_female",
+   "urls": {
+    "model": "/library/characters/makehuman_female/human_female.glb",
+    "rig": "/library/rigs/makehuman.json"
+   },
+   "bytes": 4256939
+  },
+  {
+   "id": "makehuman_male",
+   "kind": "character",
+   "title": "Human male (MakeHuman rig)",
+   "tags": [
+    "human",
+    "realistic",
+    "skinned",
+    "makehuman",
+    "male"
+   ],
+   "source": {
+    "project": "Crew",
+    "file": "human_male.glb"
+   },
+   "files": {
+    "model": "human_male.glb",
+    "rig": "../../rigs/makehuman.json"
+   },
+   "meta": {
+    "rig": "makehuman163",
+    "joints": 163,
+    "meshes": 7,
+    "materials": 7,
+    "textures": 8,
+    "facialBones": true,
+    "animations": 0,
+    "height": 1.75
+   },
+   "dir": "characters/makehuman_male",
+   "urls": {
+    "model": "/library/characters/makehuman_male/human_male.glb",
+    "rig": "/library/rigs/makehuman.json"
+   },
+   "bytes": 3770043
+  },
+  {
+   "id": "london_geography",
+   "kind": "data",
+   "title": "London: Thames centreline, parks, landmarks",
+   "tags": [
+    "london",
+    "river",
+    "thames",
+    "landmarks",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass",
+    "file": "low-pass.html"
+   },
+   "files": {
+    "thames": "thames.geojson",
+    "parks": "parks.geojson",
+    "landmarks": "landmarks.geojson"
+   },
+   "meta": {
+    "riverPoints": 29,
+    "parks": 10,
+    "landmarks": 28,
+    "frame": {
+     "lat0": 51.5055,
+     "lon0": -0.0754,
+     "kx": 69296,
+     "kz": 111200
+    }
+   },
+   "dir": "data/london_geography",
+   "urls": {
+    "thames": "/library/data/london_geography/thames.geojson",
+    "parks": "/library/data/london_geography/parks.geojson",
+    "landmarks": "/library/data/london_geography/landmarks.geojson"
+   },
+   "bytes": 5618
+  },
+  {
+   "id": "london_osm",
+   "kind": "data",
+   "title": "Central London: OpenStreetMap buildings",
+   "tags": [
+    "london",
+    "osm",
+    "buildings",
+    "gis",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass",
+    "file": "low-pass.html (window.__OSM)"
+   },
+   "files": {
+    "geojson": "buildings.geojson",
+    "compact": "buildings.compact.json"
+   },
+   "meta": {
+    "buildings": 70180,
+    "maxHeight": 310,
+    "medianHeight": 13.8,
+    "frame": {
+     "lat0": 51.5055,
+     "lon0": -0.0754,
+     "kx": 69296,
+     "kz": 111200
+    },
+    "licence": "Map data © OpenStreetMap contributors, ODbL"
+   },
+   "dir": "data/london_osm",
+   "urls": {
+    "geojson": "/library/data/london_osm/buildings.geojson",
+    "compact": "/library/data/london_osm/buildings.compact.json"
+   },
+   "bytes": 28397386
+  },
+  {
+   "id": "odyssey_ocean",
+   "kind": "effect",
+   "title": "Storm ocean raymarcher (Scylla and Charybdis)",
+   "tags": [
+    "odyssey",
+    "ocean",
+    "storm",
+    "raymarch",
+    "glsl",
+    "webgl2"
+   ],
+   "source": {
+    "project": "Odyssey",
+    "file": "Odyssey.html <script type=x-shader>"
+   },
+   "files": {
+    "common": "glsl/common.glsl",
+    "post": "glsl/post.glsl",
+    "probe": "glsl/probe.glsl",
+    "resolve": "glsl/resolve.glsl",
+    "scene": "glsl/scene.glsl",
+    "vs": "glsl/vs.glsl"
+   },
+   "meta": {
+    "api": "raw WebGL2, progressive accumulation (probe/resolve), see kits/films/odyssey.js",
+    "uniforms": [
+     "uTime",
+     "uCamPos",
+     "uCamRot",
+     "uShipPos",
+     "uShipRot",
+     "uOarPhase",
+     "uFlash",
+     "uBolt[40]",
+     "uFog",
+     "uSpray",
+     "uWhirl",
+     "uScylla"
+    ]
+   },
+   "dir": "effects/odyssey_ocean",
+   "urls": {
+    "common": "/library/effects/odyssey_ocean/glsl/common.glsl",
+    "post": "/library/effects/odyssey_ocean/glsl/post.glsl",
+    "probe": "/library/effects/odyssey_ocean/glsl/probe.glsl",
+    "resolve": "/library/effects/odyssey_ocean/glsl/resolve.glsl",
+    "scene": "/library/effects/odyssey_ocean/glsl/scene.glsl",
+    "vs": "/library/effects/odyssey_ocean/glsl/vs.glsl"
+   },
+   "bytes": 58978
+  },
+  {
+   "id": "kit_low_pass",
+   "kind": "kit",
+   "title": "Low Pass: London, the Thames, an F-16 and a B-2",
+   "tags": [
+    "low-pass",
+    "film",
+    "london",
+    "thames",
+    "aircraft",
+    "traffic",
+    "crowd",
+    "hdr"
+   ],
+   "source": {
+    "project": "Low Pass",
+    "file": "reference/low_pass/low-pass.js"
+   },
+   "files": {
+    "module": "../../films/low_pass.js",
+    "compat": "../../compat.js"
+   },
+   "meta": {
+    "factory": "createLowPass",
+    "exports": [
+     "start",
+     "renderAt",
+     "renderer",
+     "time",
+     "scene",
+     "camera",
+     "sun",
+     "sky",
+     "water",
+     "waterMat",
+     "land",
+     "TOTAL",
+     "SHOTS",
+     "SUN_DIR",
+     "LAT0",
+     "geo",
+     "riverFrame",
+     "alignToRiver",
+     "lutAt",
+     "nearestS",
+     "RIV",
+     "towerBridge",
+     "parliament",
+     "shard",
+     "londonEye",
+     "stPauls",
+     "skyline",
+     "riverBridge",
+     "buildCity",
+     "buildOSM",
+     "trees",
+     "vehicle",
+     "addTraffic",
+     "updateTraffic",
+     "addBoat",
+     "updateBoats",
+     "buildF16",
+     "buildB2",
+     "F16",
+     "B2",
+     "plumeMat",
+     "vaporMat",
+     "acPaint",
+     "Trail",
+     "jetTrails",
+     "b2Trails",
+     "track",
+     "orientFrom",
+     "crowd",
+     "personBody",
+     "updatePeople",
+     "buildTrain",
+     "updateTrain",
+     "buildCockpit",
+     "drawHUD",
+     "makeNoise3D",
+     "skyMaterial",
+     "panelTex",
+     "gothicMat",
+     "heightToNormal",
+     "canvasTex",
+     "flagMat",
+     "flagGeo",
+     "mergeGeos",
+     "mergeCol",
+     "frame",
+     "renderHDR",
+     "present",
+     "seekTo",
+     "poseAt",
+     "direct",
+     "stepSim",
+     "sizeTo",
+     "resize",
+     "buildPipeline",
+     "renderReflection",
+     "initAudio",
+     "updateAudio",
+     "setPlaying",
+     "start",
+     "loop",
+     "renderFilm",
+     "halton"
+    ],
+    "needs": [
+     "data/london_osm/buildings.compact.json"
+    ],
+    "bytes": 161655,
+    "generatedBy": "crew library port"
+   },
+   "dir": "kits/_manifests/low_pass",
+   "urls": {
+    "module": "/library/kits/films/low_pass.js",
+    "compat": "/library/kits/compat.js"
+   },
+   "bytes": 165756
+  },
+  {
+   "id": "kit_odyssey",
+   "kind": "kit",
+   "title": "Scylla and Charybdis: raymarched storm film",
+   "tags": [
+    "odyssey",
+    "film",
+    "ocean",
+    "storm",
+    "webgl2"
+   ],
+   "source": {
+    "project": "Odyssey",
+    "file": "reference/odyssey/odyssey.js"
+   },
+   "files": {
+    "module": "../../films/odyssey.js",
+    "compat": "../../compat.js"
+   },
+   "meta": {
+    "factory": "createOdyssey",
+    "exports": [
+     "start",
+     "time",
+     "DUR",
+     "SHOTS",
+     "CUTS",
+     "stateAt",
+     "renderFrame",
+     "shotIndex",
+     "shotCam",
+     "simAt",
+     "shipAt",
+     "scyllaAt",
+     "lightningAt",
+     "resize",
+     "fit",
+     "setPlay",
+     "loop",
+     "master",
+     "audioStart",
+     "audioStop",
+     "pickVideoConfig",
+     "pickAudioConfig",
+     "timecode"
+    ],
+    "needs": [
+     "music/odyssey_score/score.m4a"
+    ],
+    "bytes": 108534,
+    "generatedBy": "crew library port"
+   },
+   "dir": "kits/_manifests/odyssey",
+   "urls": {
+    "module": "/library/kits/films/odyssey.js",
+    "compat": "/library/kits/compat.js"
+   },
+   "bytes": 112635
+  },
+  {
+   "id": "kit_the_bob",
+   "kind": "kit",
+   "title": "The Bob: the whole previs as a kit",
+   "tags": [
+    "the-bob",
+    "film",
+    "sets",
+    "cast",
+    "framing",
+    "performance",
+    "kilimanjaro"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "reference/the_bob/index_master.html"
+   },
+   "files": {
+    "module": "../../films/the_bob.js",
+    "compat": "../../compat.js"
+   },
+   "meta": {
+    "factory": "createTheBob",
+    "exports": [
+     "load",
+     "start",
+     "renderer",
+     "camera",
+     "T",
+     "DUR",
+     "SHOTS",
+     "VO",
+     "MUS",
+     "SFX",
+     "LOOK",
+     "P",
+     "CAST",
+     "RIGS",
+     "GR",
+     "SIZES",
+     "FPS",
+     "lawn",
+     "lib",
+     "corr",
+     "room",
+     "school",
+     "campus",
+     "buildLawn",
+     "buildLibrary",
+     "buildCorridor",
+     "buildRoom",
+     "buildSchool",
+     "buildCampus",
+     "addLibProps",
+     "addGrades",
+     "kili",
+     "kiliH",
+     "hipRoof",
+     "stateAt",
+     "renderAt",
+     "placeCam",
+     "setLens",
+     "layout",
+     "renderScene",
+     "postTo",
+     "setSun",
+     "shotAt",
+     "seek",
+     "setPlaying",
+     "tick",
+     "perform",
+     "gait",
+     "idleLayer",
+     "lookAtTarget",
+     "faceAnim",
+     "blinkAt",
+     "talkOverlay",
+     "lipAt",
+     "applyPose",
+     "lerpPose",
+     "addJ",
+     "ikArm",
+     "single",
+     "ots",
+     "two",
+     "insert",
+     "fixedCam",
+     "seq",
+     "cycle",
+     "protect",
+     "aimAt",
+     "eyesOf",
+     "bodyOf",
+     "faceDir",
+     "occluders",
+     "canvasTex",
+     "noiseFill",
+     "sigFlick",
+     "renderFilm",
+     "shake"
+    ],
+    "needs": [
+     "characters/bob_*/*.bob1",
+     "music/the_bob_score_real/score.mp3"
+    ],
+    "bytes": 342471,
+    "generatedBy": "crew library port"
+   },
+   "dir": "kits/_manifests/the_bob",
+   "urls": {
+    "module": "/library/kits/films/the_bob.js",
+    "compat": "/library/kits/compat.js"
+   },
+   "bytes": 346572
+  },
+  {
+   "id": "looks_the_bob",
+   "kind": "looks",
+   "title": "The Bob: 14 character looks",
+   "tags": [
+    "the-bob",
+    "palette",
+    "wardrobe",
+    "looks"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "index_master.html (LOOK)"
+   },
+   "files": {
+    "looks": "the_bob.json"
+   },
+   "meta": {
+    "looks": [
+     "dowie",
+     "baden",
+     "cofer",
+     "teacher",
+     "anna",
+     "orla",
+     "anabela",
+     "saba",
+     "adultD",
+     "adultB",
+     "stuA",
+     "stuB",
+     "stuC",
+     "bob"
+    ],
+    "bodies": {
+     "dowie": "dowie",
+     "baden": "baden",
+     "bob": "bob",
+     "cofer": "cofer",
+     "teacher": "teacher",
+     "anna": "anna",
+     "orla": "witch",
+     "anabela": "witch",
+     "saba": "witch",
+     "adultD": "dowie",
+     "adultB": "baden",
+     "stuA": "dowie",
+     "stuB": "baden",
+     "stuC": "bob"
+    },
+    "slots": [
+     "skin",
+     "top",
+     "bottom",
+     "shoe",
+     "accent",
+     "hair",
+     "lips",
+     "tie",
+     "brow",
+     "iris"
+    ]
+   },
+   "dir": "looks",
+   "urls": {
+    "looks": "/library/looks/the_bob.json"
+   },
+   "bytes": 5060
+  },
+  {
+   "id": "odyssey_score",
+   "kind": "music",
+   "title": "Scylla and Charybdis: score",
+   "tags": [
+    "odyssey",
+    "score",
+    "storm",
+    "epic"
+   ],
+   "source": {
+    "project": "Odyssey (Scylla and Charybdis)",
+    "file": "Odyssey.html (window.__AUDIO_B64)"
+   },
+   "files": {
+    "audio": "score.m4a"
+   },
+   "meta": {
+    "bytes": 954202,
+    "seconds": 30,
+    "codec": "AAC in MP4"
+   },
+   "dir": "music/odyssey_score",
+   "urls": {
+    "audio": "/library/music/odyssey_score/score.m4a"
+   },
+   "bytes": 954202
+  },
+  {
+   "id": "the_bob_score_alias",
+   "kind": "music",
+   "title": "The Bob full mix (alias names)",
+   "tags": [
+    "the-bob",
+    "score",
+    "full-mix",
+    "temp"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/soundtrack/soundtrack_alias.mp3",
+    "pipeline": "code/pipeline/audio/mix_full.py"
+   },
+   "files": {
+    "audio": "score.mp3"
+   },
+   "meta": {
+    "bytes": 9363405,
+    "seconds": 467.6,
+    "markers": {
+     "s2": 50,
+     "thud": 50,
+     "floorbook": 52.4,
+     "pickup": 54.6,
+     "note": 58.2,
+     "a2_1": 58.5,
+     "finger": 61.2,
+     "smear": 64.4,
+     "dried": 66.8,
+     "putback": 69.4,
+     "a2_2": 70.3,
+     "s3": 74.8,
+     "enter": 74.8,
+     "thuds": 79.4,
+     "blink": 82.8,
+     "floorbooks": 85,
+     "a3_1": 85.6,
+     "startwrite": 89.8,
+     "a3_2": 90.2,
+     "montage": 94.6,
+     "answer": 101.8,
+     "silence": 105,
+     "leave": 107.8,
+     "a3_3": 109,
+     "s4": 112,
+     "walk": 112,
+     "window": 116.6,
+     "board": 119.2,
+     "stop": 122.2,
+     "door": 124,
+     "a4_1": 124.4,
+     "faster": 128.2,
+     "cofer": 132.872,
+     "t4_1": 133.672,
+     "c4_1": 134.983,
+     "t4_2": 137.589,
+     "c4_2": 139.637,
+     "watch": 140.846,
+     "a4_2": 140.946,
+     "s5": 149.984,
+     "bed": 149.984,
+     "a5_1": 150.584,
+     "cold": 153.635,
+     "reveal": 157.835,
+     "b5_1": 160.435,
+     "o5_1": 160.98,
+     "stare": 171.177,
+     "b5_2": 172.877,
+     "an5_1": 175.588,
+     "b5_3": 187.59,
+     "s5_1": 190.432,
+     "b5_4": 204.995,
+     "pause5": 214.66,
+     "o5_2": 216.06,
+     "b5_5": 217.625,
+     "an5_2": 219.78,
+     "b5_6": 221.151,
+     "silence5": 224.268,
+     "an5_3": 226.468,
+     "bottle": 232.247,
+     "b5_7": 234.447,
+     "s5_2": 236.302,
+     "b5_8": 238.646,
+     "lean": 241.31,
+     "o5_3": 241.81,
+     "all5": 247.913,
+     "backaway": 250.986,
+     "s5_3": 252.286,
+     "gone": 253.009,
+     "warm": 254.609,
+     "a5_2": 256.209,
+     "a5_3": 262.087,
+     "s6": 264.566,
+     "rainwalk": 264.566,
+     "a6_1": 265.966,
+     "atwindow": 278.201,
+     "a6_2": 278.801,
+     "a6_3": 289.643,
+     "through": 292.503,
+     "phone": 295.703,
+     "dowieout": 296.903,
+     "tealeft": 300.503,
+     "musiccut": 302.103,
+     "opendoor": 302.303,
+     "s7": 304.303,
+     "st_enter": 304.303,
+     "st_bottle": 307.703,
+     "st_reach": 310.903,
+     "st_cough": 312.903,
+     "st_drops": 315.503,
+     "st_out": 319.303,
+     "st_clock": 322.503,
+     "st_sip": 323.503,
+     "st_look": 326.903,
+     "st_drink": 329.903,
+     "a7_1": 331.303,
+     "s8": 333.303,
+     "bw": 333.303,
+     "s9": 346.303,
+     "collapse": 346.303,
+     "spread": 348.903,
+     "dowiein": 350.703,
+     "phonedrop": 353.703,
+     "frozen": 355.503,
+     "s10": 358.703,
+     "annaopen": 358.703,
+     "n10_1": 360.303,
+     "n10_2": 363.745,
+     "n10_3": 372.107,
+     "n10_4": 378.414,
+     "n10_5": 381.134,
+     "tilt": 384.122,
+     "n10_6": 384.622,
+     "standup": 386.924,
+     "n10_7": 387.524,
+     "n10_8": 394.96,
+     "sting": 396.474,
+     "n10_9": 398.274,
+     "dip": 400.038,
+     "n10_10": 403.338,
+     "fold": 407.571,
+     "n10_11": 408.971,
+     "lookbaden": 414.177,
+     "n10_12": 415.177,
+     "lookcam": 422.175,
+     "n10_13": 423.175,
+     "shelf": 424.777,
+     "n10_14": 425.777,
+     "flicker": 430.952,
+     "close": 431.402,
+     "black5": 433.002,
+     "n10_15": 438.002,
+     "theend": 440.402,
+     "credits": 443.602,
+     "END": 467.602
+    },
+    "note": "original temp material standing in for licensed songs"
+   },
+   "dir": "music/the_bob_score_alias",
+   "urls": {
+    "audio": "/library/music/the_bob_score_alias/score.mp3"
+   },
+   "bytes": 9363405
+  },
+  {
+   "id": "the_bob_score_real",
+   "kind": "music",
+   "title": "The Bob full mix (real names)",
+   "tags": [
+    "the-bob",
+    "score",
+    "full-mix",
+    "temp"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "assets/soundtrack/soundtrack_real.mp3",
+    "pipeline": "code/pipeline/audio/mix_full.py"
+   },
+   "files": {
+    "audio": "score.mp3"
+   },
+   "meta": {
+    "bytes": 9379245,
+    "seconds": 468.41,
+    "markers": {
+     "s2": 50,
+     "thud": 50,
+     "floorbook": 52.4,
+     "pickup": 54.6,
+     "note": 58.2,
+     "a2_1": 58.5,
+     "finger": 61.2,
+     "smear": 64.4,
+     "dried": 66.8,
+     "putback": 69.4,
+     "a2_2": 70.3,
+     "s3": 74.8,
+     "enter": 74.8,
+     "thuds": 79.4,
+     "blink": 82.8,
+     "floorbooks": 85,
+     "a3_1": 85.6,
+     "startwrite": 89.8,
+     "a3_2": 90.2,
+     "montage": 94.6,
+     "answer": 101.8,
+     "silence": 105,
+     "leave": 107.8,
+     "a3_3": 109,
+     "s4": 112,
+     "walk": 112,
+     "window": 116.6,
+     "board": 119.2,
+     "stop": 122.2,
+     "door": 124,
+     "a4_1": 124.4,
+     "faster": 128.2,
+     "cofer": 132.872,
+     "t4_1": 133.672,
+     "c4_1": 134.983,
+     "t4_2": 137.589,
+     "c4_2": 139.637,
+     "watch": 140.846,
+     "a4_2": 140.946,
+     "s5": 150.048,
+     "bed": 150.048,
+     "a5_1": 150.648,
+     "cold": 153.699,
+     "reveal": 157.899,
+     "b5_1": 160.499,
+     "o5_1": 161.044,
+     "stare": 171.327,
+     "b5_2": 173.027,
+     "an5_1": 175.738,
+     "b5_3": 187.908,
+     "s5_1": 190.751,
+     "b5_4": 205.439,
+     "pause5": 215.104,
+     "o5_2": 216.504,
+     "b5_5": 218.069,
+     "an5_2": 220.224,
+     "b5_6": 221.595,
+     "silence5": 224.712,
+     "an5_3": 226.912,
+     "bottle": 232.691,
+     "b5_7": 234.891,
+     "s5_2": 236.746,
+     "b5_8": 239.089,
+     "lean": 241.754,
+     "o5_3": 242.254,
+     "all5": 248.357,
+     "backaway": 251.424,
+     "s5_3": 252.724,
+     "gone": 253.447,
+     "warm": 255.047,
+     "a5_2": 256.647,
+     "a5_3": 262.525,
+     "s6": 265.004,
+     "rainwalk": 265.004,
+     "a6_1": 266.404,
+     "atwindow": 278.724,
+     "a6_2": 279.324,
+     "a6_3": 290.208,
+     "through": 293.068,
+     "phone": 296.268,
+     "dowieout": 297.468,
+     "tealeft": 301.068,
+     "musiccut": 302.668,
+     "opendoor": 302.868,
+     "s7": 304.868,
+     "st_enter": 304.868,
+     "st_bottle": 308.268,
+     "st_reach": 311.468,
+     "st_cough": 313.468,
+     "st_drops": 316.068,
+     "st_out": 319.868,
+     "st_clock": 323.068,
+     "st_sip": 324.068,
+     "st_look": 327.468,
+     "st_drink": 330.468,
+     "a7_1": 331.868,
+     "s8": 333.925,
+     "bw": 333.925,
+     "s9": 346.925,
+     "collapse": 346.925,
+     "spread": 349.525,
+     "dowiein": 351.325,
+     "phonedrop": 354.325,
+     "frozen": 356.125,
+     "s10": 359.325,
+     "annaopen": 359.325,
+     "n10_1": 360.925,
+     "n10_2": 364.367,
+     "n10_3": 372.814,
+     "n10_4": 379.1,
+     "n10_5": 381.82,
+     "tilt": 384.809,
+     "n10_6": 385.309,
+     "standup": 387.61,
+     "n10_7": 388.21,
+     "n10_8": 395.646,
+     "sting": 397.16,
+     "n10_9": 398.96,
+     "dip": 400.724,
+     "n10_10": 404.024,
+     "fold": 408.25,
+     "n10_11": 409.65,
+     "lookbaden": 414.919,
+     "n10_12": 415.919,
+     "lookcam": 422.981,
+     "n10_13": 423.981,
+     "shelf": 425.583,
+     "n10_14": 426.583,
+     "flicker": 431.758,
+     "close": 432.208,
+     "black5": 433.808,
+     "n10_15": 438.808,
+     "theend": 441.208,
+     "credits": 444.408,
+     "END": 468.408
+    },
+    "note": "original temp material standing in for licensed songs"
+   },
+   "dir": "music/the_bob_score_real",
+   "urls": {
+    "audio": "/library/music/the_bob_score_real/score.mp3"
+   },
+   "bytes": 9379245
+  },
+  {
+   "id": "poses_the_bob",
+   "kind": "poses",
+   "title": "The Bob: pose library",
+   "tags": [
+    "the-bob",
+    "poses",
+    "keyframes",
+    "bob18"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "index_master.html (P)"
+   },
+   "files": {
+    "poses": "the_bob.json"
+   },
+   "meta": {
+    "rig": "bob18",
+    "poses": [
+     "stand",
+     "ready",
+     "holdR",
+     "windup",
+     "release",
+     "follow",
+     "catchHigh",
+     "catchMid",
+     "chestHit",
+     "fumble",
+     "laughBack",
+     "doubled",
+     "crouch",
+     "jump",
+     "land",
+     "pickup",
+     "holdL",
+     "cheer",
+     "offer",
+     "reach",
+     "seated"
+    ],
+    "scene": "kiran pose <name> ~N (names in snake_case, e.g. catch_high)"
+   },
+   "dir": "poses",
+   "urls": {
+    "poses": "/library/poses/the_bob.json"
+   },
+   "bytes": 13650
+  },
+  {
+   "id": "prop_armchair",
+   "kind": "prop",
+   "title": "Armchair",
+   "tags": [
+    "prop",
+    "seating",
+    "at",
+    "new",
+    "sittable"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "armchair",
+    "category": "seating",
+    "placement": "at",
+    "size": [
+     0.8,
+     1,
+     0.8
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.46,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.armchair.build(opts)",
+    "scene": "anchor <id> at x z face d is armchair   |   dress armchair at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/armchair",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_b2",
+   "kind": "prop",
+   "title": "B-2 Spirit flying wing",
+   "tags": [
+    "prop",
+    "aircraft",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "b2",
+    "category": "aircraft",
+    "placement": "front",
+    "size": [
+     54,
+     4.15,
+     21
+    ],
+    "y0": -1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.b2.build(opts)",
+    "scene": "anchor <id> at x z face d is b2   |   dress b2 at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/b2",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_bankers_lamp",
+   "kind": "prop",
+   "title": "Green banker's lamp",
+   "tags": [
+    "prop",
+    "lighting",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "light"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bankers_lamp",
+    "category": "lighting",
+    "placement": "onSurface",
+    "size": [
+     0.24,
+     0.42,
+     0.31
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bankers_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is bankers_lamp   |   dress bankers_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bankers_lamp",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bed_boarding",
+   "kind": "prop",
+   "title": "Boarding-school bed",
+   "tags": [
+    "prop",
+    "bedroom",
+    "at",
+    "the-bob",
+    "sittable"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bed_boarding",
+    "category": "bedroom",
+    "placement": "at",
+    "size": [
+     1.05,
+     0.9,
+     2.3
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.5,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bed_boarding.build(opts)",
+    "scene": "anchor <id> at x z face d is bed_boarding   |   dress bed_boarding at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bed_boarding",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bedside_lamp",
+   "kind": "prop",
+   "title": "Bedside lamp",
+   "tags": [
+    "prop",
+    "lighting",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "light"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bedside_lamp",
+    "category": "lighting",
+    "placement": "onSurface",
+    "size": [
+     0.18,
+     0.42,
+     0.18
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bedside_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is bedside_lamp   |   dress bedside_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bedside_lamp",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bedside_table",
+   "kind": "prop",
+   "title": "Bedside table",
+   "tags": [
+    "prop",
+    "bedroom",
+    "front",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bedside_table",
+    "category": "bedroom",
+    "placement": "front",
+    "size": [
+     0.9,
+     0.75,
+     0.51
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bedside_table.build(opts)",
+    "scene": "anchor <id> at x z face d is bedside_table   |   dress bedside_table at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bedside_table",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bench",
+   "kind": "prop",
+   "title": "Park bench",
+   "tags": [
+    "prop",
+    "street",
+    "at",
+    "new",
+    "sittable"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bench",
+    "category": "street",
+    "placement": "at",
+    "size": [
+     1.6,
+     0.95,
+     0.51
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.45,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bench.build(opts)",
+    "scene": "anchor <id> at x z face d is bench   |   dress bench at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bench",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_bicycle",
+   "kind": "prop",
+   "title": "Bicycle",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bicycle",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     0.5,
+     0.94,
+     1.74
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bicycle.build(opts)",
+    "scene": "anchor <id> at x z face d is bicycle   |   dress bicycle at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bicycle",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_bin",
+   "kind": "prop",
+   "title": "Litter bin",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bin",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.45,
+     0.91,
+     0.46
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bin.build(opts)",
+    "scene": "anchor <id> at x z face d is bin   |   dress bin at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bin",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_bollard",
+   "kind": "prop",
+   "title": "Bollard",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bollard",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.16,
+     0.97,
+     0.16
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bollard.build(opts)",
+    "scene": "anchor <id> at x z face d is bollard   |   dress bollard at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bollard",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_book_stack",
+   "kind": "prop",
+   "title": "Stack of books",
+   "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "book_stack",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+     0.27,
+     0.42,
+     0.35
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.book_stack.build(opts)",
+    "scene": "anchor <id> at x z face d is book_stack   |   dress book_stack at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/book_stack",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bookshelf",
+   "kind": "prop",
+   "title": "Bookshelf full of books",
+   "tags": [
+    "prop",
+    "study",
+    "front",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bookshelf",
+    "category": "study",
+    "placement": "front",
+    "size": [
+     2.1,
+     2.3,
+     0.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bookshelf.build(opts)",
+    "scene": "anchor <id> at x z face d is bookshelf   |   dress bookshelf at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bookshelf",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_bridge_lamp",
+   "kind": "prop",
+   "title": "Bridge lamp post",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "low-pass",
+    "light"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bridge_lamp",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.55,
+     6.3,
+     0.55
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bridge_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is bridge_lamp   |   dress bridge_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bridge_lamp",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_bus",
+   "kind": "prop",
+   "title": "London double-decker bus",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bus",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     2.64,
+     4.44,
+     11.37
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bus.build(opts)",
+    "scene": "anchor <id> at x z face d is bus   |   dress bus at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bus",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_bus_stop",
+   "kind": "prop",
+   "title": "Bus stop with shelter",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bus_stop",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     3.55,
+     3.1,
+     1
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bus_stop.build(opts)",
+    "scene": "anchor <id> at x z face d is bus_stop   |   dress bus_stop at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bus_stop",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_bush",
+   "kind": "prop",
+   "title": "Bush",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "bush",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     1.7,
+     1.31,
+     1.74
+    ],
+    "y0": -0.1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bush.build(opts)",
+    "scene": "anchor <id> at x z face d is bush   |   dress bush at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/bush",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_cab",
+   "kind": "prop",
+   "title": "Black cab",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "cab",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     1.97,
+     2.01,
+     4.7
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.cab.build(opts)",
+    "scene": "anchor <id> at x z face d is cab   |   dress cab at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/cab",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_cake",
+   "kind": "prop",
+   "title": "Cake",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "cake",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.25,
+     0.13,
+     0.25
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.cake.build(opts)",
+    "scene": "anchor <id> at x z face d is cake   |   dress cake at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/cake",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_campus_block",
+   "kind": "prop",
+   "title": "Campus classroom block with veranda",
+   "tags": [
+    "prop",
+    "building",
+    "front",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "campus_block",
+    "category": "building",
+    "placement": "front",
+    "size": [
+     32.8,
+     6.48,
+     13
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.campus_block.build(opts)",
+    "scene": "anchor <id> at x z face d is campus_block   |   dress campus_block at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/campus_block",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_car",
+   "kind": "prop",
+   "title": "Saloon car",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "car",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     1.94,
+     1.51,
+     4.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.car.build(opts)",
+    "scene": "anchor <id> at x z face d is car   |   dress car at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/car",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_ceiling_fan",
+   "kind": "prop",
+   "title": "Ceiling fan",
+   "tags": [
+    "prop",
+    "decor",
+    "ceiling",
+    "the-bob",
+    "decor",
+    "animated"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "ceiling_fan",
+    "category": "decor",
+    "placement": "ceiling",
+    "size": [
+     1.04,
+     0.59,
+     1.19
+    ],
+    "y0": 2.11,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.ceiling_fan.build(opts)",
+    "scene": "anchor <id> at x z face d is ceiling_fan   |   dress ceiling_fan at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/ceiling_fan",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_chair_wood",
+   "kind": "prop",
+   "title": "Wooden chair",
+   "tags": [
+    "prop",
+    "seating",
+    "at",
+    "the-bob",
+    "sittable"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "chair_wood",
+    "category": "seating",
+    "placement": "at",
+    "size": [
+     0.44,
+     0.92,
+     0.42
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.45,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.chair_wood.build(opts)",
+    "scene": "anchor <id> at x z face d is chair_wood   |   dress chair_wood at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/chair_wood",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_chalkboard",
+   "kind": "prop",
+   "title": "Chalkboard",
+   "tags": [
+    "prop",
+    "classroom",
+    "wall",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "chalkboard",
+    "category": "classroom",
+    "placement": "wall",
+    "size": [
+     3.1,
+     1.27,
+     0.09
+    ],
+    "y0": 0.88,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.chalkboard.build(opts)",
+    "scene": "anchor <id> at x z face d is chalkboard   |   dress chalkboard at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/chalkboard",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_city_block",
+   "kind": "prop",
+   "title": "Facade-shaded city block",
+   "tags": [
+    "prop",
+    "building",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "city_block",
+    "category": "building",
+    "placement": "front",
+    "size": [
+     24,
+     18,
+     18
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.city_block.build(opts)",
+    "scene": "anchor <id> at x z face d is city_block   |   dress city_block at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/city_block",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_coffee_table",
+   "kind": "prop",
+   "title": "Coffee table",
+   "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "coffee_table",
+    "category": "living",
+    "placement": "front",
+    "size": [
+     1.1,
+     0.44,
+     0.6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.44,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.coffee_table.build(opts)",
+    "scene": "anchor <id> at x z face d is coffee_table   |   dress coffee_table at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/coffee_table",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_computer",
+   "kind": "prop",
+   "title": "Desktop computer",
+   "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "computer",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+     0.56,
+     0.52,
+     0.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.computer.build(opts)",
+    "scene": "anchor <id> at x z face d is computer   |   dress computer at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/computer",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_crowd",
+   "kind": "prop",
+   "title": "Crowd of pedestrians",
+   "tags": [
+    "prop",
+    "people",
+    "at",
+    "low-pass",
+    "decor"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "crowd",
+    "category": "people",
+    "placement": "at",
+    "size": [
+     5.03,
+     1.96,
+     4.03
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.crowd.build(opts)",
+    "scene": "anchor <id> at x z face d is crowd   |   dress crowd at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/crowd",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_dining_table",
+   "kind": "prop",
+   "title": "Dining table",
+   "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "dining_table",
+    "category": "living",
+    "placement": "front",
+    "size": [
+     1.4,
+     0.75,
+     0.9
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.75,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.dining_table.build(opts)",
+    "scene": "anchor <id> at x z face d is dining_table   |   dress dining_table at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/dining_table",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_door",
+   "kind": "prop",
+   "title": "Panel door in a frame",
+   "tags": [
+    "prop",
+    "openings",
+    "behind",
+    "the-bob",
+    "openable"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "door",
+    "category": "openings",
+    "placement": "behind",
+    "size": [
+     1.02,
+     2.11,
+     0.14
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": true,
+    "build": "PROPS.door.build(opts)",
+    "scene": "anchor <id> at x z face d is door   |   dress door at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/door",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_elixir_bottle",
+   "kind": "prop",
+   "title": "Glowing elixir bottle",
+   "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "animated",
+    "light"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "elixir_bottle",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+     0.04,
+     0.1,
+     0.04
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.elixir_bottle.build(opts)",
+    "scene": "anchor <id> at x z face d is elixir_bottle   |   dress elixir_bottle at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/elixir_bottle",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_elizabeth_tower",
+   "kind": "prop",
+   "title": "Elizabeth Tower (Big Ben)",
+   "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass",
+    "animated"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "elizabeth_tower",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+     22.63,
+     100,
+     22.63
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.elizabeth_tower.build(opts)",
+    "scene": "anchor <id> at x z face d is elizabeth_tower   |   dress elizabeth_tower at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/elizabeth_tower",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_f16",
+   "kind": "prop",
+   "title": "F-16 with afterburner",
+   "tags": [
+    "prop",
+    "aircraft",
+    "front",
+    "low-pass",
+    "animated"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "f16",
+    "category": "aircraft",
+    "placement": "front",
+    "size": [
+     10.34,
+     6.95,
+     23.75
+    ],
+    "y0": -3.1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.f16.build(opts)",
+    "scene": "anchor <id> at x z face d is f16   |   dress f16 at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/f16",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_filing_cabinet",
+   "kind": "prop",
+   "title": "Filing cabinet",
+   "tags": [
+    "prop",
+    "office",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "filing_cabinet",
+    "category": "office",
+    "placement": "front",
+    "size": [
+     0.47,
+     1.3,
+     0.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.filing_cabinet.build(opts)",
+    "scene": "anchor <id> at x z face d is filing_cabinet   |   dress filing_cabinet at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/filing_cabinet",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_floor_lamp",
+   "kind": "prop",
+   "title": "Floor lamp",
+   "tags": [
+    "prop",
+    "lighting",
+    "front",
+    "new",
+    "light"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "floor_lamp",
+    "category": "lighting",
+    "placement": "front",
+    "size": [
+     0.44,
+     1.64,
+     0.44
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.floor_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is floor_lamp   |   dress floor_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/floor_lamp",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_flower_bed",
+   "kind": "prop",
+   "title": "Flower bed",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "flower_bed",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     2,
+     0.35,
+     0.8
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.flower_bed.build(opts)",
+    "scene": "anchor <id> at x z face d is flower_bed   |   dress flower_bed at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/flower_bed",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_fork",
+   "kind": "prop",
+   "title": "Fork",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "fork",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.02,
+     0,
+     0.17
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.fork.build(opts)",
+    "scene": "anchor <id> at x z face d is fork   |   dress fork at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/fork",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_fridge",
+   "kind": "prop",
+   "title": "Fridge with an openable door",
+   "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new",
+    "openable",
+    "light"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "fridge",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+     0.75,
+     1.85,
+     0.77
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": true,
+    "build": "PROPS.fridge.build(opts)",
+    "scene": "anchor <id> at x z face d is fridge   |   dress fridge at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/fridge",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_hedge",
+   "kind": "prop",
+   "title": "Hedge (green or bougainvillea)",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "hedge",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     5.32,
+     2.11,
+     1.91
+    ],
+    "y0": -0.19,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.hedge.build(opts)",
+    "scene": "anchor <id> at x z face d is hedge   |   dress hedge at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/hedge",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_jacaranda",
+   "kind": "prop",
+   "title": "Jacaranda in bloom",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "jacaranda",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     8.89,
+     6.27,
+     10.06
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.jacaranda.build(opts)",
+    "scene": "anchor <id> at x z face d is jacaranda   |   dress jacaranda at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/jacaranda",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_kanga",
+   "kind": "prop",
+   "title": "Kanga cloth",
+   "tags": [
+    "prop",
+    "decor",
+    "wall",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "kanga",
+    "category": "decor",
+    "placement": "wall",
+    "size": [
+     1.4,
+     0.88,
+     0
+    ],
+    "y0": 1.21,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kanga.build(opts)",
+    "scene": "anchor <id> at x z face d is kanga   |   dress kanga at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/kanga",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_kettle",
+   "kind": "prop",
+   "title": "Kettle",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "kettle",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.26,
+     0.26,
+     0.2
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kettle.build(opts)",
+    "scene": "anchor <id> at x z face d is kettle   |   dress kettle at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/kettle",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_kilimanjaro",
+   "kind": "prop",
+   "title": "Kilimanjaro backdrop",
+   "tags": [
+    "prop",
+    "landscape",
+    "behind",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "kilimanjaro",
+    "category": "landscape",
+    "placement": "behind",
+    "size": [
+     480,
+     56.57,
+     7
+    ],
+    "y0": -8.64,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kilimanjaro.build(opts)",
+    "scene": "anchor <id> at x z face d is kilimanjaro   |   dress kilimanjaro at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/kilimanjaro",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_kitchen_counter",
+   "kind": "prop",
+   "title": "Kitchen counter",
+   "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "kitchen_counter",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+     1.62,
+     0.92,
+     0.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.92,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.kitchen_counter.build(opts)",
+    "scene": "anchor <id> at x z face d is kitchen_counter   |   dress kitchen_counter at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/kitchen_counter",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_laptop",
+   "kind": "prop",
+   "title": "Laptop",
+   "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "laptop",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+     0.32,
+     0.09,
+     0.43
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.laptop.build(opts)",
+    "scene": "anchor <id> at x z face d is laptop   |   dress laptop at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/laptop",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_leather_book",
+   "kind": "prop",
+   "title": "Leather-bound book",
+   "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "openable"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "leather_book",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+     0.17,
+     0.05,
+     0.24
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": true,
+    "build": "PROPS.leather_book.build(opts)",
+    "scene": "anchor <id> at x z face d is leather_book   |   dress leather_book at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/leather_book",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_library_table",
+   "kind": "prop",
+   "title": "Library reading table",
+   "tags": [
+    "prop",
+    "study",
+    "front",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "library_table",
+    "category": "study",
+    "placement": "front",
+    "size": [
+     1.6,
+     0.78,
+     0.9
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.775,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.library_table.build(opts)",
+    "scene": "anchor <id> at x z face d is library_table   |   dress library_table at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/library_table",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_london_eye",
+   "kind": "prop",
+   "title": "London Eye",
+   "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass",
+    "animated"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "london_eye",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+     129.4,
+     139.56,
+     42.09
+    ],
+    "y0": -4.86,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.london_eye.build(opts)",
+    "scene": "anchor <id> at x z face d is london_eye   |   dress london_eye at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/london_eye",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_mosquito_net",
+   "kind": "prop",
+   "title": "Mosquito net over a bed",
+   "tags": [
+    "prop",
+    "bedroom",
+    "ceiling",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "mosquito_net",
+    "category": "bedroom",
+    "placement": "ceiling",
+    "size": [
+     1.24,
+     1.83,
+     2.34
+    ],
+    "y0": 0.55,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.mosquito_net.build(opts)",
+    "scene": "anchor <id> at x z face d is mosquito_net   |   dress mosquito_net at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/mosquito_net",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_mug",
+   "kind": "prop",
+   "title": "Mug",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "mug",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.12,
+     0.1,
+     0.08
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.mug.build(opts)",
+    "scene": "anchor <id> at x z face d is mug   |   dress mug at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/mug",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_newspaper",
+   "kind": "prop",
+   "title": "Newspaper",
+   "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "newspaper",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+     0.3,
+     0,
+     0.38
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.newspaper.build(opts)",
+    "scene": "anchor <id> at x z face d is newspaper   |   dress newspaper at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/newspaper",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_office_chair",
+   "kind": "prop",
+   "title": "Office chair",
+   "tags": [
+    "prop",
+    "seating",
+    "at",
+    "new",
+    "sittable"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "office_chair",
+    "category": "seating",
+    "placement": "at",
+    "size": [
+     0.63,
+     1.1,
+     0.6
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.48,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.office_chair.build(opts)",
+    "scene": "anchor <id> at x z face d is office_chair   |   dress office_chair at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/office_chair",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_office_desk",
+   "kind": "prop",
+   "title": "Office desk",
+   "tags": [
+    "prop",
+    "office",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "office_desk",
+    "category": "office",
+    "placement": "front",
+    "size": [
+     1.4,
+     0.75,
+     0.7
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.75,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.office_desk.build(opts)",
+    "scene": "anchor <id> at x z face d is office_desk   |   dress office_desk at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/office_desk",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_paper_note",
+   "kind": "prop",
+   "title": "Sheet of paper",
+   "tags": [
+    "prop",
+    "study",
+    "onSurface",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "paper_note",
+    "category": "study",
+    "placement": "onSurface",
+    "size": [
+     0.21,
+     0,
+     0.3
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.paper_note.build(opts)",
+    "scene": "anchor <id> at x z face d is paper_note   |   dress paper_note at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/paper_note",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_person",
+   "kind": "prop",
+   "title": "Pedestrian (posed)",
+   "tags": [
+    "prop",
+    "people",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "person",
+    "category": "people",
+    "placement": "front",
+    "size": [
+     0.59,
+     1.67,
+     0.31
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.person.build(opts)",
+    "scene": "anchor <id> at x z face d is person   |   dress person at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/person",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_phone",
+   "kind": "prop",
+   "title": "Mobile phone",
+   "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "phone",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+     0.08,
+     0.01,
+     0.16
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.phone.build(opts)",
+    "scene": "anchor <id> at x z face d is phone   |   dress phone at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/phone",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_phone_box",
+   "kind": "prop",
+   "title": "Red telephone box",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "phone_box",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     1.75,
+     2.56,
+     1.75
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.phone_box.build(opts)",
+    "scene": "anchor <id> at x z face d is phone_box   |   dress phone_box at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/phone_box",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_plate",
+   "kind": "prop",
+   "title": "Plate",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "plate",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.24,
+     0.02,
+     0.24
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.plate.build(opts)",
+    "scene": "anchor <id> at x z face d is plate   |   dress plate at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/plate",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_post_box",
+   "kind": "prop",
+   "title": "Pillar box",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "post_box",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.6,
+     1.68,
+     0.6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.post_box.build(opts)",
+    "scene": "anchor <id> at x z face d is post_box   |   dress post_box at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/post_box",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_poster",
+   "kind": "prop",
+   "title": "Wall poster",
+   "tags": [
+    "prop",
+    "decor",
+    "wall",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "poster",
+    "category": "decor",
+    "placement": "wall",
+    "size": [
+     0.5,
+     0.7,
+     0
+    ],
+    "y0": 1.25,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.poster.build(opts)",
+    "scene": "anchor <id> at x z face d is poster   |   dress poster at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/poster",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_potted_plant",
+   "kind": "prop",
+   "title": "Potted plant",
+   "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "potted_plant",
+    "category": "living",
+    "placement": "front",
+    "size": [
+     0.39,
+     1.02,
+     0.34
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.potted_plant.build(opts)",
+    "scene": "anchor <id> at x z face d is potted_plant   |   dress potted_plant at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/potted_plant",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_river_boat",
+   "kind": "prop",
+   "title": "Thames river cruiser",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "river_boat",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     24,
+     5.1,
+     6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.river_boat.build(opts)",
+    "scene": "anchor <id> at x z face d is river_boat   |   dress river_boat at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/river_boat",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_rock",
+   "kind": "prop",
+   "title": "Rock",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "rock",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     1.07,
+     0.54,
+     0.87
+    ],
+    "y0": -0.05,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.rock.build(opts)",
+    "scene": "anchor <id> at x z face d is rock   |   dress rock at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/rock",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_rug",
+   "kind": "prop",
+   "title": "Rug",
+   "tags": [
+    "prop",
+    "living",
+    "flat",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "rug",
+    "category": "living",
+    "placement": "flat",
+    "size": [
+     2,
+     0,
+     1.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.rug.build(opts)",
+    "scene": "anchor <id> at x z face d is rug   |   dress rug at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/rug",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_school_desk",
+   "kind": "prop",
+   "title": "School desk",
+   "tags": [
+    "prop",
+    "classroom",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "school_desk",
+    "category": "classroom",
+    "placement": "front",
+    "size": [
+     0.65,
+     0.75,
+     0.48
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.75,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.school_desk.build(opts)",
+    "scene": "anchor <id> at x z face d is school_desk   |   dress school_desk at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/school_desk",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_shard",
+   "kind": "prop",
+   "title": "The Shard",
+   "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "shard",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+     75.05,
+     306,
+     75.05
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.shard.build(opts)",
+    "scene": "anchor <id> at x z face d is shard   |   dress shard at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/shard",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_sink_unit",
+   "kind": "prop",
+   "title": "Sink unit",
+   "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "sink_unit",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+     0.82,
+     1.14,
+     0.64
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.92,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sink_unit.build(opts)",
+    "scene": "anchor <id> at x z face d is sink_unit   |   dress sink_unit at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/sink_unit",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_sky_campus",
+   "kind": "prop",
+   "title": "East African sky dome (day, night, storm)",
+   "tags": [
+    "prop",
+    "sky",
+    "at",
+    "the-bob",
+    "decor"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "sky_campus",
+    "category": "sky",
+    "placement": "at",
+    "size": [
+     800,
+     800,
+     800
+    ],
+    "y0": -400,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sky_campus.build(opts)",
+    "scene": "anchor <id> at x z face d is sky_campus   |   dress sky_campus at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/sky_campus",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_sky_london",
+   "kind": "prop",
+   "title": "London low-sun sky dome",
+   "tags": [
+    "prop",
+    "sky",
+    "at",
+    "low-pass",
+    "decor"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "sky_london",
+    "category": "sky",
+    "placement": "at",
+    "size": [
+     800,
+     800,
+     800
+    ],
+    "y0": -400,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sky_london.build(opts)",
+    "scene": "anchor <id> at x z face d is sky_london   |   dress sky_london at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/sky_london",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_sofa",
+   "kind": "prop",
+   "title": "Three-seat sofa",
+   "tags": [
+    "prop",
+    "seating",
+    "at",
+    "new",
+    "sittable"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "sofa",
+    "category": "seating",
+    "placement": "at",
+    "size": [
+     2,
+     0.9,
+     0.9
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.45,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sofa.build(opts)",
+    "scene": "anchor <id> at x z face d is sofa   |   dress sofa at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/sofa",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_st_pauls",
+   "kind": "prop",
+   "title": "St Paul's Cathedral",
+   "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "st_pauls",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+     151,
+     119.2,
+     90
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.st_pauls.build(opts)",
+    "scene": "anchor <id> at x z face d is st_pauls   |   dress st_pauls at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/st_pauls",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_steam",
+   "kind": "prop",
+   "title": "Steam rising from a drink",
+   "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "animated"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "steam",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+     0.1,
+     0.22,
+     0.01
+    ],
+    "y0": 0.08,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.steam.build(opts)",
+    "scene": "anchor <id> at x z face d is steam   |   dress steam at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/steam",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_stove",
+   "kind": "prop",
+   "title": "Stove",
+   "tags": [
+    "prop",
+    "kitchen",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "stove",
+    "category": "kitchen",
+    "placement": "front",
+    "size": [
+     0.7,
+     0.93,
+     0.66
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": 0.93,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.stove.build(opts)",
+    "scene": "anchor <id> at x z face d is stove   |   dress stove at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/stove",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_street_lamp",
+   "kind": "prop",
+   "title": "Victorian street lamp",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new",
+    "light"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "street_lamp",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.45,
+     4.32,
+     0.52
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.street_lamp.build(opts)",
+    "scene": "anchor <id> at x z face d is street_lamp   |   dress street_lamp at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/street_lamp",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_tin_trunk",
+   "kind": "prop",
+   "title": "Tin trunk",
+   "tags": [
+    "prop",
+    "bedroom",
+    "at",
+    "the-bob",
+    "sittable"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "tin_trunk",
+    "category": "bedroom",
+    "placement": "at",
+    "size": [
+     0.75,
+     0.43,
+     0.47
+    ],
+    "y0": 0,
+    "sittable": true,
+    "sitHeight": 0.42,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.tin_trunk.build(opts)",
+    "scene": "anchor <id> at x z face d is tin_trunk   |   dress tin_trunk at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/tin_trunk",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_tower_bridge",
+   "kind": "prop",
+   "title": "Tower Bridge",
+   "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "tower_bridge",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+     41.92,
+     88,
+     300
+    ],
+    "y0": -4,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.tower_bridge.build(opts)",
+    "scene": "anchor <id> at x z face d is tower_bridge   |   dress tower_bridge at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/tower_bridge",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_traffic_light",
+   "kind": "prop",
+   "title": "Traffic light",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "new",
+    "animated"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "traffic_light",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     0.28,
+     3.35,
+     0.22
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.traffic_light.build(opts)",
+    "scene": "anchor <id> at x z face d is traffic_light   |   dress traffic_light at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/traffic_light",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_train",
+   "kind": "prop",
+   "title": "Southeastern electric train",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "train",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     2.84,
+     3.8,
+     20.32
+    ],
+    "y0": 0.05,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.train.build(opts)",
+    "scene": "anchor <id> at x z face d is train   |   dress train at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/train",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_tree",
+   "kind": "prop",
+   "title": "Park tree (clustered icosahedra)",
+   "tags": [
+    "prop",
+    "nature",
+    "front",
+    "low-pass",
+    "decor"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "tree",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+     5.53,
+     6.54,
+     4.87
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.tree.build(opts)",
+    "scene": "anchor <id> at x z face d is tree   |   dress tree at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/tree",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_tv_stand",
+   "kind": "prop",
+   "title": "TV on a stand",
+   "tags": [
+    "prop",
+    "living",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "tv_stand",
+    "category": "living",
+    "placement": "front",
+    "size": [
+     1.4,
+     1.25,
+     0.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.tv_stand.build(opts)",
+    "scene": "anchor <id> at x z face d is tv_stand   |   dress tv_stand at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/tv_stand",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_union_jack",
+   "kind": "prop",
+   "title": "Waving Union Jack on a pole",
+   "tags": [
+    "prop",
+    "street",
+    "front",
+    "low-pass",
+    "animated"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "union_jack",
+    "category": "street",
+    "placement": "front",
+    "size": [
+     2.78,
+     12,
+     0.15
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.union_jack.build(opts)",
+    "scene": "anchor <id> at x z face d is union_jack   |   dress union_jack at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/union_jack",
+   "urls": {
+    "module": "/library/props/exterior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 21384
+  },
+  {
+   "id": "prop_van",
+   "kind": "prop",
+   "title": "Panel van",
+   "tags": [
+    "prop",
+    "vehicle",
+    "front",
+    "low-pass"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../vehicles.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "van",
+    "category": "vehicle",
+    "placement": "front",
+    "size": [
+     2.12,
+     2.46,
+     5.75
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.van.build(opts)",
+    "scene": "anchor <id> at x z face d is van   |   dress van at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/van",
+   "urls": {
+    "module": "/library/props/vehicles.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 22978
+  },
+  {
+   "id": "prop_wall_clock",
+   "kind": "prop",
+   "title": "Wall clock",
+   "tags": [
+    "prop",
+    "decor",
+    "wall",
+    "the-bob",
+    "decor",
+    "animated"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "wall_clock",
+    "category": "decor",
+    "placement": "wall",
+    "size": [
+     0.36,
+     0.36,
+     0.06
+    ],
+    "y0": 1.92,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.wall_clock.build(opts)",
+    "scene": "anchor <id> at x z face d is wall_clock   |   dress wall_clock at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/wall_clock",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_wardrobe",
+   "kind": "prop",
+   "title": "Wardrobe",
+   "tags": [
+    "prop",
+    "bedroom",
+    "front",
+    "new"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "wardrobe",
+    "category": "bedroom",
+    "placement": "front",
+    "size": [
+     1,
+     2,
+     0.6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.wardrobe.build(opts)",
+    "scene": "anchor <id> at x z face d is wardrobe   |   dress wardrobe at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/wardrobe",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_water_thames",
+   "kind": "prop",
+   "title": "Thames water shader",
+   "tags": [
+    "prop",
+    "water",
+    "flat",
+    "low-pass",
+    "decor",
+    "animated"
+   ],
+   "source": {
+    "project": "Low Pass"
+   },
+   "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "water_thames",
+    "category": "water",
+    "placement": "flat",
+    "size": [
+     200,
+     0,
+     200
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.water_thames.build(opts)",
+    "scene": "anchor <id> at x z face d is water_thames   |   dress water_thames at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/water_thames",
+   "urls": {
+    "module": "/library/props/structures.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 34004
+  },
+  {
+   "id": "prop_whiteboard",
+   "kind": "prop",
+   "title": "Whiteboard",
+   "tags": [
+    "prop",
+    "classroom",
+    "wall",
+    "new",
+    "decor"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "whiteboard",
+    "category": "classroom",
+    "placement": "wall",
+    "size": [
+     2.04,
+     1.14,
+     0.02
+    ],
+    "y0": 0.88,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.whiteboard.build(opts)",
+    "scene": "anchor <id> at x z face d is whiteboard   |   dress whiteboard at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/whiteboard",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "prop_window_barred",
+   "kind": "prop",
+   "title": "Window with burglar bars and curtains",
+   "tags": [
+    "prop",
+    "openings",
+    "behind",
+    "the-bob",
+    "light"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+   },
+   "meta": {
+    "prop": "window_barred",
+    "category": "openings",
+    "placement": "behind",
+    "size": [
+     2.2,
+     1.7,
+     0.12
+    ],
+    "y0": 0.75,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.window_barred.build(opts)",
+    "scene": "anchor <id> at x z face d is window_barred   |   dress window_barred at x z [face d] [on <anchor>|height h] [scale s]"
+   },
+   "dir": "props/_manifests/window_barred",
+   "urls": {
+    "module": "/library/props/interior.js",
+    "registry": "/library/props/index.js"
+   },
+   "bytes": 36047
+  },
+  {
+   "id": "reference_low_pass",
+   "kind": "reference",
+   "title": "Low Pass: original source",
+   "tags": [
+    "source",
+    "reference",
+    "low-pass"
+   ],
+   "files": {
+    "low_pass_js": "low-pass.js"
+   },
+   "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+   },
+   "dir": "reference/low_pass",
+   "urls": {
+    "low_pass_js": "/library/reference/low_pass/low-pass.js"
+   },
+   "bytes": 159163
+  },
+  {
+   "id": "reference_odyssey",
+   "kind": "reference",
+   "title": "Odyssey: original source",
+   "tags": [
+    "source",
+    "reference",
+    "odyssey"
+   ],
+   "files": {
+    "Odyssey_html": "Odyssey.html",
+    "odyssey_js": "odyssey.js"
+   },
+   "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+   },
+   "dir": "reference/odyssey",
+   "urls": {
+    "Odyssey_html": "/library/reference/odyssey/Odyssey.html",
+    "odyssey_js": "/library/reference/odyssey/odyssey.js"
+   },
+   "bytes": 1434572
+  },
+  {
+   "id": "reference_the_bob",
+   "kind": "reference",
+   "title": "The Bob: original source and pipeline",
+   "tags": [
+    "source",
+    "reference",
+    "the-bob"
+   ],
+   "files": {
+    "README_md": "README.md",
+    "humanvo_py": "humanvo.py",
+    "index_master_html": "index_master.html",
+    "lipsync_py": "lipsync.py",
+    "mii_py": "mii.py",
+    "mix_full_py": "mix_full.py",
+    "people_py": "people.py",
+    "qa_audit_js": "qa_audit.js",
+    "timeline_py": "timeline.py"
+   },
+   "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+   },
+   "dir": "reference/the_bob",
+   "urls": {
+    "README_md": "/library/reference/the_bob/README.md",
+    "humanvo_py": "/library/reference/the_bob/humanvo.py",
+    "index_master_html": "/library/reference/the_bob/index_master.html",
+    "lipsync_py": "/library/reference/the_bob/lipsync.py",
+    "mii_py": "/library/reference/the_bob/mii.py",
+    "mix_full_py": "/library/reference/the_bob/mix_full.py",
+    "people_py": "/library/reference/the_bob/people.py",
+    "qa_audit_js": "/library/reference/the_bob/qa_audit.js",
+    "timeline_py": "/library/reference/the_bob/timeline.py"
+   },
+   "bytes": 426085
+  },
+  {
+   "id": "rig_makehuman",
+   "kind": "rig",
+   "title": "MakeHuman 163-joint rig map",
+   "tags": [
+    "rig",
+    "makehuman",
+    "retarget"
+   ],
+   "files": {
+    "map": "makehuman.json"
+   },
+   "meta": {
+    "channels": "hips, spine, chest, neck, head, jaw, eyes, lids, brows, mouth corners, arms, legs"
+   },
+   "dir": "rigs",
+   "urls": {
+    "map": "/library/rigs/makehuman.json"
+   },
+   "bytes": 1399
+  },
+  {
+   "id": "set_boarding_room",
+   "kind": "set",
+   "title": "Boarding room",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "scene": "../../boarding_room.scene"
+   },
+   "meta": {
+    "set": "boarding_room",
+    "size": [
+     4.4,
+     4
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       -0.9,
+       1.7
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "bed_a_side",
+      "at": [
+       -0.75,
+       0
+      ],
+      "face": 270,
+      "is": null
+     },
+     {
+      "id": "bed_b_side",
+      "at": [
+       0.75,
+       0
+      ],
+      "face": 90,
+      "is": null
+     },
+     {
+      "id": "window_sill",
+      "at": [
+       0,
+       -1.1
+      ],
+      "face": 180,
+      "is": null
+     },
+     {
+      "id": "desk_seat",
+      "at": [
+       1.3,
+       1.5
+      ],
+      "face": 90,
+      "is": "chair_wood"
+     },
+     {
+      "id": "foot_a",
+      "at": [
+       -1.5,
+       1.6
+      ],
+      "face": 0,
+      "is": null
+     }
+    ],
+    "dress": [
+     "bed_boarding",
+     "bed_boarding",
+     "mosquito_net",
+     "mosquito_net",
+     "window_barred",
+     "bedside_table",
+     "bedside_lamp",
+     "tin_trunk",
+     "school_desk",
+     "kanga",
+     "poster"
+    ],
+    "props": [
+     "lamp"
+    ],
+    "use": "include boarding_room   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/boarding_room",
+   "urls": {
+    "scene": "/library/sets/boarding_room.scene"
+   },
+   "bytes": 1065
+  },
+  {
+   "id": "set_cafe",
+   "kind": "set",
+   "title": "Cafe",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "crew"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "scene": "../../cafe.scene"
+   },
+   "meta": {
+    "set": "cafe",
+    "size": [
+     7,
+     5.5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       -2.9,
+       2.4
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "till",
+      "at": [
+       2,
+       -1.5
+      ],
+      "face": 180,
+      "is": "kitchen_counter"
+     },
+     {
+      "id": "seat_a1",
+      "at": [
+       -1.6,
+       -0.1
+      ],
+      "face": 0,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_a2",
+      "at": [
+       -1.6,
+       1.3
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_b1",
+      "at": [
+       1.4,
+       0.5
+      ],
+      "face": 0,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_b2",
+      "at": [
+       1.4,
+       1.9
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "window_seat",
+      "at": [
+       -3,
+       -1.5
+      ],
+      "face": 90,
+      "is": null
+     },
+     {
+      "id": "aisle",
+      "at": [
+       0.3,
+       -0.6
+      ],
+      "face": 0,
+      "is": null
+     }
+    ],
+    "dress": [
+     "dining_table",
+     "dining_table",
+     "fridge",
+     "window_barred",
+     "poster",
+     "window_barred",
+     "potted_plant",
+     "ceiling_fan",
+     "kettle",
+     "cake",
+     "mug",
+     "plate"
+    ],
+    "props": [
+     "cup"
+    ],
+    "use": "include cafe   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/cafe",
+   "urls": {
+    "scene": "/library/sets/cafe.scene"
+   },
+   "bytes": 1031
+  },
+  {
+   "id": "set_classroom",
+   "kind": "set",
+   "title": "Classroom",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "scene": "../../classroom.scene"
+   },
+   "meta": {
+    "set": "classroom",
+    "size": [
+     7,
+     6
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       -2.8,
+       2.6
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "teacher",
+      "at": [
+       0.2,
+       -1.7
+      ],
+      "face": 0,
+      "is": null
+     },
+     {
+      "id": "seat_1",
+      "at": [
+       -1.8,
+       0.5
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_2",
+      "at": [
+       0,
+       0.5
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_3",
+      "at": [
+       1.8,
+       0.5
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_4",
+      "at": [
+       -1.8,
+       1.8
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_5",
+      "at": [
+       0,
+       1.8
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "seat_6",
+      "at": [
+       1.8,
+       1.8
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "board",
+      "at": [
+       0.6,
+       -2.3
+      ],
+      "face": 180,
+      "is": null
+     }
+    ],
+    "dress": [
+     "school_desk",
+     "school_desk",
+     "school_desk",
+     "school_desk",
+     "school_desk",
+     "school_desk",
+     "office_desk",
+     "chalkboard",
+     "whiteboard",
+     "bookshelf",
+     "window_barred",
+     "window_barred",
+     "poster",
+     "ceiling_fan",
+     "ceiling_fan"
+    ],
+    "props": [],
+    "use": "include classroom   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/classroom",
+   "urls": {
+    "scene": "/library/sets/classroom.scene"
+   },
+   "bytes": 1131
+  },
+  {
+   "id": "set_library_corner",
+   "kind": "set",
+   "title": "Library corner",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "scene": "../../library_corner.scene"
+   },
+   "meta": {
+    "set": "library_corner",
+    "size": [
+     5,
+     4.2
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       1.7,
+       1.7
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "reading_chair",
+      "at": [
+       -0.95,
+       -0.1
+      ],
+      "face": 90,
+      "is": "chair_wood"
+     },
+     {
+      "id": "visitor_chair",
+      "at": [
+       1.75,
+       -0.1
+      ],
+      "face": 270,
+      "is": "chair_wood"
+     },
+     {
+      "id": "shelf_a",
+      "at": [
+       -1.2,
+       -1.3
+      ],
+      "face": 180,
+      "is": null
+     },
+     {
+      "id": "shelf_b",
+      "at": [
+       1.2,
+       -1.3
+      ],
+      "face": 180,
+      "is": null
+     },
+     {
+      "id": "stacks",
+      "at": [
+       0.4,
+       1
+      ],
+      "face": 180,
+      "is": null
+     }
+    ],
+    "dress": [
+     "library_table",
+     "bookshelf",
+     "bookshelf",
+     "bookshelf",
+     "rug",
+     "window_barred",
+     "book_stack",
+     "mug"
+    ],
+    "props": [
+     "bankers_lamp",
+     "leather_book",
+     "note"
+    ],
+    "use": "include library_corner   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/library_corner",
+   "urls": {
+    "scene": "/library/sets/library_corner.scene"
+   },
+   "bytes": 945
+  },
+  {
+   "id": "set_living_room",
+   "kind": "set",
+   "title": "Living room",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "crew"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "scene": "../../living_room.scene"
+   },
+   "meta": {
+    "set": "living_room",
+    "size": [
+     6,
+     5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       2.3,
+       2
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "sofa",
+      "at": [
+       -2.3,
+       0
+      ],
+      "face": 90,
+      "is": "sofa"
+     },
+     {
+      "id": "tv",
+      "at": [
+       2.1,
+       0
+      ],
+      "face": 90,
+      "is": "tv_stand"
+     },
+     {
+      "id": "armchair",
+      "at": [
+       -0.7,
+       1.7
+      ],
+      "face": 180,
+      "is": "armchair"
+     },
+     {
+      "id": "window_seat",
+      "at": [
+       -1,
+       -1.9
+      ],
+      "face": 180,
+      "is": null
+     },
+     {
+      "id": "lamp_spot",
+      "at": [
+       -2.2,
+       -1.9
+      ],
+      "face": 90,
+      "is": null
+     }
+    ],
+    "dress": [
+     "coffee_table",
+     "rug",
+     "floor_lamp",
+     "potted_plant",
+     "bookshelf",
+     "window_barred",
+     "newspaper",
+     "plate"
+    ],
+    "props": [
+     "mug"
+    ],
+    "use": "include living_room   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/living_room",
+   "urls": {
+    "scene": "/library/sets/living_room.scene"
+   },
+   "bytes": 869
+  },
+  {
+   "id": "set_london_street",
+   "kind": "set",
+   "title": "London street",
+   "tags": [
+    "set",
+    "scene",
+    "exterior",
+    "crew"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "scene": "../../london_street.scene"
+   },
+   "meta": {
+    "set": "london_street",
+    "size": [
+     20,
+     10
+    ],
+    "open": true,
+    "entrance": "edge_w",
+    "anchors": [
+     {
+      "id": "edge_w",
+      "at": [
+       -9,
+       -2.5
+      ],
+      "face": 90,
+      "is": null
+     },
+     {
+      "id": "edge_e",
+      "at": [
+       9,
+       -2.5
+      ],
+      "face": 270,
+      "is": null
+     },
+     {
+      "id": "bus_stop",
+      "at": [
+       -5,
+       -2.3
+      ],
+      "face": 180,
+      "is": "bus_stop"
+     },
+     {
+      "id": "box",
+      "at": [
+       1.5,
+       -2.3
+      ],
+      "face": 180,
+      "is": "phone_box"
+     },
+     {
+      "id": "post",
+      "at": [
+       3.6,
+       -2.3
+      ],
+      "face": 180,
+      "is": "post_box"
+     },
+     {
+      "id": "bench",
+      "at": [
+       6.2,
+       -3.2
+      ],
+      "face": 0,
+      "is": "bench"
+     },
+     {
+      "id": "kerb",
+      "at": [
+       -2.5,
+       -1.5
+      ],
+      "face": 0,
+      "is": null
+     },
+     {
+      "id": "crossing",
+      "at": [
+       3.8,
+       0.8
+      ],
+      "face": 0,
+      "is": null
+     }
+    ],
+    "dress": [
+     "city_block",
+     "city_block",
+     "street_lamp",
+     "street_lamp",
+     "street_lamp",
+     "bin",
+     "traffic_light",
+     "tree",
+     "bus",
+     "cab",
+     "car",
+     "bollard",
+     "bollard",
+     "bollard",
+     "sky_london"
+    ],
+    "props": [],
+    "use": "include london_street   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/london_street",
+   "urls": {
+    "scene": "/library/sets/london_street.scene"
+   },
+   "bytes": 1139
+  },
+  {
+   "id": "set_office",
+   "kind": "set",
+   "title": "Office",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "crew"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "scene": "../../office.scene"
+   },
+   "meta": {
+    "set": "office",
+    "size": [
+     6,
+     5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       2.4,
+       2.15
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "boss_chair",
+      "at": [
+       0.5,
+       -1.95
+      ],
+      "face": 0,
+      "is": "office_chair"
+     },
+     {
+      "id": "visitor_a",
+      "at": [
+       -0.1,
+       -0.1
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "visitor_b",
+      "at": [
+       1.1,
+       -0.1
+      ],
+      "face": 180,
+      "is": "chair_wood"
+     },
+     {
+      "id": "board",
+      "at": [
+       2.5,
+       -0.5
+      ],
+      "face": 90,
+      "is": null
+     },
+     {
+      "id": "cabinet",
+      "at": [
+       -2.4,
+       -1.4
+      ],
+      "face": 180,
+      "is": null
+     }
+    ],
+    "dress": [
+     "office_desk",
+     "computer",
+     "laptop",
+     "phone",
+     "filing_cabinet",
+     "whiteboard",
+     "window_barred",
+     "potted_plant",
+     "newspaper"
+    ],
+    "props": [
+     "mug"
+    ],
+    "use": "include office   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/office",
+   "urls": {
+    "scene": "/library/sets/office.scene"
+   },
+   "bytes": 858
+  },
+  {
+   "id": "set_park",
+   "kind": "set",
+   "title": "Park",
+   "tags": [
+    "set",
+    "scene",
+    "exterior",
+    "crew"
+   ],
+   "source": {
+    "project": "Crew"
+   },
+   "files": {
+    "scene": "../../park.scene"
+   },
+   "meta": {
+    "set": "park",
+    "size": [
+     24,
+     16
+    ],
+    "open": true,
+    "entrance": "edge_w",
+    "anchors": [
+     {
+      "id": "edge_w",
+      "at": [
+       -11,
+       0
+      ],
+      "face": 90,
+      "is": null
+     },
+     {
+      "id": "edge_e",
+      "at": [
+       11,
+       0
+      ],
+      "face": 270,
+      "is": null
+     },
+     {
+      "id": "path",
+      "at": [
+       0,
+       0
+      ],
+      "face": 0,
+      "is": null
+     },
+     {
+      "id": "bench_a",
+      "at": [
+       -4,
+       -2.6
+      ],
+      "face": 0,
+      "is": "bench"
+     },
+     {
+      "id": "bench_b",
+      "at": [
+       4,
+       2.8
+      ],
+      "face": 180,
+      "is": "bench"
+     },
+     {
+      "id": "pond_edge",
+      "at": [
+       0,
+       5.5
+      ],
+      "face": 180,
+      "is": null
+     }
+    ],
+    "dress": [
+     "street_lamp",
+     "street_lamp",
+     "bin",
+     "flower_bed",
+     "flower_bed",
+     "hedge",
+     "hedge",
+     "hedge",
+     "tree",
+     "tree",
+     "tree",
+     "tree",
+     "tree",
+     "tree",
+     "jacaranda",
+     "bush",
+     "bush",
+     "rock",
+     "rock",
+     "bicycle",
+     "union_jack",
+     "sky_london"
+    ],
+    "props": [],
+    "use": "include park   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/park",
+   "urls": {
+    "scene": "/library/sets/park.scene"
+   },
+   "bytes": 1091
+  },
+  {
+   "id": "set_staffroom",
+   "kind": "set",
+   "title": "Staffroom",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "scene": "../../staffroom.scene"
+   },
+   "meta": {
+    "set": "staffroom",
+    "size": [
+     6,
+     4.5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+     {
+      "id": "door",
+      "at": [
+       2.4,
+       1.85
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "chair_n",
+      "at": [
+       0,
+       -0.95
+      ],
+      "face": 0,
+      "is": "chair_wood"
+     },
+     {
+      "id": "chair_w",
+      "at": [
+       -1.15,
+       -0.2
+      ],
+      "face": 90,
+      "is": "chair_wood"
+     },
+     {
+      "id": "chair_e",
+      "at": [
+       1.15,
+       -0.2
+      ],
+      "face": 270,
+      "is": "chair_wood"
+     },
+     {
+      "id": "armchair_l",
+      "at": [
+       -2.2,
+       1
+      ],
+      "face": 60,
+      "is": "armchair"
+     },
+     {
+      "id": "armchair_r",
+      "at": [
+       2.2,
+       1
+      ],
+      "face": 300,
+      "is": "armchair"
+     },
+     {
+      "id": "kettle_spot",
+      "at": [
+       1.9,
+       -1.3
+      ],
+      "face": 180,
+      "is": null
+     }
+    ],
+    "dress": [
+     "library_table",
+     "coffee_table",
+     "kitchen_counter",
+     "kettle",
+     "bookshelf",
+     "wall_clock",
+     "ceiling_fan",
+     "window_barred",
+     "poster",
+     "newspaper"
+    ],
+    "props": [
+     "mug",
+     "mug_b"
+    ],
+    "use": "include staffroom   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/staffroom",
+   "urls": {
+    "scene": "/library/sets/staffroom.scene"
+   },
+   "bytes": 932
+  },
+  {
+   "id": "set_veranda_corridor",
+   "kind": "set",
+   "title": "Veranda corridor",
+   "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob"
+   },
+   "files": {
+    "scene": "../../veranda_corridor.scene"
+   },
+   "meta": {
+    "set": "veranda_corridor",
+    "size": [
+     16,
+     4
+    ],
+    "open": false,
+    "entrance": "door_w",
+    "anchors": [
+     {
+      "id": "door_w",
+      "at": [
+       -7,
+       -1.3
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "door_a",
+      "at": [
+       -2.5,
+       -1.3
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "door_b",
+      "at": [
+       2.5,
+       -1.3
+      ],
+      "face": 180,
+      "is": "door"
+     },
+     {
+      "id": "mid",
+      "at": [
+       0,
+       0.4
+      ],
+      "face": 0,
+      "is": null
+     },
+     {
+      "id": "lawn_edge",
+      "at": [
+       0,
+       1.8
+      ],
+      "face": 0,
+      "is": null
+     },
+     {
+      "id": "bench_a",
+      "at": [
+       5,
+       -1.2
+      ],
+      "face": 0,
+      "is": "bench"
+     }
+    ],
+    "dress": [
+     "window_barred",
+     "window_barred",
+     "window_barred",
+     "poster",
+     "hedge",
+     "hedge",
+     "jacaranda",
+     "jacaranda",
+     "jacaranda",
+     "flower_bed",
+     "campus_block",
+     "kilimanjaro",
+     "sky_campus"
+    ],
+    "props": [],
+    "use": "include veranda_corridor   (in show.scene; later anchor/prop/dress lines extend it)"
+   },
+   "dir": "sets/_manifests/veranda_corridor",
+   "urls": {
+    "scene": "/library/sets/veranda_corridor.scene"
+   },
+   "bytes": 991
+  },
+  {
+   "id": "voice_presets",
+   "kind": "voices",
+   "title": "Voice designs (Kokoro blends)",
+   "tags": [
+    "tts",
+    "kokoro",
+    "voice-design",
+    "the-bob"
+   ],
+   "source": {
+    "project": "The Bob",
+    "file": "pipeline/voices/humanvo.py, vo.py"
+   },
+   "files": {
+    "presets": "presets.json"
+   },
+   "meta": {
+    "use": "cast <id> ... tts preset:<name>   or   tts bf_emma:0.62+af_heart:0.38 lang en-gb speed 1.0"
+   },
+   "dir": "voices",
+   "urls": {
+    "presets": "/library/voices/presets.json"
+   },
+   "bytes": 1887
+  }
+ ],
+ "problems": []
+}

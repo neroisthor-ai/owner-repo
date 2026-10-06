@@ -1,0 +1,24 @@
+# New. A cafe, 7 x 5.5 m: a counter with a kettle and a cake at the back, a fridge,
+# two tables with chairs on their long sides, a window and a menu poster.
+set cafe size 7 5.5 entrance door
+  anchor door at -2.9 2.4 face 180
+  anchor till at 2.0 -1.5 face 180 is kitchen_counter
+  anchor seat_a1 at -1.6 -0.1 face 0 is chair_wood
+  anchor seat_a2 at -1.6 1.3 face 180 is chair_wood
+  anchor seat_b1 at 1.4 0.5 face 0 is chair_wood
+  anchor seat_b2 at 1.4 1.9 face 180 is chair_wood
+  anchor window_seat at -3.0 -1.5 face 90 is none
+  anchor aisle at 0.3 -0.6 face 0 is none
+  dress dining_table at -1.6 0.6
+  dress dining_table at 1.4 1.2
+  dress fridge at -2.4 -2.36
+  dress window_barred at -0.4 -2.74
+  dress poster at 0.4 -2.74
+  dress window_barred at -3.46 -0.5 face 90
+  dress potted_plant at 3.0 2.2
+  dress ceiling_fan at 0 0.8
+  dress kettle at 2.0 -2.12 height 0.92
+  dress cake at 1.5 -2.12 height 0.92
+  dress mug at -1.6 0.6 height 0.75
+  dress plate at 1.4 1.2 height 0.75
+  prop cup at 1.1 1.3 height 0.75 is mug

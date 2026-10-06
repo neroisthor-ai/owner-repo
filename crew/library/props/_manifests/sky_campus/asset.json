@@ -1,0 +1,38 @@
+{
+  "id": "prop_sky_campus",
+  "kind": "prop",
+  "title": "East African sky dome (day, night, storm)",
+  "tags": [
+    "prop",
+    "sky",
+    "at",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "sky_campus",
+    "category": "sky",
+    "placement": "at",
+    "size": [
+      800,
+      800,
+      800
+    ],
+    "y0": -400,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.sky_campus.build(opts)",
+    "scene": "anchor <id> at x z face d is sky_campus   |   dress sky_campus at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

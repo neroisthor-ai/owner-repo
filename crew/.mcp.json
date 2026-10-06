@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "crew": {
+      "command": "node",
+      "args": ["bin/crew.js", "mcp", "shows/kitchen"]
+    }
+  }
+}

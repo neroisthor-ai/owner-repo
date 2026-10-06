@@ -1,0 +1,38 @@
+{
+  "id": "prop_flower_bed",
+  "kind": "prop",
+  "title": "Flower bed",
+  "tags": [
+    "prop",
+    "nature",
+    "front",
+    "new",
+    "decor"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "flower_bed",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+      2,
+      0.35,
+      0.8
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.flower_bed.build(opts)",
+    "scene": "anchor <id> at x z face d is flower_bed   |   dress flower_bed at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

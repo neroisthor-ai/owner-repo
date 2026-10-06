@@ -1,0 +1,38 @@
+{
+  "id": "prop_bush",
+  "kind": "prop",
+  "title": "Bush",
+  "tags": [
+    "prop",
+    "nature",
+    "front",
+    "new",
+    "decor"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "bush",
+    "category": "nature",
+    "placement": "front",
+    "size": [
+      1.7,
+      1.31,
+      1.74
+    ],
+    "y0": -0.1,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bush.build(opts)",
+    "scene": "anchor <id> at x z face d is bush   |   dress bush at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

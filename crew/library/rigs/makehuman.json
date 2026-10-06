@@ -1,0 +1,28 @@
+{
+  "format": "MakeHuman-style skeleton, 163 joints, exported by THREE.GLTFExporter",
+  "models": {
+    "male": { "url": "/assets/characters/human_male.glb", "height": 1.75 },
+    "female": { "url": "/assets/characters/human_female.glb", "height": 1.61 }
+  },
+  "channels": {
+    "hips": "root",
+    "pelvis": "spine05",
+    "spine": ["spine04", "spine03", "spine02"],
+    "chest": "spine01",
+    "neck": ["neck01", "neck02", "neck03"],
+    "head": "head",
+    "jaw": "jaw",
+    "eye_L": "eye_L", "eye_R": "eye_R",
+    "lid_L": ["orbicularis03_L", "orbicularis04_L"], "lid_R": ["orbicularis03_R", "orbicularis04_R"],
+    "brow_L": "oculi01_L", "brow_R": "oculi01_R",
+    "mouth_corner_L": "risorius03_L", "mouth_corner_R": "risorius03_R",
+    "clavicle_L": "clavicle_L", "clavicle_R": "clavicle_R",
+    "upperarm_L": "upperarm01_L", "upperarm_R": "upperarm01_R",
+    "forearm_L": "lowerarm01_L", "forearm_R": "lowerarm01_R",
+    "hand_L": "wrist_L", "hand_R": "wrist_R",
+    "thigh_L": "upperleg01_L", "thigh_R": "upperleg01_R",
+    "shin_L": "lowerleg01_L", "shin_R": "lowerleg01_R",
+    "foot_L": "foot_L", "foot_R": "foot_R"
+  },
+  "notes": "No baked animations or morph targets: drive these bones from Crew's baked channels (gait phase, pose, gesture, talk -> jaw, head yaw -> neck/head split 40/60, blink -> lids). Forward is +Z, up is +Y. Scale the model so its height matches cast height."
+}

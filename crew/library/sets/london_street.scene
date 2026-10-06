@@ -1,0 +1,28 @@
+# New, with Low Pass's buses, cabs and the river-side lamps. A London street, 20 x 10 m,
+# open to the sky: buildings behind a pavement, a bus stop, phone box, post box and
+# bench on the pavement, lamps at the kerb, a bus and a cab on the road.
+# Pavement is z -5..-1 (people stand here), road is z -1..5.
+set london_street size 20 10 open entrance edge_w
+  anchor edge_w at -9 -2.5 face 90 is none
+  anchor edge_e at 9 -2.5 face 270 is none
+  anchor bus_stop at -5 -2.3 face 180
+  anchor box at 1.5 -2.3 face 180 is phone_box
+  anchor post at 3.6 -2.3 face 180 is post_box
+  anchor bench at 6.2 -3.2 face 0 is bench
+  anchor kerb at -2.5 -1.5 face 0 is none
+  anchor crossing at 3.8 0.8 face 0 is none
+  dress city_block at -6 -14
+  dress city_block at 8 -14
+  dress street_lamp at -8 -1.2
+  dress street_lamp at 0 -1.2
+  dress street_lamp at 8 -1.2
+  dress bin at 4.8 -3.8
+  dress traffic_light at 9.2 -1.0
+  dress tree at -9.2 -3.8
+  dress bus at -3 1.6 face 90
+  dress cab at 7 3.6 face 270
+  dress car at -9 3.6 face 270
+  dress bollard at -1.5 -1.1
+  dress bollard at -0.5 -1.1
+  dress bollard at 0.5 -1.1
+  dress sky_london at 0 0

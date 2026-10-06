@@ -1,0 +1,37 @@
+{
+  "id": "prop_bollard",
+  "kind": "prop",
+  "title": "Bollard",
+  "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "bollard",
+    "category": "street",
+    "placement": "front",
+    "size": [
+      0.16,
+      0.97,
+      0.16
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bollard.build(opts)",
+    "scene": "anchor <id> at x z face d is bollard   |   dress bollard at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

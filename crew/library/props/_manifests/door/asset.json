@@ -1,0 +1,38 @@
+{
+  "id": "prop_door",
+  "kind": "prop",
+  "title": "Panel door in a frame",
+  "tags": [
+    "prop",
+    "openings",
+    "behind",
+    "the-bob",
+    "openable"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "door",
+    "category": "openings",
+    "placement": "behind",
+    "size": [
+      1.02,
+      2.11,
+      0.14
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": true,
+    "build": "PROPS.door.build(opts)",
+    "scene": "anchor <id> at x z face d is door   |   dress door at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

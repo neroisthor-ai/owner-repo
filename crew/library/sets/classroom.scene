@@ -1,0 +1,27 @@
+# [The Bob] A school classroom, 7 x 6 m: six desks in two rows facing a chalkboard,
+# a teacher's desk, a barred window on the right, a door at the back corner.
+set classroom size 7 6 entrance door
+  anchor door at -2.8 2.6 face 180
+  anchor teacher at 0.2 -1.7 face 0 is none
+  anchor seat_1 at -1.8 0.5 face 180 is chair_wood
+  anchor seat_2 at 0 0.5 face 180 is chair_wood
+  anchor seat_3 at 1.8 0.5 face 180 is chair_wood
+  anchor seat_4 at -1.8 1.8 face 180 is chair_wood
+  anchor seat_5 at 0 1.8 face 180 is chair_wood
+  anchor seat_6 at 1.8 1.8 face 180 is chair_wood
+  anchor board at 0.6 -2.3 face 180 is none
+  dress school_desk at -1.8 -0.05
+  dress school_desk at 0 -0.05
+  dress school_desk at 1.8 -0.05
+  dress school_desk at -1.8 1.25
+  dress school_desk at 0 1.25
+  dress school_desk at 1.8 1.25
+  dress office_desk at 2.0 -2.0
+  dress chalkboard at 0.6 -2.97
+  dress whiteboard at -3.46 -0.5 face 90
+  dress bookshelf at -2.4 -2.75
+  dress window_barred at 3.44 0.5 face 270
+  dress window_barred at 3.44 -1.5 face 270
+  dress poster at -3.46 1.5 face 90
+  dress ceiling_fan at 0 0.6
+  dress ceiling_fan at 0 -1.4

@@ -1,0 +1,38 @@
+{
+  "id": "prop_traffic_light",
+  "kind": "prop",
+  "title": "Traffic light",
+  "tags": [
+    "prop",
+    "street",
+    "front",
+    "new",
+    "animated"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "traffic_light",
+    "category": "street",
+    "placement": "front",
+    "size": [
+      0.28,
+      3.35,
+      0.22
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.traffic_light.build(opts)",
+    "scene": "anchor <id> at x z face d is traffic_light   |   dress traffic_light at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

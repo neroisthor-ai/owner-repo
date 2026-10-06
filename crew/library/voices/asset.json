@@ -1,0 +1,7 @@
+{
+  "id": "voice_presets", "kind": "voices", "title": "Voice designs (Kokoro blends)",
+  "tags": ["tts", "kokoro", "voice-design", "the-bob"],
+  "source": { "project": "The Bob", "file": "pipeline/voices/humanvo.py, vo.py" },
+  "files": { "presets": "presets.json" },
+  "meta": { "use": "cast <id> ... tts preset:<name>   or   tts bf_emma:0.62+af_heart:0.38 lang en-gb speed 1.0" }
+}

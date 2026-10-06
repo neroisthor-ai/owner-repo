@@ -1,0 +1,37 @@
+{
+  "id": "prop_bookshelf",
+  "kind": "prop",
+  "title": "Bookshelf full of books",
+  "tags": [
+    "prop",
+    "study",
+    "front",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "bookshelf",
+    "category": "study",
+    "placement": "front",
+    "size": [
+      2.1,
+      2.3,
+      0.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.bookshelf.build(opts)",
+    "scene": "anchor <id> at x z face d is bookshelf   |   dress bookshelf at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

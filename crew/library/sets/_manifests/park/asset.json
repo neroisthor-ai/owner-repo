@@ -1,0 +1,108 @@
+{
+  "id": "set_park",
+  "kind": "set",
+  "title": "Park",
+  "tags": [
+    "set",
+    "scene",
+    "exterior",
+    "crew"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "scene": "../../park.scene"
+  },
+  "meta": {
+    "set": "park",
+    "size": [
+      24,
+      16
+    ],
+    "open": true,
+    "entrance": "edge_w",
+    "anchors": [
+      {
+        "id": "edge_w",
+        "at": [
+          -11,
+          0
+        ],
+        "face": 90,
+        "is": null
+      },
+      {
+        "id": "edge_e",
+        "at": [
+          11,
+          0
+        ],
+        "face": 270,
+        "is": null
+      },
+      {
+        "id": "path",
+        "at": [
+          0,
+          0
+        ],
+        "face": 0,
+        "is": null
+      },
+      {
+        "id": "bench_a",
+        "at": [
+          -4,
+          -2.6
+        ],
+        "face": 0,
+        "is": "bench"
+      },
+      {
+        "id": "bench_b",
+        "at": [
+          4,
+          2.8
+        ],
+        "face": 180,
+        "is": "bench"
+      },
+      {
+        "id": "pond_edge",
+        "at": [
+          0,
+          5.5
+        ],
+        "face": 180,
+        "is": null
+      }
+    ],
+    "dress": [
+      "street_lamp",
+      "street_lamp",
+      "bin",
+      "flower_bed",
+      "flower_bed",
+      "hedge",
+      "hedge",
+      "hedge",
+      "tree",
+      "tree",
+      "tree",
+      "tree",
+      "tree",
+      "tree",
+      "jacaranda",
+      "bush",
+      "bush",
+      "rock",
+      "rock",
+      "bicycle",
+      "union_jack",
+      "sky_london"
+    ],
+    "props": [],
+    "use": "include park   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

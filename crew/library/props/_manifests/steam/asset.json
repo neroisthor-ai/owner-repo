@@ -1,0 +1,39 @@
+{
+  "id": "prop_steam",
+  "kind": "prop",
+  "title": "Steam rising from a drink",
+  "tags": [
+    "prop",
+    "tableware",
+    "onSurface",
+    "the-bob",
+    "decor",
+    "animated"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "steam",
+    "category": "tableware",
+    "placement": "onSurface",
+    "size": [
+      0.1,
+      0.22,
+      0.01
+    ],
+    "y0": 0.08,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.steam.build(opts)",
+    "scene": "anchor <id> at x z face d is steam   |   dress steam at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

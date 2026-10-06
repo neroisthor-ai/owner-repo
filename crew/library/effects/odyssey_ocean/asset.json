@@ -1,0 +1,42 @@
+{
+  "id": "odyssey_ocean",
+  "kind": "effect",
+  "title": "Storm ocean raymarcher (Scylla and Charybdis)",
+  "tags": [
+    "odyssey",
+    "ocean",
+    "storm",
+    "raymarch",
+    "glsl",
+    "webgl2"
+  ],
+  "source": {
+    "project": "Odyssey",
+    "file": "Odyssey.html <script type=x-shader>"
+  },
+  "files": {
+    "common": "glsl/common.glsl",
+    "post": "glsl/post.glsl",
+    "probe": "glsl/probe.glsl",
+    "resolve": "glsl/resolve.glsl",
+    "scene": "glsl/scene.glsl",
+    "vs": "glsl/vs.glsl"
+  },
+  "meta": {
+    "api": "raw WebGL2, progressive accumulation (probe/resolve), see kits/films/odyssey.js",
+    "uniforms": [
+      "uTime",
+      "uCamPos",
+      "uCamRot",
+      "uShipPos",
+      "uShipRot",
+      "uOarPhase",
+      "uFlash",
+      "uBolt[40]",
+      "uFog",
+      "uSpray",
+      "uWhirl",
+      "uScylla"
+    ]
+  }
+}

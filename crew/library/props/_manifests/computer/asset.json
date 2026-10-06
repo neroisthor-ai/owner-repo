@@ -1,0 +1,38 @@
+{
+  "id": "prop_computer",
+  "kind": "prop",
+  "title": "Desktop computer",
+  "tags": [
+    "prop",
+    "office",
+    "onSurface",
+    "new",
+    "decor"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "computer",
+    "category": "office",
+    "placement": "onSurface",
+    "size": [
+      0.56,
+      0.52,
+      0.4
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.computer.build(opts)",
+    "scene": "anchor <id> at x z face d is computer   |   dress computer at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

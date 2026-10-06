@@ -1,0 +1,19 @@
+# New. A small office, 6 x 5 m: the boss's desk with a computer and laptop, two
+# visitor chairs, a filing cabinet, a whiteboard and a window behind the chair.
+set office size 6 5 entrance door
+  anchor door at 2.4 2.15 face 180
+  anchor boss_chair at 0.5 -1.95 face 0 is office_chair
+  anchor visitor_a at -0.1 -0.1 face 180 is chair_wood
+  anchor visitor_b at 1.1 -0.1 face 180 is chair_wood
+  anchor board at 2.5 -0.5 face 90 is none
+  anchor cabinet at -2.4 -1.4 face 180 is none
+  dress office_desk at 0.5 -1.2
+  dress computer at 0.9 -1.2 height 0.75
+  dress laptop at 0.0 -1.1 height 0.75
+  dress phone at 0.4 -0.95 height 0.75
+  dress filing_cabinet at -2.4 -2.2
+  dress whiteboard at 2.96 -0.5 face 270
+  dress window_barred at -0.5 -2.44
+  dress potted_plant at -2.6 2.0
+  dress newspaper at 0.9 -0.9 height 0.75
+  prop mug at 0.2 -1.3 height 0.75

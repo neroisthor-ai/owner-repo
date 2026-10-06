@@ -1,0 +1,38 @@
+{
+  "id": "prop_crowd",
+  "kind": "prop",
+  "title": "Crowd of pedestrians",
+  "tags": [
+    "prop",
+    "people",
+    "at",
+    "low-pass",
+    "decor"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "crowd",
+    "category": "people",
+    "placement": "at",
+    "size": [
+      5.03,
+      1.96,
+      4.03
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.crowd.build(opts)",
+    "scene": "anchor <id> at x z face d is crowd   |   dress crowd at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

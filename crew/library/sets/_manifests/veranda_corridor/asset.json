@@ -1,0 +1,99 @@
+{
+  "id": "set_veranda_corridor",
+  "kind": "set",
+  "title": "Veranda corridor",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "scene": "../../veranda_corridor.scene"
+  },
+  "meta": {
+    "set": "veranda_corridor",
+    "size": [
+      16,
+      4
+    ],
+    "open": false,
+    "entrance": "door_w",
+    "anchors": [
+      {
+        "id": "door_w",
+        "at": [
+          -7,
+          -1.3
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "door_a",
+        "at": [
+          -2.5,
+          -1.3
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "door_b",
+        "at": [
+          2.5,
+          -1.3
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "mid",
+        "at": [
+          0,
+          0.4
+        ],
+        "face": 0,
+        "is": null
+      },
+      {
+        "id": "lawn_edge",
+        "at": [
+          0,
+          1.8
+        ],
+        "face": 0,
+        "is": null
+      },
+      {
+        "id": "bench_a",
+        "at": [
+          5,
+          -1.2
+        ],
+        "face": 0,
+        "is": "bench"
+      }
+    ],
+    "dress": [
+      "window_barred",
+      "window_barred",
+      "window_barred",
+      "poster",
+      "hedge",
+      "hedge",
+      "jacaranda",
+      "jacaranda",
+      "jacaranda",
+      "flower_bed",
+      "campus_block",
+      "kilimanjaro",
+      "sky_campus"
+    ],
+    "props": [],
+    "use": "include veranda_corridor   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

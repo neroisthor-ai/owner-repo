@@ -1,0 +1,67 @@
+{
+  "id": "bob_teacher",
+  "kind": "character",
+  "title": "Teacher (The Bob)",
+  "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "assets/characters/teacher.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+  },
+  "files": {
+    "model": "teacher.glb",
+    "source": "teacher.bob1"
+  },
+  "meta": {
+    "rig": "bob18",
+    "bones": [
+      "root",
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "lSh",
+      "lEl",
+      "lHand",
+      "rSh",
+      "rEl",
+      "rHand",
+      "lHip",
+      "lKnee",
+      "lAnk",
+      "rHip",
+      "rKnee",
+      "rAnk"
+    ],
+    "meshes": [
+      "body",
+      "head",
+      "hair",
+      "skirt"
+    ],
+    "verts": 88401,
+    "tris": 176356,
+    "defaultLook": "teacher",
+    "looks": [
+      "teacher"
+    ],
+    "materialSlots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie"
+    ],
+    "height": 1.77175
+  }
+}

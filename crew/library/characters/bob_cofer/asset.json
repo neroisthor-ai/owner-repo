@@ -1,0 +1,66 @@
+{
+  "id": "bob_cofer",
+  "kind": "character",
+  "title": "Cofer (The Bob)",
+  "tags": [
+    "the-bob",
+    "sculpted",
+    "skinned",
+    "stylised",
+    "previs"
+  ],
+  "source": {
+    "project": "The Bob",
+    "file": "assets/characters/cofer.mesh.wasm",
+    "pipeline": "code/pipeline/characters/people.py (SDF sculpt, marching cubes, auto-skin)"
+  },
+  "files": {
+    "model": "cofer.glb",
+    "source": "cofer.bob1"
+  },
+  "meta": {
+    "rig": "bob18",
+    "bones": [
+      "root",
+      "hips",
+      "spine",
+      "chest",
+      "neck",
+      "head",
+      "lSh",
+      "lEl",
+      "lHand",
+      "rSh",
+      "rEl",
+      "rHand",
+      "lHip",
+      "lKnee",
+      "lAnk",
+      "rHip",
+      "rKnee",
+      "rAnk"
+    ],
+    "meshes": [
+      "body",
+      "head",
+      "hair"
+    ],
+    "verts": 84671,
+    "tris": 169214,
+    "defaultLook": "cofer",
+    "looks": [
+      "cofer"
+    ],
+    "materialSlots": [
+      "skin",
+      "top",
+      "bottom",
+      "shoe",
+      "accent",
+      "hair",
+      "lips",
+      "tie"
+    ],
+    "height": 1.865
+  }
+}

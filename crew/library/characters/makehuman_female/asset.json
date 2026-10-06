@@ -1,0 +1,30 @@
+{
+  "id": "makehuman_female",
+  "kind": "character",
+  "title": "Human female (MakeHuman rig)",
+  "tags": [
+    "human",
+    "realistic",
+    "skinned",
+    "makehuman",
+    "female"
+  ],
+  "source": {
+    "project": "Crew",
+    "file": "human_female.glb"
+  },
+  "files": {
+    "model": "human_female.glb",
+    "rig": "../../rigs/makehuman.json"
+  },
+  "meta": {
+    "rig": "makehuman163",
+    "joints": 163,
+    "meshes": 8,
+    "materials": 8,
+    "textures": 9,
+    "facialBones": true,
+    "animations": 0,
+    "height": 1.61
+  }
+}

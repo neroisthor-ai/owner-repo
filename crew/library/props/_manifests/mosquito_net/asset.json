@@ -1,0 +1,38 @@
+{
+  "id": "prop_mosquito_net",
+  "kind": "prop",
+  "title": "Mosquito net over a bed",
+  "tags": [
+    "prop",
+    "bedroom",
+    "ceiling",
+    "the-bob",
+    "decor"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../interior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "mosquito_net",
+    "category": "bedroom",
+    "placement": "ceiling",
+    "size": [
+      1.24,
+      1.83,
+      2.34
+    ],
+    "y0": 0.55,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": true,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.mosquito_net.build(opts)",
+    "scene": "anchor <id> at x z face d is mosquito_net   |   dress mosquito_net at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

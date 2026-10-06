@@ -1,0 +1,96 @@
+{
+  "id": "set_living_room",
+  "kind": "set",
+  "title": "Living room",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "crew"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "scene": "../../living_room.scene"
+  },
+  "meta": {
+    "set": "living_room",
+    "size": [
+      6,
+      5
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          2.3,
+          2
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "sofa",
+        "at": [
+          -2.3,
+          0
+        ],
+        "face": 90,
+        "is": "sofa"
+      },
+      {
+        "id": "tv",
+        "at": [
+          2.1,
+          0
+        ],
+        "face": 90,
+        "is": "tv_stand"
+      },
+      {
+        "id": "armchair",
+        "at": [
+          -0.7,
+          1.7
+        ],
+        "face": 180,
+        "is": "armchair"
+      },
+      {
+        "id": "window_seat",
+        "at": [
+          -1,
+          -1.9
+        ],
+        "face": 180,
+        "is": null
+      },
+      {
+        "id": "lamp_spot",
+        "at": [
+          -2.2,
+          -1.9
+        ],
+        "face": 90,
+        "is": null
+      }
+    ],
+    "dress": [
+      "coffee_table",
+      "rug",
+      "floor_lamp",
+      "potted_plant",
+      "bookshelf",
+      "window_barred",
+      "newspaper",
+      "plate"
+    ],
+    "props": [
+      "mug"
+    ],
+    "use": "include living_room   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

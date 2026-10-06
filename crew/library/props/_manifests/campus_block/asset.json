@@ -1,0 +1,37 @@
+{
+  "id": "prop_campus_block",
+  "kind": "prop",
+  "title": "Campus classroom block with veranda",
+  "tags": [
+    "prop",
+    "building",
+    "front",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "campus_block",
+    "category": "building",
+    "placement": "front",
+    "size": [
+      32.8,
+      6.48,
+      13
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.campus_block.build(opts)",
+    "scene": "anchor <id> at x z face d is campus_block   |   dress campus_block at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

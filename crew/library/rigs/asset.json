@@ -1,0 +1,16 @@
+{
+  "id": "rig_makehuman",
+  "kind": "rig",
+  "title": "MakeHuman 163-joint rig map",
+  "tags": [
+    "rig",
+    "makehuman",
+    "retarget"
+  ],
+  "files": {
+    "map": "makehuman.json"
+  },
+  "meta": {
+    "channels": "hips, spine, chest, neck, head, jaw, eyes, lids, brows, mouth corners, arms, legs"
+  }
+}

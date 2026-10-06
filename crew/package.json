@@ -1,0 +1,36 @@
+{
+  "name": "crew",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/cli.ts serve",
+    "dev": "tsx watch src/cli.ts serve",
+    "mcp": "tsx src/cli.ts mcp",
+    "crew": "tsx src/cli.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "UNLICENSED",
+  "description": "The AI film crew that takes direction. SCENE film language + Claude crew + 3D animatic.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@modelcontextprotocol/sdk": "^1.32.1",
+    "kokoro-js": "^1.2.1",
+    "mp4-muxer": "^5.2.2",
+    "three": "^0.186.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/three": "^0.186.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "type": "module",
+  "bin": {
+    "crew": "bin/crew.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

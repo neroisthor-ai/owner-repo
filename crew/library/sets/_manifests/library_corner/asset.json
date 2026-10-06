@@ -1,0 +1,98 @@
+{
+  "id": "set_library_corner",
+  "kind": "set",
+  "title": "Library corner",
+  "tags": [
+    "set",
+    "scene",
+    "interior",
+    "the-bob"
+  ],
+  "source": {
+    "project": "The Bob"
+  },
+  "files": {
+    "scene": "../../library_corner.scene"
+  },
+  "meta": {
+    "set": "library_corner",
+    "size": [
+      5,
+      4.2
+    ],
+    "open": false,
+    "entrance": "door",
+    "anchors": [
+      {
+        "id": "door",
+        "at": [
+          1.7,
+          1.7
+        ],
+        "face": 180,
+        "is": "door"
+      },
+      {
+        "id": "reading_chair",
+        "at": [
+          -0.95,
+          -0.1
+        ],
+        "face": 90,
+        "is": "chair_wood"
+      },
+      {
+        "id": "visitor_chair",
+        "at": [
+          1.75,
+          -0.1
+        ],
+        "face": 270,
+        "is": "chair_wood"
+      },
+      {
+        "id": "shelf_a",
+        "at": [
+          -1.2,
+          -1.3
+        ],
+        "face": 180,
+        "is": null
+      },
+      {
+        "id": "shelf_b",
+        "at": [
+          1.2,
+          -1.3
+        ],
+        "face": 180,
+        "is": null
+      },
+      {
+        "id": "stacks",
+        "at": [
+          0.4,
+          1
+        ],
+        "face": 180,
+        "is": null
+      }
+    ],
+    "dress": [
+      "library_table",
+      "bookshelf",
+      "bookshelf",
+      "bookshelf",
+      "rug",
+      "window_barred",
+      "book_stack",
+      "mug"
+    ],
+    "props": [
+      "bankers_lamp",
+      "leather_book",
+      "note"
+    ],
+    "use": "include library_corner   (in show.scene; later anchor/prop/dress lines extend it)"
+  }
+}

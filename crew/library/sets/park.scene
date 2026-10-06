@@ -1,0 +1,32 @@
+# New, with Low Pass's trees. A city park, 24 x 16 m, open: a path through the middle,
+# two benches, lamps, hedges, flower beds and a ring of trees. People stand on the
+# path (z around 0); the grass is either side.
+set park size 24 16 open entrance edge_w
+  anchor edge_w at -11 0 face 90 is none
+  anchor edge_e at 11 0 face 270 is none
+  anchor path at 0 0 face 0 is none
+  anchor bench_a at -4 -2.6 face 0 is bench
+  anchor bench_b at 4 2.8 face 180 is bench
+  anchor pond_edge at 0 5.5 face 180 is none
+  dress street_lamp at -8 -1.6
+  dress street_lamp at 8 -1.6
+  dress bin at -2 -2.6
+  dress flower_bed at -8 3.0
+  dress flower_bed at 8 -3.5
+  dress hedge at 0 -7.5
+  dress hedge at -7 -7.5
+  dress hedge at 7 -7.5
+  dress tree at -9 -5 scale 1.2
+  dress tree at -3 -5.5
+  dress tree at 6 -5
+  dress tree at 10 -6
+  dress tree at -9 6
+  dress tree at 3 6.5 scale 1.1
+  dress jacaranda at -5 4.5
+  dress bush at 2 -3.2
+  dress bush at -6.5 -2.2
+  dress rock at 10 3.5
+  dress rock at -10.5 3
+  dress bicycle at 6 -2.4 face 90
+  dress union_jack at -10.5 -5
+  dress sky_london at 0 0

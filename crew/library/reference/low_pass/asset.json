@@ -1,0 +1,16 @@
+{
+  "id": "reference_low_pass",
+  "kind": "reference",
+  "title": "Low Pass: original source",
+  "tags": [
+    "source",
+    "reference",
+    "low-pass"
+  ],
+  "files": {
+    "low_pass_js": "low-pass.js"
+  },
+  "meta": {
+    "note": "verbatim originals; the kits and importers are generated from these"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "prop_london_eye",
+  "kind": "prop",
+  "title": "London Eye",
+  "tags": [
+    "prop",
+    "landmark",
+    "front",
+    "low-pass",
+    "animated"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../structures.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "london_eye",
+    "category": "landmark",
+    "placement": "front",
+    "size": [
+      129.4,
+      139.56,
+      42.09
+    ],
+    "y0": -4.86,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": true,
+    "openable": false,
+    "build": "PROPS.london_eye.build(opts)",
+    "scene": "anchor <id> at x z face d is london_eye   |   dress london_eye at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

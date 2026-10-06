@@ -1,0 +1,37 @@
+{
+  "id": "prop_phone_box",
+  "kind": "prop",
+  "title": "Red telephone box",
+  "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "phone_box",
+    "category": "street",
+    "placement": "front",
+    "size": [
+      1.75,
+      2.56,
+      1.75
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.phone_box.build(opts)",
+    "scene": "anchor <id> at x z face d is phone_box   |   dress phone_box at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

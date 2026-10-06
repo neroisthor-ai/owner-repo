@@ -1,0 +1,37 @@
+{
+  "id": "prop_person",
+  "kind": "prop",
+  "title": "Pedestrian (posed)",
+  "tags": [
+    "prop",
+    "people",
+    "front",
+    "low-pass"
+  ],
+  "source": {
+    "project": "Low Pass"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "person",
+    "category": "people",
+    "placement": "front",
+    "size": [
+      0.59,
+      1.67,
+      0.31
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.person.build(opts)",
+    "scene": "anchor <id> at x z face d is person   |   dress person at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}

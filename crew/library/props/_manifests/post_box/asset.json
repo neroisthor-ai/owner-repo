@@ -1,0 +1,37 @@
+{
+  "id": "prop_post_box",
+  "kind": "prop",
+  "title": "Pillar box",
+  "tags": [
+    "prop",
+    "street",
+    "front",
+    "new"
+  ],
+  "source": {
+    "project": "Crew"
+  },
+  "files": {
+    "module": "../../exterior.js",
+    "registry": "../../index.js"
+  },
+  "meta": {
+    "prop": "post_box",
+    "category": "street",
+    "placement": "front",
+    "size": [
+      0.6,
+      1.68,
+      0.6
+    ],
+    "y0": 0,
+    "sittable": false,
+    "sitHeight": null,
+    "surface": null,
+    "decor": false,
+    "animated": false,
+    "openable": false,
+    "build": "PROPS.post_box.build(opts)",
+    "scene": "anchor <id> at x z face d is post_box   |   dress post_box at x z [face d] [on <anchor>|height h] [scale s]"
+  }
+}
