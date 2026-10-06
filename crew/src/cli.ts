@@ -13,6 +13,7 @@
 //   mcp [dir]                       MCP server on stdio for Claude Code / Desktop
 //   library list|search <q>|info <id>|build|port|import <bob-dir> <low-pass.html> <Odyssey.html>
 
+import "./env.ts";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -65,7 +66,7 @@ async function main() {
       console.log(`Crew is rolling: ${url}`);
       if (process.env.CREW_LLM === "gemini" && crew.llm.mode === "offline") console.log("  note: CREW_LLM=gemini but GEMINI_API_KEY is empty; running offline. Add the key in .env or the Crew AI menu, then run npm run doctor.");
       console.log(`  show: ${crew.project.show.title} (${crew.project.dir})`);
-      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI on Claude (Opus directs, Sonnet builds, Haiku routes)" : crew.llm.mode === "gemini" ? "Crew AI on Gemini (Pro directs, Flash builds, Flash-Lite reads and ranks; guided pipeline)" : "offline rules (add a Gemini or Claude key for Crew AI; see docs/GO_LIVE.md)"}`);
+      console.log(`  crew: ${crew.llm.mode === "claude" ? "Crew AI on Claude (Opus directs, Sonnet builds, Haiku routes)" : crew.llm.mode === "gemini" ? `Crew AI on Gemini (${process.env.CREW_PRO_MODE === "flash" ? `a group of ${process.env.CREW_FLASH_GROUP ?? 3} Flash calls directs` : "Pro directs"}, Flash builds, Flash-Lite reads and ranks; Flash ladder ${process.env.CREW_GEMINI_FLASH_LADDER?.split(",").length ?? 4} models deep)` : "offline rules (add a Gemini or Claude key for Crew AI; see docs/GO_LIVE.md)"}`);
       crew.events.on("crew", (e) => console.log(`  [${e.role ?? "crew"}${e.tier ? "/" + e.tier : ""}] ${e.message}${e.cost ? `  $${e.cost.toFixed(4)}` : ""}`));
       return;
     }

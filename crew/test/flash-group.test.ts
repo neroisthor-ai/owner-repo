@@ -61,3 +61,39 @@ test("other tiers are untouched by the stand-in", async () => {
   assert.equal(seen[0].model, GEMINI_MODELS.haiku);
   assert.equal(seen[0].thinking, "low");
 });
+
+test("ladder: Flash out of quota steps down to the next model and rests the first until Google's reset time", async () => {
+  let t = 0;
+  const { client, seen } = fake((r) => (r.model === "f38" ? { ok: false, errorKind: "quota", error: "daily quota exhausted: limit: 20 ... Please retry in 2h30m0s." } : { data: { shot: r.model } }));
+  const llm = new GeminiLLM({ client, ladders: { sonnet: ["f38", "f37", "f36"] }, now: () => t });
+  const sonnet = { ...call, tier: "sonnet" as const };
+  assert.equal((await llm.call<{ shot: string }>(sonnet)).data?.shot, "f37");
+  assert.deepEqual(seen.map((q) => q.model), ["f38", "f37"]);
+  assert.equal(llm.modelFor("sonnet"), "f37");
+  await llm.call(sonnet);
+  assert.equal(seen.at(-1)?.model, "f37");
+  assert.equal(seen.length, 3);
+  t = 2.5 * 3600e3 + 1;
+  assert.equal(llm.modelFor("sonnet"), "f38");
+});
+
+test("ladder: overloaded models step down too; a bad request does not", async () => {
+  const { client, seen } = fake((r) => (r.model === "f38" ? { ok: false, errorKind: "server", error: "503 high demand" } : r.model === "f37" ? { ok: false, errorKind: "bad_request", error: "bad" } : { data: { shot: "x" } }));
+  const r = await new GeminiLLM({ client, ladders: { sonnet: ["f38", "f37", "f36"] } }).call({ ...call, tier: "sonnet" });
+  assert.equal(r.ok, false);
+  assert.deepEqual(seen.map((q) => q.model), ["f38", "f37"]);
+});
+
+test("ladder: the Flash group standing in for Pro climbs the Flash ladder", async () => {
+  const { client, seen } = fake((r) => (r.model === "f38" ? { ok: false, errorKind: "quota", error: "limit: 20" } : { data: { shot: "1D" } }));
+  const r = await new GeminiLLM({ client, proMode: "flash", groupSize: 2, ladders: { sonnet: ["f38", "f37"] } }).call<{ shot: string }>(call);
+  assert.equal(r.data?.shot, "1D");
+  assert.ok(seen.some((q) => q.model === "f37"));
+});
+
+test("retryInMs reads Google's wait", async () => {
+  const { retryInMs } = await import("../src/llm/gemini-llm.ts");
+  assert.equal(retryInMs("Please retry in 5h8m34.08s."), (5 * 3600 + 8 * 60 + 34.08) * 1000);
+  assert.equal(retryInMs("Please retry in 40s"), 40000);
+  assert.equal(retryInMs("nothing"), undefined);
+});

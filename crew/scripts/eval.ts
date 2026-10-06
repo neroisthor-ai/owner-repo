@@ -2,6 +2,7 @@
 // how often each crew gets a checked take that touches the right shot. Usage:
 //   npx tsx scripts/eval.ts [offline|gemini|claude] [--only N] [--json out.json]
 // Live runs need the provider's key in .env. Each note runs on its own copy, so notes never affect each other.
+import "../src/env.ts";
 import { cpSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";

@@ -9,6 +9,7 @@
 // Pro runs inside the real pipeline with the real prompts. Only the Flash-Lite and Flash steps are scripted, so each
 // case puts Pro in exactly the situation it tests. Usage:
 //   npx tsx scripts/pro-exam.ts [gemini|claude|relay] [--only plan,review] [--json out.json]
+import "../src/env.ts";
 import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";

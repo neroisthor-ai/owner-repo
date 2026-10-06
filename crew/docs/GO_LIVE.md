@@ -17,7 +17,7 @@ Everything is built and tested against simulated Gemini replies. What is left is
 
 If the doctor says Pro isn't available on your key's tier, that's the free API tier: it has no Pro at all. Set `CREW_PRO_MODE=flash` and Pro's jobs go to a group of Flash calls on high thinking plus a final checking pass (`docs/GEMINI_CREW.md`). Switching on billing in AI Studio brings Pro back; then set `CREW_PRO_MODE=auto`.
 
-If Gemini answers "high demand" (503), Google's servers are busy; it passes, and the app retries on its own.
+If Gemini answers "high demand" (503) or a model's free quota runs out, the call steps down the model ladder (3.8 Flash, then 3.7, 3.6, 3.5) on its own; see `docs/GEMINI_CREW.md`.
 
 If Google has renamed a model, `npm run doctor` lists the ids your key can use; put the right one in `CREW_GEMINI_LITE`, `CREW_GEMINI_FLASH`, `CREW_GEMINI_PRO` or `CREW_GEMINI_TTS`.
 

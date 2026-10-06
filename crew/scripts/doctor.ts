@@ -2,6 +2,7 @@
 //   the key is set; the key works; each model id (Flash-Lite, Flash, Pro, TTS) exists for this key;
 //   each text model answers a tiny structured request at its thinking level; the voice model returns audio.
 // Live checks cost a handful of tokens. `--offline` checks only the configuration.
+import "../src/env.ts";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { CREW_ROOT } from "../src/project.ts";
@@ -12,7 +13,7 @@ const rows: [string, "ok" | "fix" | "warn" | "skip", string][] = [];
 const row = (what: string, state: (typeof rows)[number][1], detail: string) => { rows.push([what, state, detail]); };
 
 const key = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "";
-const { GEMINI_MODELS, GEMINI_THINKING, GeminiLLM, PRO_MODE, FLASH_GROUP } = await import("../src/llm/gemini-llm.ts");
+const { GEMINI_MODELS, GEMINI_THINKING, GeminiLLM, PRO_MODE, FLASH_GROUP, GEMINI_LADDERS } = await import("../src/llm/gemini-llm.ts");
 const { GeminiClient } = await import("../src/llm/gemini.ts");
 const tts = process.env.CREW_GEMINI_TTS ?? "gemini-3.8-flash-tts";
 
@@ -63,6 +64,8 @@ if (key && !offline) {
   }
 } else for (const [job, id, env] of jobs) row(job, "skip", `${id} (${env})${offline ? "" : ", needs the key"}`);
 
+row("Flash ladder", "ok", `${GEMINI_LADDERS.sonnet.join(" > ")} (CREW_GEMINI_FLASH_LADDER): when one runs out of quota or is overloaded, the next takes over`);
+row("Flash-Lite ladder", "ok", `${GEMINI_LADDERS.haiku.join(" > ")} (CREW_GEMINI_LITE_LADDER)`);
 row("Storage", (process.env.CREW_STORAGE ?? "fs") === "fs" ? "ok" : "warn", `${process.env.CREW_STORAGE ?? "fs"} (Supabase is not connected yet)`);
 row("Default crew", "ok", `CREW_LLM=${process.env.CREW_LLM ?? "auto"} (auto picks Claude if an Anthropic key is set, else Gemini, else offline)`);
 

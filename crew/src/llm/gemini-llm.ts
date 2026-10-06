@@ -5,6 +5,9 @@
 //     or, when Pro isn't on the key's tier (free tier), a Flash group: several Flash calls on high thinking with
 //     the most output room, run side by side, then one more Flash call that checks them against each other and
 //     writes the final answer (CREW_PRO_MODE, CREW_FLASH_GROUP)
+// Each tier has a ladder of models (CREW_GEMINI_FLASH_LADDER, CREW_GEMINI_LITE_LADDER). Free quota is set per model,
+// so when one runs out (or is overloaded) the call steps down to the next, and a model out of quota is skipped until
+// Google says it resets.
 // The tier names are the crew's internal job names; nothing here talks to Anthropic.
 //
 // Every call is logged to .crew/llm-log.jsonl so the eval and tuning have real failures to learn from.
@@ -20,6 +23,14 @@ export const GEMINI_MODELS: Record<Tier, string> = {
   sonnet: process.env.CREW_GEMINI_FLASH ?? "gemini-3.8-flash",
   opus: process.env.CREW_GEMINI_PRO ?? "gemini-3.1-pro-preview",
 };
+const listOf = (v: string | undefined, d: string[]) => (v ? v.split(",").map((x) => x.trim()).filter(Boolean) : d);
+const withTop = (top: string, l: string[]) => [top, ...l.filter((m) => m !== top)];
+/** The models each tier tries, best first. */
+export const GEMINI_LADDERS: Record<Tier, string[]> = {
+  haiku: withTop(GEMINI_MODELS.haiku, listOf(process.env.CREW_GEMINI_LITE_LADDER, ["gemini-3.1-flash-lite"])),
+  sonnet: withTop(GEMINI_MODELS.sonnet, listOf(process.env.CREW_GEMINI_FLASH_LADDER, ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash"])),
+  opus: [GEMINI_MODELS.opus],
+};
 export const GEMINI_THINKING: Record<Tier, ThinkingLevel> = { haiku: "low", sonnet: "high", opus: "high" };
 /** High thinking spends output tokens on thoughts, so give room: a cut-off reply is the commonest failure. */
 const MIN_OUTPUT: Record<Tier, number> = { haiku: 4000, sonnet: 32000, opus: 32000 };
@@ -34,7 +45,15 @@ export const PRO_MODE: ProMode = (["auto", "pro", "flash"] as const).find((m) =>
 /** How many Flash calls answer each of Pro's jobs before the final pass (2 to 6). */
 export const FLASH_GROUP = Math.max(2, Math.min(6, Math.round(Number(process.env.CREW_FLASH_GROUP ?? 3)) || 3));
 
-type Once<T> = { res: LLMResult<T>; kind?: GeminiResponse["errorKind"] };
+type Once<T> = { res: LLMResult<T>; kind?: GeminiResponse["errorKind"]; raw?: string };
+/** How long to skip a model after each kind of failure, when Google doesn't say. */
+const REST_MS: Partial<Record<NonNullable<GeminiResponse["errorKind"]>, number>> = { quota: 6 * 3600e3, rate: 120e3, server: 60e3, not_found: 24 * 3600e3 };
+/** "Please retry in 5h8m34.08s" -> ms */
+export function retryInMs(text: string): number | undefined {
+  const m = /retry in\s+(?:(\d+)h)?\s*(?:(\d+)m(?!s))?\s*(?:([\d.]+)s)?/i.exec(text);
+  if (!m || !(m[1] || m[2] || m[3])) return undefined;
+  return ((Number(m[1] ?? 0) * 60 + Number(m[2] ?? 0)) * 60 + Number(m[3] ?? 0)) * 1000;
+}
 
 export class GeminiLLM implements LLM {
   readonly mode = "gemini" as const;
@@ -44,21 +63,49 @@ export class GeminiLLM implements LLM {
   readonly groupSize: number;
   /** true once Pro's jobs go to the Flash group */
   standIn: boolean;
-  constructor(o: { client?: GeminiClient; apiKey?: string; log?: string; proMode?: ProMode; groupSize?: number } = {}) {
+  readonly ladders: Record<Tier, string[]>;
+  /** model -> time (ms) until which it is skipped */
+  readonly resting = new Map<string, number>();
+  private now: () => number;
+  constructor(o: { client?: GeminiClient; apiKey?: string; log?: string; proMode?: ProMode; groupSize?: number; ladders?: Partial<Record<Tier, string[]>>; now?: () => number } = {}) {
     const key = o.apiKey ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? "";
     this.client = o.client ?? new GeminiClient({ apiKey: key });
     this.log = o.log ?? null;
     this.proMode = o.proMode ?? PRO_MODE;
     this.groupSize = o.groupSize ?? FLASH_GROUP;
     this.standIn = this.proMode === "flash";
+    this.ladders = { ...GEMINI_LADDERS, ...o.ladders };
+    this.now = o.now ?? Date.now;
+  }
+
+  /** The tier's models that aren't resting, best first (all of them if every one is resting: one may have reset). */
+  ladder(tier: Tier): string[] {
+    const all = this.ladders[tier], up = all.filter((m) => (this.resting.get(m) ?? 0) <= this.now());
+    return up.length ? up : all;
+  }
+
+  /** Try the tier's models in turn: out of quota, rate limited, overloaded or missing steps down to the next. */
+  private async climb<T>(c: LLMCall, tier: Tier): Promise<Once<T>> {
+    const rungs = this.ladder(tier);
+    let last!: Once<T>;
+    for (const [i, model] of rungs.entries()) {
+      last = await this.once<T>(c, model);
+      const rest = last.kind && REST_MS[last.kind];
+      if (last.res.ok || !rest) return last;
+      const ms = (last.kind === "quota" || last.kind === "rate" ? retryInMs(last.raw ?? "") : undefined) ?? rest;
+      this.resting.set(model, this.now() + ms);
+      const next = rungs[i + 1];
+      this.write({ task: c.task, role: c.role, tier: c.tier, note: `${model}: ${last.kind}, resting ${Math.round(ms / 60000)} min${next ? `; stepping down to ${next}` : "; no model left on this ladder"}` });
+    }
+    return last;
   }
 
   /** The model doing a tier's job (the grips in capability.ts are looked up by this). */
-  modelFor(tier: Tier): string { return tier === "opus" && this.standIn ? GEMINI_MODELS.sonnet : GEMINI_MODELS[tier]; }
+  modelFor(tier: Tier): string { return this.ladder(tier === "opus" && this.standIn ? "sonnet" : tier)[0]; }
 
   async call<T = unknown>(c: LLMCall): Promise<LLMResult<T>> {
     if (c.tier === "opus" && this.standIn) return this.group<T>(c);
-    const r = await this.once<T>(c, GEMINI_MODELS[c.tier]);
+    const r = await this.climb<T>(c, c.tier);
     if (c.tier === "opus" && this.proMode === "auto" && !r.res.ok && r.kind === "quota") {
       this.standIn = true;
       this.write({ task: c.task, role: c.role, tier: c.tier, note: `Pro unavailable (${r.res.error}); the Flash group of ${this.groupSize} does Pro's jobs from now on` });
@@ -69,8 +116,8 @@ export class GeminiLLM implements LLM {
 
   /** Pro's job done by several Flash calls side by side, then a Flash pass that checks them and writes the answer. */
   private async group<T>(c: LLMCall): Promise<LLMResult<T>> {
-    const flash = GEMINI_MODELS.sonnet, wide = { ...c, maxTokens: MAX_OUTPUT };
-    const takes = await Promise.all(Array.from({ length: this.groupSize }, (_, i) => this.once<T>({ ...wide, role: `${c.role}#${i + 1}` }, flash)));
+    const flash = this.modelFor("sonnet"), wide = { ...c, maxTokens: MAX_OUTPUT };
+    const takes = await Promise.all(Array.from({ length: this.groupSize }, (_, i) => this.climb<T>({ ...wide, role: `${c.role}#${i + 1}` }, "sonnet")));
     const usage = sumUsage(takes.map((t) => t.res.usage));
     let ms = Math.max(...takes.map((t) => t.res.ms));
     const good = takes.filter((t) => t.res.ok).map((t) => t.res);
@@ -83,7 +130,7 @@ export class GeminiLLM implements LLM {
       "Now write the final answer to the task above. Check every answer against the task: where they disagree, work out which is right " +
       "(the majority can be wrong); keep what is correct, drop what is wrong, and fix anything all of them missed. " +
       "Don't mention the colleagues or their answers. Reply in exactly the format the task asks for.";
-    const final = await this.once<T>({ ...wide, role: `${c.role}#final`, prompt }, flash);
+    const final = await this.climb<T>({ ...wide, role: `${c.role}#final`, prompt }, "sonnet");
     const all = sumUsage([usage, final.res.usage]);
     ms += final.res.ms;
     const r = final.res.ok ? final.res : good[0];
@@ -113,7 +160,7 @@ export class GeminiLLM implements LLM {
     this.write({ task: c.task, role: c.role, tier: c.tier, model, ok: r.ok, errorKind: r.errorKind, error: r.error, formatErrors: r.formatErrors, coercions: r.coercions.length, attempts: all.reduce((a, x) => a + x.attempts, 0), schemaMode: r.schemaMode, usage, ms });
     // a reply with usable data despite minor format issues is better than nothing for a step that re-checks everything in code
     const data = (r.ok ? r.data : r.errorKind === "format" && r.data && r.formatErrors.length <= 2 ? r.data : null) as T | null;
-    if (!r.ok && !data) return { kind: r.errorKind, res: { ok: false, data: null, text: r.text, model, tier: c.tier, usage, cost: 0, ms, error: describe(r) } };
+    if (!r.ok && !data) return { kind: r.errorKind, raw: r.error, res: { ok: false, data: null, text: r.text, model, tier: c.tier, usage, cost: 0, ms, error: describe(r) } };
     return { res: { ok: true, data: c.schema ? data : null, text: r.text, model: r.model || model, tier: c.tier, usage, cost: 0, ms } };
   }
 
