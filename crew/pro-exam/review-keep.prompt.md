@@ -183,7 +183,7 @@ THE SHOTS (before any take):
 [1G.4]  kiran walk counter   @3.0-4.5s
 [1G.5]  kiran take fork   @4.5-5.4s
 
-Judge each take by its patch, not by its purpose line: purposes can be wrong. Order the takes best first by number, say for each (in that order) whether it does what the note and plan asked without breaking what the plan says to keep, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.
+Judge each take by its patch, not by its purpose line: purposes can be wrong. Order the takes best first by number, say for each take in its original numbering (take 1 first, not your ranking) whether it does what the note and plan asked without breaking what the plan says to keep, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.
 
 ---
 REPLY FORMAT: reply with only a JSON object (no code fences, no prose) matching this JSON Schema:
@@ -211,7 +211,7 @@ REPLY FORMAT: reply with only a JSON object (no code fences, no prose) matching 
    "items": {
     "type": "boolean"
    },
-   "description": "for each take in the order given to you: does it do what the plan asked?"
+   "description": "one per take in its original numbering (take 1 first, not your ranking): does it do what the note and plan asked?"
   },
   "message": {
    "type": "string",

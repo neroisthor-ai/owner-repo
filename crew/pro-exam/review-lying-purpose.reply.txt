@@ -1,0 +1,1 @@
+{"order": [2, 3, 1], "fits": [false, true, false], "message": "I've cut down the shock in 1D so the reaction snaps much faster. This gets us into the guilt beat and dialogue quicker.", "pushback": null, "idea": "We could remove the sting sound effect altogether and let the awkward silence do the heavy lifting before he speaks.", "redo": null}

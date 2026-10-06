@@ -144,8 +144,7 @@ const reviewCase = (id: string, note: string, route: { shots: string[]; roles: s
     const d = (await capture(note, examLLM({ route, plan, build: () => takes(...ts.map((t) => [t.purpose, t.patch] as [string, string])), stopAt: "review" }))) as { order?: number[]; fits?: boolean[]; redo?: string | null; pushback?: string | null; message?: string; error?: string };
     if (d?.error) return [{ name: "answered", pass: false, detail: d.error }];
     const order = cleanOrder(d.order, ts.length);
-    const fits = new Array(ts.length).fill(null);
-    order.forEach((i, k) => { fits[i] = d.fits?.[k] ?? null; });
+    const fits = ts.map((_, i) => d.fits?.[i] ?? null); // fits are per take, in the original numbering
     const anyGood = ts.some((t) => t.good);
     const checks: Check[] = ts.map((t, i) => ({ name: `take ${i + 1} (${t.good ? "does the note" : "trap"}: ${t.purpose})`, pass: fits[i] === t.good, detail: `fits=${fits[i]}` }));
     if (anyGood) checks.push({ name: "best take is one that does the note", pass: ts[order[0]].good, detail: `picked ${order[0] + 1}` });
@@ -194,7 +193,7 @@ const outlineCase: Case = {
 const CASES: Case[] = [
   planCase("plan-two-roles", "the ending in 1G needs to feel warmer, and mum should get the last laugh, not kiran", { shots: ["1G"], roles: ["editor"] }, { shots: ["1G"], roles: ["animator"], anyRole: true }),
   planCase("plan-wrong-role", "in 1B the fridge should feel like a spotlight on him, he's been caught", { shots: ["1B"], roles: ["sound"] }, { shots: ["1B"], roles: ["dp"] }),
-  planCase("plan-two-shots", "1D and 1E: the pause between his excuse and her reply should be twice as long", { shots: ["1D", "1E"], roles: ["writer"] }, { shots: ["1D", "1E"], roles: ["editor", "animator"], anyRole: true }),
+  planCase("plan-two-shots", "1D and 1E: the pause between his excuse and her reply should be twice as long", { shots: ["1D", "1E"], roles: ["writer"] }, { shots: ["1D", "1E"], roles: ["editor", "animator", "blocking"], anyRole: true }),
   debugCase("debug-continuity", "1B, kiran should look guilty before he takes the cake", { shots: ["1B"], roles: ["animator"] }, "1B.4 + kiran guilty ~1.2", "animator", /guilty/, "the take makes him look guilty"),
   debugCase("debug-bad-address", "1D, the shock should be half as long", { shots: ["1D"], roles: ["animator"] }, "1D.9 ~2.5 -> ~1.2", "animator", /1D\.2 .*~1(\.\d+)?\b/, "the shock beat is about half as long"),
   debugCase("debug-wrong-verb", "1A, kiran should sneak in slowly", { shots: ["1A"], roles: ["blocking"] }, "1A.4 = kiran tiptoe fridge 0.5", "blocking", /walk fridge 0?\.\d/, "his walk is slower than 1.0 m/s"),

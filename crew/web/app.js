@@ -60458,13 +60458,11 @@ function Cz() {
             className: "grain pointer-events-none fixed inset-0 z-0",
             "aria-hidden": !0,
           }),
-          u.jsx("div", {
-            className: "pointer-events-none absolute inset-x-0 top-0 h-[420px]",
-            style: {
-              background:
-                "radial-gradient(60% 100% at 70% 0%, rgba(245,154,64,.07), transparent 70%)",
-            },
+          // CREW-EXT: home background: a projector beam with drifting dust, over a soft vignette
+          u.jsxs("div", {
+            className: "home-bg pointer-events-none fixed inset-0 z-0",
             "aria-hidden": !0,
+            children: [u.jsx("i", { className: "home-beam" }), u.jsx("i", { className: "home-dust" }), u.jsx("i", { className: "home-dust home-dust-2" })],
           }),
           u.jsxs("div", {
             className:
@@ -60500,7 +60498,14 @@ function Cz() {
                           className: "home-head",
                           children: [
                             u.jsx("div", { className: "home-kicker", children: "Project" }),
-                            u.jsx("h1", { className: "home-title", children: I || "Untitled" }),
+                            // CREW-EXT: the title arrives letter by letter, then the projector light passes over it
+                            u.jsx("h1", {
+                              className: "home-title",
+                              "aria-label": I || "Untitled",
+                              children: [...(I || "Untitled")].map((ch, k) =>
+                                u.jsx("span", { className: "home-ch", style: { "--k": k }, "aria-hidden": !0, children: ch === " " ? "\u00a0" : ch }, k),
+                              ),
+                            }),
                             u.jsx("div", {
                               className: "home-sub",
                               children: "Open the cut, give the crew a note, or start a new episode from a script.",

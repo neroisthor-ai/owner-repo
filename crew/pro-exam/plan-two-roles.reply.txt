@@ -1,12 +1,1 @@
-{
-"shots": [
-"1G"
-],
-"roles": [
-"animator"
-],
-"intent": "Make the ending warmer by ensuring Mum gets the final laugh instead of Kiran.",
-"brief": "Remove Kiran's laugh and give him a warm smile instead, while giving Mum a laugh action so she has the final moment of levity.",
-"keep": "The dialogue, blocking, and existing music cues must remain untouched.",
-"success": "Kiran no longer laughs, and Mum performs a laugh action in 1G."
-}
+{"shots": ["1G"], "roles": ["animator"], "intent": "Make the ending warmer by giving Mum the final laugh instead of Kiran.", "brief": "Change 1G.3 so that Mum laughs instead of Kiran. You can also add a smile for Mum to enhance the warmth.", "keep": "Do not change the dialogue, blocking, or music cue.", "success": "Mum performs a laugh or warm expression at the end of 1G, and Kiran does not."}

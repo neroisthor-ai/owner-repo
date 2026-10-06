@@ -1,12 +1,1 @@
-{
-  "shots": [
-    "1E"
-  ],
-  "roles": [
-    "animator"
-  ],
-  "intent": "Make Mum's reaction to catching Kiran clearly amused rather than suspicious.",
-  "brief": "Change Mum's performance in 1E to show more obvious amusement, such as having her laugh instead of or alongside her smile.",
-  "keep": "The OTS framing and her dialogue line.",
-  "success": "Mum visibly laughs or expresses amusement in shot 1E."
-}
+{"shots": ["1B"], "roles": ["dp"], "intent": "Make the fridge light feel exposing and dramatic, emphasizing his vulnerability before he even realizes he's caught.", "brief": "Adjust the 1B shot header to frame him in a way that feels more exposing, such as using a high angle to look down on him or a push to close in on him.", "keep": "The practical light and Kiran's oblivious smiling performance.", "success": "The framing or camera move gives the moment a heightened, 'caught in the act' visual tone."}

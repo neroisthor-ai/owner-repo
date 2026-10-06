@@ -195,7 +195,7 @@ export const rankSchema: Schema = obj({
 
 export const reviewSchema: Schema = obj({
   order: { type: "array", items: { type: "integer" }, description: "take numbers, best first" },
-  fits: { type: "array", items: { type: "boolean" }, description: "for each take in the order given to you: does it do what the plan asked?" },
+  fits: { type: "array", items: { type: "boolean" }, description: "one per take in its original numbering (take 1 first, not your ranking): does it do what the note and plan asked?" },
   message: str("2-4 short sentences to the human director, results first"),
   pushback: nullable(str()),
   idea: nullable(str()),

@@ -275,9 +275,9 @@ export async function guidedNote(p: Project, note: string, o: CrewOptions): Prom
     }, "director reviewing");
     if (!r.ok || !r.data) break;
     const order = cleanOrder(r.data.order, shown.length);
-    // fits[k] belongs to order[k]; if Pro sent fits at all, a missing entry means it did not vouch for that take
+    // fits[i] belongs to take i+1 as shown, not to the ranking; if Pro sent fits at all, a missing entry means it did not vouch for that take
     const fl = Array.isArray(r.data.fits) ? r.data.fits : [];
-    const fits = order.map((_, k) => (fl.length ? fl[k] === true : true));
+    const fits = order.map((i) => (fl.length ? fl[i] === true : true));
     pool = [...order.map((i) => shown[i]), ...pool.slice(shown.length)];
     rec.message = (r.data.message ?? "").trim();
     rec.pushback = r.data.pushback ?? rec.pushback;
@@ -321,7 +321,7 @@ type RawTextTakes = { takes?: { purpose?: string; patch?: string }[]; pushback?:
 
 /** What Pro sees when it reviews takes. Exported so the review eval sends exactly the same thing. */
 export function reviewPrompt(o: { note: string; intent: string; plan: { brief: string; keep: string; success: string } | null; shots: string; takes: { purpose: string; patch: string; changed: string[]; fixed: number; added: number }[] }): string {
-  return `NOTE: "${o.note}"\nGOAL: ${o.intent}${o.plan ? `\nPLAN: ${o.plan.brief}\nKEEP: ${o.plan.keep}\nSUCCESS: ${o.plan.success}` : ""}\n\nTAKES (all passed the grammar, permission, locality and QC checks; that says nothing about whether they do what was asked):\n${o.takes.map((t, i) => `${i + 1}. ${t.purpose}\n${t.patch}\nchanges ${t.changed.join(", ")}; fixes ${t.fixed} QC issue(s); adds ${t.added}`).join("\n\n")}\n\nTHE SHOTS (before any take):\n${o.shots}\n\nJudge each take by its patch, not by its purpose line: purposes can be wrong. Order the takes best first by number, say for each (in that order) whether it does what the note and plan asked without breaking what the plan says to keep, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.`;
+  return `NOTE: "${o.note}"\nGOAL: ${o.intent}${o.plan ? `\nPLAN: ${o.plan.brief}\nKEEP: ${o.plan.keep}\nSUCCESS: ${o.plan.success}` : ""}\n\nTAKES (all passed the grammar, permission, locality and QC checks; that says nothing about whether they do what was asked):\n${o.takes.map((t, i) => `${i + 1}. ${t.purpose}\n${t.patch}\nchanges ${t.changed.join(", ")}; fixes ${t.fixed} QC issue(s); adds ${t.added}`).join("\n\n")}\n\nTHE SHOTS (before any take):\n${o.shots}\n\nJudge each take by its patch, not by its purpose line: purposes can be wrong. Order the takes best first by number, say for each take in its original numbering (take 1 first, not your ranking) whether it does what the note and plan asked without breaking what the plan says to keep, write the message to the director (results first, short), keep or sharpen any pushback, and give one idea. If no take fits, say in "redo" exactly what the builder should change.`;
 }
 
 /** Models number from 1, sometimes from 0, repeat numbers and skip some: return a full 0-based permutation. */
