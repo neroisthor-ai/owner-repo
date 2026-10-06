@@ -16,7 +16,7 @@ function buildBox(box) {
 /** The box list the viewer draws: server boxes plus floor and three walls for indoor sets (the server bake has none). */
 function setBoxes(set) {
   const boxes = (set.boxes ?? []).filter((b) => !(b.decor && Math.max(b.w, b.h, b.d) > HUGE && !(registry && b.prop)));
-  if (set.open || set.boxes?.some((b) => b.tag === "floor")) return boxes;
+  if (set.open || window.CrewExt?.hasShell || set.boxes?.some((b) => b.tag === "floor")) return boxes;
   const { w, d, h } = set, t = 0.1;
   return [
     { x: 0, y: -0.05, z: 0, w, h: 0.05, d, tag: "floor", color: "#3b4350", shell: true },

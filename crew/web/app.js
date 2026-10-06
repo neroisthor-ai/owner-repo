@@ -45038,7 +45038,7 @@ class da {
       this.rigs.clear(),
       (this.glbActive = 0),
       Object.entries(e.sets ?? {}).forEach(([i, r]) =>
-        this.sets.set(i, this.buildSet(r)),
+        this.sets.set(i, this.buildSet(r, i)),
       ),
       this.sets.forEach((i) => this.scene.add(i)),
       Object.entries(e.cast ?? {}).forEach(([i, r], o) => {
@@ -45064,8 +45064,11 @@ class da {
   async ready() {
     (await Promise.all(this.pending), this.redraw());
   }
-  buildSet(e) {
+  buildSet(e, sid) {
     const t = new yn();
+    // CREW-EXT: the room or ground the set stands in (floor, walls, ceiling, lights)
+    const shell = window.CrewExt?.buildShell?.(e, sid ?? "");
+    shell && t.add(shell);
     return (
       // CREW-EXT: window.CrewExt.setBoxes adds walls and drops giant decor; buildBox returns a library model
       (window.CrewExt?.setBoxes?.(e) ?? e.boxes ?? []).forEach((i) => {
@@ -54445,7 +54448,8 @@ function N4() {
                   u.jsx(
                     "li",
                     {
-                      children: u.jsxs("button", {
+                      // CREW-EXT: each issue can be handed to the crew as a note
+                      children: [u.jsxs("button", {
                         onClick: () => p(f),
                         className:
                           "flex w-full items-start gap-2.5 px-2.5 py-2 text-left hover:bg-ink-800",
@@ -54479,6 +54483,14 @@ function N4() {
                           }),
                         ],
                       }),
+                      window.CrewExt?.handlers?.["Asking the crew to fix an issue"] &&
+                        f.severity !== "info" &&
+                        u.jsx("button", {
+                          onClick: () => sn("Asking the crew to fix an issue", { issue: f }),
+                          className:
+                            "mb-2 ml-[34px] rounded-md border border-line px-2 py-0.5 text-[10.5px] text-tx-dim hover:border-accent/60 hover:text-tx",
+                          children: "Ask the crew to fix this",
+                        })],
                     },
                     g,
                   ),
@@ -58529,6 +58541,8 @@ function mz() {
         },
       },
     ),
+    // CREW-EXT: commands from the add-on modules (film look, delivery package, backup, ...)
+    window.CrewExt?.commands && t.push(...window.CrewExt.commands()),
     t
   );
 }
