@@ -1,5 +1,5 @@
 /* ==========================================================================================================
-   Crew: modern pro.
+   Crew: modern pro, airy (Final Cut proportions).
 
    The reference is today's pro apps (Final Cut Pro 11, Logic, the macOS Sequoia system apps): a quiet
    charcoal canvas, panels as softly rounded sheets with breathing room between them, a title bar and a toolbar
@@ -14,18 +14,18 @@
 :root {
   color-scheme: dark;
 
-  --color-ink-950: #0f0f11;   /* canvas behind the sheets */
-  --color-ink-900: #151518;   /* wells: viewer surround, lists, timeline */
-  --color-ink-850: #1b1b1f;   /* sheet */
-  --color-ink-800: #222227;   /* raised */
-  --color-ink-700: #2b2b31;   /* control */
-  --color-ink-600: #36363d;   /* control hover, thumb */
+  --color-ink-950: #161618;   /* canvas behind the sheets */
+  --color-ink-900: #1a1a1c;   /* wells: viewer surround, lists, timeline */
+  --color-ink-850: #222224;   /* sheet */
+  --color-ink-800: #2a2a2d;   /* raised */
+  --color-ink-700: #313135;   /* control */
+  --color-ink-600: #3d3d42;   /* control hover, thumb */
   --color-ink-500: #45454d;
   --color-ink-400: #626270;
   --color-line: rgba(255, 255, 255, .07);
-  --color-tx: #ececf1;
-  --color-tx-dim: #a3a3ad;
-  --color-tx-faint: #74747f;
+  --color-tx: #f2f2f5;
+  --color-tx-dim: #a8a8b2;
+  --color-tx-faint: #7c7c87;
 
   --color-accent: #3d8bfd;       /* selection, primary, live */
   --color-accent-ink: #ffffff;
@@ -43,9 +43,9 @@
   --font-sans: "Inter", "Geist", -apple-system, "SF Pro Text", ui-sans-serif, system-ui, "Segoe UI Variable Text", "Segoe UI", Roboto, Arial, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", "Geist Mono", ui-monospace, Menlo, Consolas, monospace;
 
-  --pro-gap: 6px;
-  --pro-r: 10px;
-  --pro-r-ctl: 7px;
+  --pro-gap: 10px;
+  --pro-r: 12px;
+  --pro-r-ctl: 8px;
   --pro-border: rgba(255, 255, 255, .065);
   --pro-border-2: rgba(255, 255, 255, .11);
   --pro-sheet-shadow: 0 0 0 .5px rgba(0, 0, 0, .6), 0 1px 2px rgba(0, 0, 0, .35);
@@ -55,7 +55,7 @@
 /* ---- base ---------------------------------------------------------------------------------------------------- */
 
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-feature-settings: "cv11", "ss03", "cv05"; }
-body { background: var(--color-ink-950); color: var(--color-tx); font-size: 12.5px; letter-spacing: -.003em; }
+body { background: var(--color-ink-950); color: var(--color-tx); font-size: 13px; letter-spacing: -.003em; }
 ::selection { background: rgba(61, 139, 253, .4); color: #fff; }
 .tc, .mono, .tabular-nums { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -.015em; }
 .serif { font-family: var(--font-sans) !important; letter-spacing: -.02em; }
@@ -80,65 +80,91 @@ button, a, select, input, textarea { transition: background-color .14s ease, bor
 #root > div > .grid.min-h-0.flex-1 > div { gap: var(--pro-gap) !important; }
 
 .app-header {
-  height: 40px !important;
-  padding: 0 12px 0 14px !important;
-  background: #18181b !important;
+  height: 44px !important;
+  padding: 0 16px 0 18px !important;
+  background: #1e1e20 !important;
   border-bottom: 0 !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
 }
-.app-header .min-w-0.truncate { font-size: 12.5px; font-weight: 500; color: var(--color-tx-faint); }
+.app-header > div:first-child > span.text-tx-faint { color: rgba(255, 255, 255, .18); font-weight: 300; font-size: 15px; margin: 0 -2px; }
+.app-header .min-w-0.truncate { font-size: 13px; font-weight: 400; color: var(--color-tx-faint); letter-spacing: -.005em; }
 .app-header .min-w-0.truncate .text-tx { color: var(--color-tx); font-weight: 600; }
-/* macOS segmented controls */
-.app-header div.inline-flex.rounded-full, [class*="inline-flex"][class*="rounded-full"][class*="p-[2px]"] {
-  border-radius: 8px !important;
-  background: rgba(255, 255, 255, .055) !important;
-  border: 0 !important;
-  padding: 2px !important;
-  gap: 2px !important;
-  box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .05) !important;
+.app-header .min-w-0.truncate .text-tx-faint { color: var(--color-tx-faint); font-weight: 400; }
+/* segmented controls elsewhere in the app keep the macOS look */
+[class*="inline-flex"][class*="rounded-full"][class*="p-[2px]"] {
+  border-radius: 8px !important; background: rgba(255, 255, 255, .055) !important; border: 0 !important;
+  padding: 2px !important; gap: 2px !important; box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .05) !important;
 }
-.app-header div.inline-flex.rounded-full > button {
-  height: 22px !important; padding: 0 11px !important; border-radius: 6px !important;
-  font-size: 12px !important; font-weight: 500; color: var(--color-tx-dim) !important; box-shadow: none !important;
+
+/* title bar, right side: quiet text and icon buttons, one crew menu, one Share */
+.titlebar-right { gap: 4px !important; }
+.tb-btn {
+  display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 500; color: var(--color-tx-dim); background: transparent; white-space: nowrap;
 }
-.app-header div.inline-flex.rounded-full > button:hover { color: var(--color-tx) !important; }
-.app-header div.inline-flex.rounded-full > button[class*="bg-white/[0.12]"] {
-  background: #4a4a52 !important; color: #fff !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .35), inset 0 .5px 0 rgba(255, 255, 255, .14) !important;
+.tb-btn:hover:not(:disabled) { color: var(--color-tx); background: rgba(255, 255, 255, .07); }
+.tb-btn:disabled { opacity: .35; }
+.tb-icon { width: 30px; padding: 0; justify-content: center; }
+.tb-icon svg { width: 15px; height: 15px; }
+.tb-issues { color: #ff9f5a; }
+.tb-issues:hover:not(:disabled) { color: #ffb47a; background: rgba(255, 159, 90, .1); }
+.tb-share { margin: 0 4px 0 6px; padding: 0 14px; color: #fff; background: rgba(255, 255, 255, .1); box-shadow: inset 0 .5px 0 rgba(255, 255, 255, .1); }
+.tb-share:hover:not(:disabled) { background: rgba(255, 255, 255, .15); }
+.titlebar-right > :last-child button { height: 28px !important; border-radius: 8px !important; }
+
+.cm { position: relative; }
+.cm-btn { padding: 0 8px 0 10px; }
+.cm-btn svg { width: 10px; height: 10px; opacity: .55; }
+.cm-btn[aria-expanded="true"] { color: var(--color-tx); background: rgba(255, 255, 255, .09); }
+.cm-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.cm-dot.live { background: #32d74b; box-shadow: 0 0 0 3px rgba(50, 215, 75, .14); }
+.cm-dot.off { background: #8e8e93; }
+.cm-pop {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: 80; width: 296px; padding: 6px;
+  border-radius: 12px; background: rgba(40, 40, 44, .92); backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow: 0 0 0 .5px rgba(255, 255, 255, .12), 0 14px 40px rgba(0, 0, 0, .5);
 }
-.app-header > div:last-child { gap: 8px !important; }
-.app-header > div:last-child > button { height: 26px !important; border-radius: var(--pro-r-ctl) !important; font-size: 12px !important; padding: 0 9px !important; }
-.app-header > div:last-child > button:hover { background: rgba(255, 255, 255, .07) !important; }
+.cm-h { padding: 9px 10px 4px; font-size: 11px; font-weight: 600; color: var(--color-tx-faint); }
+.cm-h:not(:first-child) { margin-top: 4px; border-top: .5px solid rgba(255, 255, 255, .08); padding-top: 11px; }
+.cm-row { display: flex; align-items: flex-start; gap: 9px; width: 100%; padding: 7px 10px; border-radius: 7px; text-align: left; color: var(--color-tx); }
+.cm-row:hover { background: #3d8bfd; color: #fff; }
+.cm-row:hover small { color: rgba(255, 255, 255, .8); }
+.cm-check { width: 12px; flex: none; padding-top: 1px; font-size: 12px; color: #3d8bfd; visibility: hidden; }
+.cm-row.on .cm-check { visibility: visible; }
+.cm-row:hover .cm-check { color: #fff; }
+.cm-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.cm-text b { font-size: 12.5px; font-weight: 500; }
+.cm-text small { font-size: 11.5px; color: var(--color-tx-faint); line-height: 1.35; }
 
 /* the toolbar: what was the bottom dock, now the pages as one segmented control under the title bar */
 .app-footer {
-  height: 42px !important;
-  padding: 0 14px !important;
-  background: #18181b !important;
+  height: 50px !important;
+  padding: 0 18px !important;
+  background: #1e1e20 !important;
   border-top: 0 !important;
   border-bottom: 1px solid #0b0b0c !important;
   box-shadow: inset 0 .5px 0 rgba(255, 255, 255, .06) !important;
   font-size: 11.5px !important;
 }
 .app-footer > div:nth-child(2) {
-  height: 30px; padding: 2px !important; gap: 2px !important;
+  height: 34px; padding: 2px !important; gap: 2px !important;
   background: rgba(255, 255, 255, .055) !important; border: 0 !important; border-radius: 9px !important;
   box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .05) !important; backdrop-filter: none !important;
 }
 .app-footer > div:nth-child(2) > span { display: none; }
 .app-footer > div:nth-child(2) > button, .app-footer nav button {
-  height: 26px !important; padding: 0 14px !important; gap: 7px !important;
-  border-radius: 7px !important; font-size: 12px !important; font-weight: 500;
+  height: 30px !important; padding: 0 16px !important; gap: 7px !important;
+  border-radius: 7px !important; font-size: 12.5px !important; font-weight: 500;
   color: var(--color-tx-dim) !important; background: transparent !important;
 }
-.app-footer > div:nth-child(2) > button { width: 34px !important; padding: 0 !important; }
+.app-footer > div:nth-child(2) > button { width: 38px !important; padding: 0 !important; }
 .app-footer nav button svg, .app-footer > div:nth-child(2) > button svg { width: 14px !important; height: 14px !important; }
 .app-footer nav button:hover, .app-footer > div:nth-child(2) > button:hover { color: var(--color-tx) !important; }
-.app-footer nav { height: 26px; }
+.app-footer nav { height: 30px; }
 .app-footer nav button[class*="text-tx"]:not([class*="text-tx-dim"]):not([class*="text-tx-faint"]) { color: #fff !important; }
 .dock-ind {
-  height: 26px !important; top: 0 !important; border-radius: 7px !important;
+  height: 30px !important; top: 0 !important; border-radius: 7px !important;
   background: #4a4a52 !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, .35), inset 0 .5px 0 rgba(255, 255, 255, .14) !important;
 }
@@ -157,13 +183,13 @@ button, a, select, input, textarea { transition: background-color .14s ease, bor
   box-shadow: var(--pro-sheet-shadow) !important;
 }
 .panel-head {
-  height: 36px !important;
-  padding: 0 12px !important;
+  height: 44px !important;
+  padding: 0 16px !important;
   gap: 8px !important;
   background: transparent !important;
   border-bottom: .5px solid var(--pro-border) !important;
   border-radius: var(--pro-r) var(--pro-r) 0 0;
-  font-size: 12.5px !important;
+  font-size: 13px !important;
   font-weight: 600;
   letter-spacing: -.01em;
   text-transform: none;
@@ -171,7 +197,7 @@ button, a, select, input, textarea { transition: background-color .14s ease, bor
 }
 .panel-head::before { content: none !important; }
 .panel-head .text-tx-faint, .panel-head .text-tx-dim { font-weight: 400; }
-.panel-head button, .panel [role="tab"] { height: 24px; border-radius: 6px !important; font-size: 12px; }
+.panel-head button, .panel [role="tab"] { height: 28px; padding: 0 10px; border-radius: 6px !important; font-size: 12px; }
 .panel [class*="border-line"], .panel .border-line { border-color: var(--pro-border) !important; }
 .panel [class*="divide-"] > * + * { border-color: var(--pro-border) !important; }
 
@@ -181,18 +207,18 @@ button, a, select, input, textarea { transition: background-color .14s ease, bor
 [class*="text-accent"]:not([class*="bg-"]) { color: #7fb2ff; }
 
 /* collapsible inspector sections: sentence case, semibold, with room above */
-.panel button[aria-expanded] { font-size: 12px !important; font-weight: 600; color: var(--color-tx) !important; letter-spacing: -.005em; text-transform: none !important; }
+.panel button[aria-expanded] { font-size: 12.5px !important; font-weight: 600; color: var(--color-tx) !important; letter-spacing: -.005em; text-transform: none !important; }
 .panel button[aria-expanded] svg { color: var(--color-tx-faint); }
 
 /* ---- controls ----------------------------------------------------------------------------------------------------- */
 
 .btn {
-  height: 26px !important; padding: 0 12px !important;
+  height: 30px !important; padding: 0 14px !important;
   border-radius: var(--pro-r-ctl) !important;
   border: 0 !important;
   background: rgba(255, 255, 255, .085) !important;
   color: var(--color-tx) !important;
-  font-size: 12px !important; font-weight: 500;
+  font-size: 12.5px !important; font-weight: 500;
   box-shadow: inset 0 .5px 0 rgba(255, 255, 255, .08), 0 .5px 1px rgba(0, 0, 0, .4) !important;
 }
 .btn:hover:not(:disabled) { background: rgba(255, 255, 255, .13) !important; }
@@ -205,13 +231,13 @@ button, a, select, input, textarea { transition: background-color .14s ease, bor
 .btn[class~="bg-accent"]:hover:not(:disabled), button[class~="bg-accent"]:hover:not(:disabled) { background: #5599ff !important; }
 
 .field, select.field, input.field, textarea.field {
-  height: 26px;
+  height: 30px;
   border-radius: var(--pro-r-ctl) !important;
   border: 0 !important;
   background: rgba(255, 255, 255, .06) !important;
   color: var(--color-tx);
-  font-size: 12px;
-  padding-left: 9px;
+  font-size: 12.5px;
+  padding-left: 10px;
   box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .08) !important;
 }
 textarea.field { height: auto; padding: 7px 9px; }
@@ -237,13 +263,13 @@ input[type="checkbox"] { width: 13px; height: 13px; }
 .viewer-frame::after { content: none !important; }
 .caption-plate { background: rgba(0, 0, 0, .5) !important; border: 0 !important; border-radius: 6px !important; backdrop-filter: blur(8px) !important; }
 .transport-bar {
-  height: 38px !important; padding: 0 10px !important; gap: 4px !important;
+  height: 46px !important; padding: 0 14px !important; gap: 4px !important;
   background: var(--color-ink-850) !important;
   border-top: .5px solid var(--pro-border) !important;
   border-radius: 0 0 var(--pro-r) var(--pro-r) !important;
 }
-.transport-bar > .tc:first-child { font-size: 14px; font-weight: 500; color: #fff; letter-spacing: 0; width: 98px !important; }
-.transport-bar button { width: 28px !important; height: 26px !important; border-radius: var(--pro-r-ctl) !important; color: var(--color-tx-dim) !important; }
+.transport-bar > .tc:first-child { font-size: 15px; font-weight: 500; color: #fff; letter-spacing: 0; width: 98px !important; }
+.transport-bar button { width: 32px !important; height: 30px !important; border-radius: var(--pro-r-ctl) !important; color: var(--color-tx-dim) !important; }
 .transport-bar button:hover { background: rgba(255, 255, 255, .08) !important; color: #fff !important; }
 
 /* ---- timeline ----------------------------------------------------------------------------------------------------- */
@@ -254,7 +280,7 @@ input[type="checkbox"] { width: 13px; height: 13px; }
 [class*="rounded-[5px]"][class*="border"][class*="bg-clip"] {
   background: #4b5fc4 !important;
   border: 0 !important;
-  border-radius: 6px !important;
+  border-radius: 8px !important;
   box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .22), inset 0 1px 0 rgba(255, 255, 255, .14) !important;
 }
 [class*="bg-clip"][class*="h-[15px]"] { background: transparent !important; font-weight: 600; }
@@ -301,3 +327,57 @@ ul li[class*="text-pushback"] svg { color: var(--color-pushback); }
 main h2, section h2 { font-size: 16px !important; font-weight: 650 !important; letter-spacing: -.015em; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+
+/* ---- airy details --------------------------------------------------------------------------------------------- */
+
+/* inspector: section headers as calm rows with room, field rows spaced like Final Cut's inspector */
+.panel section > div[class*="h-[24px]"] { height: 38px !important; padding: 0 12px 0 8px !important; background: transparent !important; }
+.panel section > div[class*="h-[24px]"] > button { font-size: 12.5px !important; }
+.panel section > div:not([class*="h-[24px]"]) { padding-left: 16px; padding-right: 16px; }
+.panel section [class*="space-y-"] > * + * { margin-top: 8px !important; }
+.panel section label, .panel section [class*="grid-cols-[minmax(0,1fr)"] { min-height: 30px; }
+.panel section { border-color: var(--pro-border) !important; }
+
+/* the toolbar's left side: what this page is for */
+.app-footer > div:first-child { display: none !important; }
+.app-footer .page-hint { grid-column: 1; grid-row: 1; display: flex; align-items: baseline; gap: 9px; min-width: 0; white-space: nowrap; overflow: hidden; }
+.app-footer .page-hint b { font-size: 13px; font-weight: 600; color: var(--color-tx); }
+.app-footer .page-hint span { font-size: 12.5px; color: var(--color-tx-dim); overflow: hidden; text-overflow: ellipsis; }
+.app-footer .page-hint i { font-style: normal; font-family: var(--font-mono); font-size: 11px; color: var(--color-tx-faint); padding-left: 9px; border-left: 1px solid var(--pro-border-2); }
+@media (max-width: 1500px) { .app-footer .page-hint span { display: none; } }
+
+/* empty states read as guidance, not as missing content */
+.panel [class*="text-tx-faint"]:only-child { font-size: 12.5px; }
+
+/* lists: more air per row */
+.panel ul > li > button { padding-top: 10px !important; padding-bottom: 10px !important; }
+
+/* ---- Deliver: two tabs ------------------------------------------------------------------------------------------ */
+
+.deliver-tabs { display: flex; align-items: center; gap: 14px; padding: var(--pro-gap) calc(var(--pro-gap) + 2px) 0; height: 46px; flex: none; }
+.deliver-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 9px; background: rgba(255, 255, 255, .055); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .05); }
+.deliver-seg button { height: 28px; padding: 0 18px; border-radius: 7px; font-size: 12.5px; font-weight: 500; color: var(--color-tx-dim); background: transparent; }
+.deliver-seg button:hover { color: var(--color-tx); }
+.deliver-seg button.on { background: #4a4a52; color: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .35), inset 0 .5px 0 rgba(255, 255, 255, .14); }
+.deliver-say { font-size: 12.5px; color: var(--color-tx-faint); }
+.deliver-render, .deliver-export { gap: var(--pro-gap) !important; padding: var(--pro-gap) !important; }
+/* in Render, QC sits beside the render panel, so the render panel's own QC summary would repeat it */
+.deliver-render .render-hero section[aria-label="QC at publish"] { display: none; }
+
+/* Export: each section is a card in a grid */
+.deliver-export .panel { background: transparent !important; border: 0 !important; box-shadow: none !important; }
+.deliver-export .export-body > div {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; align-items: start; padding: 2px;
+}
+.deliver-export .export-body > div > section {
+  background: var(--color-ink-850); border: .5px solid var(--pro-border-2) !important; border-radius: var(--pro-r);
+  box-shadow: var(--pro-sheet-shadow); padding: 16px 18px !important; margin: 0 !important;
+}
+.deliver-export .export-body > div > section > div:first-child > span:first-child { font-size: 14px !important; font-weight: 600; color: var(--color-tx); }
+.deliver-export .export-body > div > section > p { font-size: 12.5px !important; line-height: 1.45; color: var(--color-tx-dim) !important; margin-bottom: 4px; }
+.deliver-export .export-body > div > section [class*="flex-wrap"] { gap: 8px !important; padding-top: 4px; }
+
+/* export cards: titles sit flush with their content */
+.deliver-export .export-body section > div { padding-left: 0 !important; padding-right: 0 !important; }
+.tb-btn:focus-visible { outline: none !important; box-shadow: 0 0 0 2px rgba(61, 139, 253, .45) !important; }

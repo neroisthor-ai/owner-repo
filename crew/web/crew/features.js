@@ -123,3 +123,30 @@ document.addEventListener("keydown", (e) => {
 });
 
 E.wired();
+
+// ---- a gentler start: what each page is for, and the essentials first --------------------------------------------
+
+/** Inspector sections that start closed (everything still one click away). */
+E.collapsed = ["Camera body", "Depth of field", "Film look", "Vertical 9:16", "Controls"];
+
+const HINTS = {
+  home: ["Home", "Pick up where you left off, or start from a script"],
+  review: ["Review", "Watch the cut, then write a note and the crew answers with takes"],
+  edit: ["Edit", "Compare a take with the cut, trim shots and fine-tune timing"],
+  frame: ["Frame", "Adjust each shot's camera, lens, focus and look"],
+  plan: ["Plan", "Every shot at a glance: size, lens, status and the overhead plan"],
+  deliver: ["Deliver", "Render the film and export everything your team needs"],
+  create: ["Create", "Sizes, captions, voice and branding for video platforms"],
+};
+function hint() {
+  const footer = document.querySelector(".app-footer");
+  if (!footer || !X()?.store) return;
+  let el = footer.querySelector(":scope > .page-hint");
+  if (!el) { el = document.createElement("div"); el.className = "page-hint"; footer.appendChild(el); }
+  const st = X().store.get(), b = st.server?.baked;
+  const [name, text] = HINTS[st.page] ?? HINTS.review;
+  const stats = b ? `${b.shots.length} shots · ${Math.round(b.duration)}s · ${b.fps} fps` : "";
+  const html = `<b>${name}</b><span>${text}</span>${stats ? `<i>${stats}</i>` : ""}`;
+  if (el.innerHTML !== html) el.innerHTML = html;
+}
+setInterval(hint, 400);

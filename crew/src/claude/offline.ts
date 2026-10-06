@@ -244,7 +244,7 @@ function propose(c: ProposeCtx): RawTakes {
       break;
     }
   }
-  if (!takes.length && !out.pushback) out.pushback = `The offline ${c.role} has no heuristic for this note. Connect Claude for open-ended notes.`;
+  if (!takes.length && !out.pushback) out.pushback = `The offline ${c.role} has no heuristic for this note. Switch to Crew AI for open-ended notes.`;
   if (c.seed > 0) takes.reverse();
   return out;
 }

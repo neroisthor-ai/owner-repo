@@ -14003,7 +14003,7 @@ class FC {
         return this.undo();
       case "POST /api/write":
         throw new hi(
-          "The writers’ room needs Claude. Set ANTHROPIC_API_KEY on the server and switch the crew to Claude.",
+          "The writers’ room needs Crew AI. Set ANTHROPIC_API_KEY on the server and switch the crew to Crew AI.",
           503,
         );
       case "POST /api/screen":
@@ -47629,6 +47629,78 @@ function _5() {
     ],
   });
 }
+// CREW-EXT: the crew menu in the title bar: who does the work, how thorough, and what kind of project this is
+function CrewMenu({ server: n, kind: k }) {
+  const [open, setOpen] = Z.useState(!1),
+    ref = Z.useRef(null),
+    mode = Ep(n.mode),
+    pipe = EC(n.pipeline);
+  Z.useEffect(() => {
+    if (!open) return;
+    const h = (ev) => ref.current && !ref.current.contains(ev.target) && setOpen(!1),
+      esc = (ev) => ev.key === "Escape" && setOpen(!1);
+    return (
+      document.addEventListener("mousedown", h),
+      document.addEventListener("keydown", esc),
+      () => (document.removeEventListener("mousedown", h), document.removeEventListener("keydown", esc))
+    );
+  }, [open]);
+  const row = (on, label, sub, act) =>
+    u.jsxs(
+      "button",
+      {
+        className: "cm-row" + (on ? " on" : ""),
+        onClick: () => act(),
+        role: "menuitemradio",
+        "aria-checked": on,
+        children: [
+          u.jsx("span", { className: "cm-check", children: on ? "✓" : "" }),
+          u.jsxs("span", {
+            className: "cm-text",
+            children: [u.jsx("b", { children: label }), u.jsx("small", { children: sub })],
+          }),
+        ],
+      },
+      label,
+    );
+  return u.jsxs("div", {
+    className: "cm",
+    ref,
+    children: [
+      u.jsxs("button", {
+        className: "tb-btn cm-btn" + (open ? " open" : ""),
+        onClick: () => setOpen(!open),
+        "aria-haspopup": "menu",
+        "aria-expanded": open,
+        title: "Crew settings",
+        children: [
+          u.jsx("span", { className: "cm-dot " + (mode === "claude" ? "live" : "off") }),
+          mode === "claude" ? "Crew AI" : "Crew AI · offline",
+          u.jsx("svg", {
+            viewBox: "0 0 10 6", width: 9, height: 6, fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round",
+            children: u.jsx("path", { d: "M1 1l4 4 4-4" }),
+          }),
+        ],
+      }),
+      open &&
+        u.jsxs("div", {
+          className: "cm-pop",
+          role: "menu",
+          children: [
+            u.jsx("div", { className: "cm-h", children: "Who does the work" }),
+            row(mode === "claude", "Crew AI", "AI agents write, block, shoot and cut. Needs an API key on the server.", () => Qa({ llm: "claude" })),
+            row(mode !== "claude", "Offline", "Built-in rules, free, works without a key. Handles common notes.", () => Qa({ llm: "offline" })),
+            u.jsx("div", { className: "cm-h", children: "How thorough" }),
+            row(pipe === "full", "Full", "Every role, then a checker picks the best takes.", () => Qa({ pipeline: "full" })),
+            row(pipe === "fast", "Fast", "Fewer agents. Quicker and cheaper.", () => Qa({ pipeline: "fast" })),
+            u.jsx("div", { className: "cm-h", children: "Project type" }),
+            row(k === "previs", "Film or animation", "Shot lists, plans, editorial and 3D handoff.", () => _d("previs")),
+            row(k === "creator", "Video for social", "Templates, every size, captions, transparent clips.", () => _d("creator")),
+          ],
+        }),
+    ],
+  });
+}
 function S5() {
   const n = Ne((h) => h.server),
     e = Ne((h) => h.demo),
@@ -47660,7 +47732,7 @@ function S5() {
               u.jsx("span", { className: "text-tx", children: n.title }),
               u.jsxs("span", {
                 className: "text-tx-faint",
-                children: [" · Ep ", Ed(n.episode)],
+                children: ["  ·  Episode ", Ed(n.episode).replace(/^ep0*|\.scene$/gi, "") || "1"], // CREW-EXT: "Episode 1", not "Ep ep01.scene"
               }),
               e &&
                 u.jsx("span", {
@@ -47672,108 +47744,47 @@ function S5() {
           }),
         ],
       }),
+      // CREW-EXT: one crew menu instead of three switches; quiet icon buttons; issues only when there are some
       u.jsxs("div", {
-        className: "flex items-center justify-end gap-2",
+        className: "titlebar-right flex items-center justify-end",
         children: [
-          u.jsx(Os, {
-            label: "Project type",
-            value: i ?? "previs",
-            onChange: _d,
-            options: [
-              {
-                v: "previs",
-                label: "Previs",
-                title:
-                  "A film or animation: shot lists, plans, handoff to editorial and 3D apps",
-              },
-              {
-                v: "creator",
-                label: "Creator",
-                title:
-                  "Video for YouTube or social: templates, transparent clips, captions, every size",
-              },
-            ],
-          }),
-          u.jsx(Os, {
-            label: "Crew",
-            value: Ep(n.mode),
-            onChange: (h) => {
-              Qa({ llm: h });
-            },
-            options: [
-              {
-                v: "claude",
-                label: "Claude",
-                title:
-                  "Claude agents do the work (needs ANTHROPIC_API_KEY on the server)",
-              },
-              {
-                v: "offline",
-                label: "Offline",
-                title: "Deterministic heuristics, no API key, $0",
-              },
-            ],
-          }),
-          u.jsx(Os, {
-            label: "Pipeline",
-            value: EC(n.pipeline),
-            onChange: (h) => {
-              Qa({ pipeline: h });
-            },
-            options: [
-              {
-                v: "full",
-                label: "Full",
-                title: "Every role plus the checker",
-              },
-              {
-                v: "fast",
-                label: "Fast",
-                title: "Fewer agents, quicker, cheaper",
-              },
-            ],
-          }),
-          u.jsx("span", { className: "mx-0.5 h-4 w-px bg-line" }),
-          u.jsxs("button", {
-            onClick: () => Ot.open("palette"),
-            className: Le(Gu, "border border-line bg-black/20 text-tx-faint"),
-            title: "Command palette (Ctrl or ⌘ + K)",
-            "aria-label": "Open the command palette",
-            children: [
-              u.jsx("span", {
-                className: "hidden min-[1500px]:inline",
-                children: "Search",
-              }),
-              u.jsx("span", { className: "tc text-[11px]", children: "⌘K" }),
-            ],
-          }),
+          u.jsx(CrewMenu, { server: n, kind: i ?? "previs" }),
+          r + o > 0 &&
+            u.jsxs("button", {
+              onClick: () => Mi("deliver"),
+              className: "tb-btn tb-issues",
+              title: "Quality control: open the checks",
+              "aria-label": `QC: ${r} errors, ${o} warnings`,
+              children: [
+                u.jsx(ko, { sev: r ? "error" : "warn", className: "h-2.5 w-2.5" }),
+                `${r + o} issue${r + o === 1 ? "" : "s"}`,
+              ],
+            }),
           u.jsx("button", {
-            onClick: () => Ot.open("share"),
-            className: Gu,
-            title: "Share for review",
-            children: "Share",
-          }),
-          u.jsxs("button", {
-            onClick: () => Mi("deliver"),
-            className: Gu,
-            title: "Quality control",
-            "aria-label": `QC: ${r} errors, ${o} warnings`,
-            children: [
-              u.jsx(ko, { sev: "error", className: "h-2.5 w-2.5" }),
-              u.jsx("span", { className: "tc", children: r }),
-              u.jsx(ko, { sev: "warn", className: "ml-0.5 h-2.5 w-2.5" }),
-              u.jsx("span", { className: "tc", children: o }),
-            ],
+            onClick: () => Ot.open("palette"),
+            className: "tb-btn tb-icon",
+            title: "Search and commands (⌘K)",
+            "aria-label": "Open the command palette",
+            children: u.jsx("svg", {
+              viewBox: "0 0 24 24", width: 15, height: 15, fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round",
+              children: [u.jsx("circle", { cx: 11, cy: 11, r: 6.5 }, "c"), u.jsx("path", { d: "m16 16 4.5 4.5" }, "p")],
+            }),
           }),
           u.jsx("button", {
             onClick: () => {
               Sc();
             },
             disabled: !c,
-            className: Le(Gu, "px-1.5"),
+            className: "tb-btn tb-icon",
             title: "Undo (⌘Z)",
             "aria-label": "Undo last accepted change",
-            children: u.jsx(xE, { className: "h-3.5 w-3.5" }),
+            children: u.jsx(xE, { className: "h-[15px] w-[15px]" }),
+          }),
+          u.jsx("button", {
+            onClick: () => Ot.open("share"),
+            className: "tb-btn tb-share",
+            title: "Share for review",
+            children: "Share",
           }),
           u.jsx(_5, {}),
         ],
@@ -48584,7 +48595,10 @@ function Kr({
 const j5 = ["static", "push-in", "pull-out", "pan", "track"],
   F5 = ["dusk", "night", "day", "neon"];
 function er({ title: n, children: e, right: t, defaultOpen: i = !0 }) {
-  const [r, o] = Z.useState(i);
+  // CREW-EXT: advanced sections start closed so a beginner sees the essentials first
+  const [r, o] = Z.useState(
+    window.CrewExt?.collapsed?.some?.((x) => String(n).startsWith(x)) ? !1 : i,
+  );
   return u.jsxs("section", {
     className: "border-b border-line",
     children: [
@@ -50133,15 +50147,16 @@ function J5() {
 }
 const Q5 = 112,
   ra = 6,
+  // CREW-EXT: taller tracks, more air (Final Cut proportions)
   Ai = {
-    ruler: 22,
-    notes: 14,
-    v1: 54,
-    beats: 14,
-    a1: 24,
-    a2: 24,
-    qc: 14,
-    heat: 14,
+    ruler: 26,
+    notes: 16,
+    v1: 66,
+    beats: 18,
+    a1: 32,
+    a2: 28,
+    qc: 18,
+    heat: 16,
   },
   EE = {
     open: "#4f95dc",
@@ -57247,74 +57262,107 @@ function Z4() {
     ],
   });
 }
+// CREW-EXT: Deliver is two tabs. Render: the film itself, with QC and the crew log beside it.
+// Export: every package for editorial, 3D apps, the shoot and review, laid out as cards.
 function J4() {
   const n = Ne((t) => t.server.baked),
-    e = Tc();
+    e = Tc(),
+    tab = Ne((t) => t.deliverTab ?? "render"),
+    tabs = [
+      ["render", "Render", "The film as a video file"],
+      ["export", e === "creator" ? "Publish" : "Export", e === "creator" ? "Sizes, captions, voice and branding" : "Packages for editorial, 3D apps, the shoot and review"],
+    ];
   return (
     Ec(n),
     u.jsxs("div", {
-      className: "deliver-page grid min-h-0 flex-1 gap-2 p-2",
-      style: {
-        gridTemplateColumns:
-          "minmax(0,1.5fr) minmax(260px,0.9fr) minmax(250px,0.85fr)",
-        gridTemplateRows: "minmax(0,1fr) minmax(150px,.36fr)",
-      },
+      className: "deliver-shell flex min-h-0 flex-1 flex-col",
+      "data-tab": tab,
       children: [
-        u.jsxs("section", {
-          className: "panel render-hero row-span-2 flex min-h-0 flex-col",
+        u.jsxs("div", {
+          className: "deliver-tabs",
+          role: "tablist",
           children: [
-            u.jsxs("div", {
-              className: "panel-head",
+            u.jsx("div", {
+              className: "deliver-seg",
+              children: tabs.map(([k, l]) =>
+                u.jsx(
+                  "button",
+                  {
+                    role: "tab",
+                    "aria-selected": tab === k,
+                    className: tab === k ? "on" : "",
+                    onClick: () => ke.set({ deliverTab: k }),
+                    children: l,
+                  },
+                  k,
+                ),
+              ),
+            }),
+            u.jsx("span", {
+              className: "deliver-say",
+              children: tabs.find(([k]) => k === tab)?.[2],
+            }),
+          ],
+        }),
+        tab === "render"
+          ? u.jsxs("div", {
+              className: "deliver-page deliver-render grid min-h-0 flex-1",
+              style: {
+                gridTemplateColumns: "minmax(0,1.3fr) minmax(340px,1fr)",
+                gridTemplateRows: "minmax(0,1fr) minmax(160px,.38fr)",
+              },
               children: [
-                "Render",
-                u.jsx("span", {
-                  className: "ml-auto text-tx-faint",
-                  children: "H.264 · timeline",
+                u.jsxs("section", {
+                  className: "panel render-hero row-span-2 flex min-h-0 flex-col",
+                  children: [
+                    u.jsxs("div", {
+                      className: "panel-head",
+                      children: [
+                        "Render",
+                        u.jsx("span", {
+                          className: "ml-auto text-tx-faint",
+                          children: "MP4 · whole cut or parts",
+                        }),
+                      ],
+                    }),
+                    u.jsx("div", {
+                      className: "min-h-0 flex-1 overflow-auto",
+                      children: u.jsx(D4, {}),
+                    }),
+                  ],
+                }),
+                u.jsxs("section", {
+                  className: "panel flex min-h-0 flex-col",
+                  children: [
+                    u.jsx("div", { className: "panel-head", children: "Check before you render" }),
+                    u.jsx("div", {
+                      className: "min-h-0 flex-1 overflow-auto",
+                      children: u.jsx(N4, {}),
+                    }),
+                  ],
+                }),
+                u.jsxs("section", {
+                  className: "panel flex min-h-0 flex-col",
+                  children: [
+                    u.jsx("div", { className: "panel-head", children: "Crew log" }),
+                    u.jsx("div", {
+                      className: "min-h-0 flex-1 overflow-auto",
+                      children: u.jsx(fI, {}),
+                    }),
+                  ],
                 }),
               ],
+            })
+          : u.jsx("div", {
+              className: "deliver-page deliver-export flex min-h-0 flex-1 flex-col",
+              children: u.jsx("section", {
+                className: "panel flex min-h-0 flex-1 flex-col",
+                children: u.jsx("div", {
+                  className: "export-body min-h-0 flex-1 overflow-auto",
+                  children: e === "creator" ? u.jsx(J5, {}) : u.jsx(q5, {}),
+                }),
+              }),
             }),
-            u.jsx("div", {
-              className: "min-h-0 flex-1 overflow-auto",
-              children: u.jsx(D4, {}),
-            }),
-          ],
-        }),
-        u.jsxs("section", {
-          className: "panel flex min-h-0 flex-col",
-          children: [
-            u.jsx("div", {
-              className: "panel-head",
-              children: e === "creator" ? "Publish" : "Previs package",
-            }),
-            u.jsx("div", {
-              className: "min-h-0 flex-1 overflow-auto",
-              children: e === "creator" ? u.jsx(J5, {}) : u.jsx(q5, {}),
-            }),
-          ],
-        }),
-        u.jsxs("section", {
-          className: "panel flex min-h-0 flex-col",
-          children: [
-            u.jsx("div", {
-              className: "panel-head",
-              children: "Quality control",
-            }),
-            u.jsx("div", {
-              className: "min-h-0 flex-1 overflow-auto",
-              children: u.jsx(N4, {}),
-            }),
-          ],
-        }),
-        u.jsxs("section", {
-          className: "panel flex min-h-0 flex-col col-span-2",
-          children: [
-            u.jsx("div", { className: "panel-head", children: "Crew log" }),
-            u.jsx("div", {
-              className: "min-h-0 flex-1 overflow-auto",
-              children: u.jsx(fI, {}),
-            }),
-          ],
-        }),
       ],
     })
   );
@@ -58630,7 +58678,7 @@ function mz() {
       {
         id: "crew-claude",
         group: "Crew",
-        label: "Crew: Claude agents",
+        label: "Crew: Crew AI agents",
         words: "llm api",
         run: () => {
           Qa({ llm: "claude" });
@@ -59974,7 +60022,7 @@ function Mz({
               onClick: () => {
                 Qa({ llm: x === "claude" ? "offline" : "claude" });
               },
-              title: "Switch the crew between Claude and offline",
+              title: "Switch the crew between Crew AI and offline",
               className:
                 "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left hover:bg-white/[0.05]",
               children: [
@@ -59989,7 +60037,7 @@ function Mz({
                   children: [
                     u.jsx("span", {
                       className: "block text-[12px] text-tx",
-                      children: x === "claude" ? "Claude" : "Offline",
+                      children: x === "claude" ? "Crew AI" : "Offline",
                     }),
                     u.jsxs("span", {
                       className: "block text-[10.5px] text-tx-faint",
@@ -60212,7 +60260,7 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
             onClick: () => {
               Qa({ llm: S === "claude" ? "offline" : "claude" });
             },
-            title: "Switch the crew between Claude and offline",
+            title: "Switch the crew between Crew AI and offline",
             children: [
               u.jsx("span", {
                 className: Le(
@@ -60220,7 +60268,7 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
                   S === "claude" ? "bg-ok" : "bg-tx-faint",
                 ),
               }),
-              S === "claude" ? "Claude" : "Offline",
+              S === "claude" ? "Crew AI" : "Offline",
             ],
           }),
           u.jsx("button", {
