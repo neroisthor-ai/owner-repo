@@ -59898,8 +59898,6 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
     ),
     "data-testid": "home-composer",
     children: [
-      // CREW-EXT: clapperboard header
-      u.jsx(window.CrewExt.ui.SlateHead, { mode: e }),
       u.jsx("span", {
         "aria-hidden": !0,
         className: Le(
@@ -60244,7 +60242,7 @@ function uA({ t: n, i: e, onOpen: t }) {
             children: n.meta,
           }),
           u.jsx("div", {
-            className: "poster-title mt-1 text-[14px] font-medium leading-snug text-white",
+            className: "mt-1 text-[14px] font-medium leading-snug text-white",
             children: n.title,
           }),
           u.jsx("div", {
@@ -60288,7 +60286,7 @@ function Az({ onWrite: n }) {
             {
               onClick: () => Mi("review"),
               className:
-                "reveal call-row group grid w-full grid-cols-[64px_minmax(0,1fr)_120px_90px_16px] items-center gap-4 py-3.5 text-left transition-colors hover:bg-white/[0.02]",
+                "reveal group grid w-full grid-cols-[64px_minmax(0,1fr)_120px_90px_16px] items-center gap-4 py-3.5 text-left transition-colors hover:bg-white/[0.02]",
               children: [
                 u.jsx("span", {
                   className: "mono text-[11px] text-tx-faint",
@@ -60460,6 +60458,14 @@ function Cz() {
             className: "grain pointer-events-none fixed inset-0 z-0",
             "aria-hidden": !0,
           }),
+          u.jsx("div", {
+            className: "pointer-events-none absolute inset-x-0 top-0 h-[420px]",
+            style: {
+              background:
+                "radial-gradient(60% 100% at 70% 0%, rgba(245,154,64,.07), transparent 70%)",
+            },
+            "aria-hidden": !0,
+          }),
           u.jsxs("div", {
             className:
               "relative z-10 mx-auto flex w-full max-w-[1120px] flex-col px-8 pb-16 min-[1500px]:px-12",
@@ -60485,8 +60491,29 @@ function Cz() {
               f === "home" &&
                 u.jsxs(u.Fragment, {
                   children: [
-                    // CREW-EXT: the cut as a living filmstrip with a slate (web/crew/home.js)
-                    u.jsx(window.CrewExt.ui.HomeHero, { title: I, ep: j }),
+                    u.jsxs("section", {
+                      className:
+                        "grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-end gap-10 pt-[3vh]",
+                      children: [
+                        // CREW-EXT: a project header instead of a slogan
+                        u.jsxs("div", {
+                          className: "home-head",
+                          children: [
+                            u.jsx("div", { className: "home-kicker", children: "Project" }),
+                            u.jsx("h1", { className: "home-title", children: I || "Untitled" }),
+                            u.jsx("div", {
+                              className: "home-sub",
+                              children: "Open the cut, give the crew a note, or start a new episode from a script.",
+                            }),
+                          ],
+                        }),
+                        u.jsx("div", {
+                          className: "rise",
+                          style: { "--i": 2 },
+                          children: u.jsx(Tz, { title: I, ep: j }),
+                        }),
+                      ],
+                    }),
                     u.jsx("div", {
                       className: "rise mt-6",
                       style: { "--i": 3 },
@@ -60496,7 +60523,7 @@ function Cz() {
                       id: "home-notes",
                       className: "mt-16",
                       children: [
-                        u.jsx(Mw, { n: "01", title: "Notes", sub: "Call sheet" }),
+                        u.jsx(Mw, { n: "01", title: "Notes", sub: "" }),
                         u.jsx(Az, {
                           onWrite: () => {
                             (E("top"),
@@ -60537,7 +60564,7 @@ function Cz() {
                         u.jsx(
                           "div",
                           {
-                            className: "home-posters",
+                            className: "grid gap-3 grid-cols-3",
                             children: O.map((F, Y) =>
                               u.jsx(uA, { t: F, i: Y, onOpen: m }, F.id),
                             ),
@@ -61709,7 +61736,7 @@ class jz extends Z.Component {
 // CREW-EXT: expose internals for the readable add-on modules in web/crew/
 window.__crew = Object.assign(window.__crew ?? {}, {
   store: ke, api: Ji, toast: _n, go: Mi, demo: () => $u(), Viewer: da, still: C4,
-  clock: Me, thumb: Vo, useThumbs: Go, audio: Uf, framing: () => qi, sp: sP, react: Z, jsx: u,
+  clock: Me, audio: Uf, framing: () => qi, sp: sP, react: Z, jsx: u,
   // the bundle's own three.js classes (render targets and shaders must come from the same copy as the renderer)
   three: { ShaderMaterial: ba, WebGLRenderTarget: Ks, DepthTexture: xd, OrthographicCamera: Up, Mesh: On, Scene: fR, PlaneGeometry: Nd, SphereGeometry: hp, Vector2: vt, Vector3: ie, Vector4: wb, Matrix4: Tp, Data3DTexture: aR },
   look: () => Oo, setLook: Po, body: () => Hw(), burn: A4, mixAudio: S4, parts: w4, renderPanelOpts: () => window.__crewRender ?? {},

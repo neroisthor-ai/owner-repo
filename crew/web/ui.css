@@ -319,6 +319,10 @@ ul li[class*="text-pushback"] svg { color: var(--color-pushback); }
 
 /* ---- home: a project page ----------------------------------------------------------------------------------------- */
 
+.home-head { align-self: end; padding-bottom: 6px; }
+.home-kicker { font-size: 12px; font-weight: 500; color: var(--color-tx-faint); margin-bottom: 4px; }
+.home-title { margin: 0; font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -.025em; color: #f5f5f8; }
+.home-sub { margin-top: 8px; font-size: 13.5px; color: var(--color-tx-dim); max-width: 46ch; line-height: 1.45; }
 .home-card { border-radius: 12px !important; box-shadow: var(--pro-sheet-shadow) !important; }
 main h2, section h2 { font-size: 16px !important; font-weight: 650 !important; letter-spacing: -.015em; }
 
@@ -456,91 +460,3 @@ main h2, section h2 { font-size: 16px !important; font-weight: 650 !important; l
 .cm-key input:focus { outline: none; box-shadow: 0 0 0 2px rgba(61, 139, 253, .6); }
 .cm-key-err { grid-column: 1 / -1; font-size: 11.5px; color: #ff7a72; }
 .cm-key-note { grid-column: 1 / -1; font-size: 11px; line-height: 1.4; color: var(--color-tx-faint); }
-
-
-/* ==========================================================================================================
-   Home: walking onto the set. Everything here is built from the open project (its shots, lenses and notes).
-   One warm accent, tungsten, like a practical light or a tally; blue stays the action colour.
-   ========================================================================================================== */
-
-:root { --tungsten: #f2a33a; --tungsten-dim: rgba(242, 163, 58, .16); --film: #0b0b0c; }
-
-/* hero: title and slate over a filmstrip that runs with the cut */
-.hh { padding-top: 2vh; }
-.hh-top { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: end; }
-.hh-kicker { display: flex; align-items: center; gap: 8px; font: 600 11.5px/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--color-tx-dim); }
-.hh-kicker span { color: var(--color-tx-faint); letter-spacing: .04em; text-transform: none; font-weight: 400; }
-.hh-kicker span::before { content: "/"; margin-right: 8px; opacity: .5; }
-.hh-tally { width: 7px; height: 7px; border-radius: 50%; background: var(--tungsten); box-shadow: 0 0 0 3px var(--tungsten-dim); animation: hh-tally 2.4s ease-in-out infinite; }
-@keyframes hh-tally { 50% { opacity: .35; } }
-.hh-title { margin: 14px 0 0; font-size: clamp(46px, 6.4vw, 92px); line-height: .92; font-weight: 800; letter-spacing: -.045em; color: #f7f7fa; text-wrap: balance; max-width: 11ch; }
-.hh-actions { display: flex; align-items: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
-.hh-go { display: inline-flex; align-items: center; gap: 10px; height: 36px; padding: 0 16px; border-radius: 9px; background: #f4f4f7; color: #111; font-size: 13.5px; font-weight: 600; }
-.hh-go:hover { background: #fff; }
-.hh-go span { transition: transform .18s ease; }
-.hh-go:hover span { transform: translateX(3px); }
-.hh-meta { font: 400 11.5px/1 var(--font-mono); color: var(--color-tx-faint); letter-spacing: .04em; }
-
-.hh-slate { border-radius: 12px; background: var(--film); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .12); padding: 14px 16px 0; overflow: hidden; }
-.hh-tc { font-size: 34px; line-height: 1; font-weight: 500; letter-spacing: -.02em; color: var(--tungsten); font-variant-numeric: tabular-nums; }
-.hh-cells { display: grid; grid-template-columns: repeat(3, 1fr); margin: 14px -16px 0; border-top: 1px solid rgba(255, 255, 255, .09); }
-.hh-cells > div { padding: 9px 16px 11px; border-left: 1px solid rgba(255, 255, 255, .09); }
-.hh-cells > div:first-child { border-left: 0; }
-.hh-cells small { display: block; font: 500 9.5px/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--color-tx-faint); }
-.hh-cells b { display: block; margin-top: 6px; font: 600 17px/1 var(--font-mono); color: #f2f2f5; }
-.hh-bar { height: 3px; margin: 0 -16px; background: rgba(255, 255, 255, .08); }
-.hh-bar i { display: block; height: 100%; background: var(--tungsten); transform-origin: left; transform: scaleX(0); }
-
-/* the strip: 35mm band with perforations, real thumbnails, fixed playhead */
-.hh-strip { position: relative; margin-top: 30px; padding: 20px 0 32px; background: var(--film); border-radius: 10px; overflow: hidden; box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .1);
-  background-image:
-    radial-gradient(circle at 7px 50%, #2a2a2e 2.2px, transparent 2.8px),
-    radial-gradient(circle at 7px 50%, #2a2a2e 2.2px, transparent 2.8px);
-  background-size: 20px 8px, 20px 8px; background-position: 0 5px, 0 calc(100% - 5px); background-repeat: repeat-x, repeat-x; }
-.hh-strip::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, var(--film), transparent 12%, transparent 88%, var(--film)); }
-.hh-track { margin-left: 22%; display: flex; width: max-content; will-change: transform; }
-.hh-frame { flex: none; padding: 0 5px; box-sizing: border-box; }
-.hh-pic { aspect-ratio: 16 / 9; background: #151517; border-radius: 3px; overflow: hidden; }
-.hh-pic img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: .42; filter: saturate(.7); transition: opacity .35s ease, filter .35s ease; }
-.hh-frame.on .hh-pic img { opacity: 1; filter: none; }
-.hh-cap { display: flex; gap: 8px; margin-top: 7px; font: 500 10.5px/1 var(--font-mono); letter-spacing: .08em; color: var(--color-tx-faint); }
-.hh-cap b { font-weight: 600; }
-.hh-frame.on .hh-cap { color: var(--tungsten); }
-/* playhead sits where the filmstrip is read: the track is offset so frame centre meets this line */
-.hh-head-line { position: absolute; z-index: 4; top: 8px; bottom: 8px; left: 22%; width: 2px; background: var(--tungsten); border-radius: 1px; pointer-events: none; }
-
-/* composer as a clapperboard */
-[data-testid="home-composer"] { overflow: visible !important; margin-top: 40px; border-radius: 0 0 12px 12px !important; border-color: rgba(255, 255, 255, .14) !important; background: #131315 !important; }
-[data-testid="home-composer"] > span[aria-hidden] { display: none; }
-.sl { position: relative; }
-.sl-stick { height: 16px; margin: 22px 0 0; border-radius: 6px 6px 0 0; transform-origin: 14px 100%; transform: rotate(-2.2deg) translateY(-1px); transition: transform .28s cubic-bezier(.3, 1.6, .5, 1); box-shadow: inset 0 0 0 .5px rgba(255, 255, 255, .2);
-  background: repeating-linear-gradient(-58deg, #e6e6ea 0 14px, #131315 14px 28px); opacity: .92; }
-[data-testid="home-composer"]:focus-within .sl-stick { transform: rotate(0) translateY(0); }
-.sl-row { display: grid; grid-template-columns: 90px 90px 90px minmax(0, 1fr); border-bottom: 1px solid var(--pro-border-2); border-top: 1px solid rgba(255, 255, 255, .14); }
-.sl-row > div { padding: 8px 14px 9px; border-left: 1px solid var(--pro-border-2); }
-.sl-row > div:first-child { border-left: 0; }
-.sl-row small { display: block; font: 500 9.5px/1 var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--color-tx-faint); }
-.sl-row b { display: block; margin-top: 5px; font: 600 16px/1.1 var(--font-mono); color: var(--tungsten); white-space: nowrap; }
-.sl-for b { color: #f2f2f5; font-family: var(--font-sans); font-size: 14px; font-weight: 600; letter-spacing: -.01em; }
-[data-testid="home-composer"] [role="radiogroup"][aria-label="What to do"] { border-radius: 8px; }
-[data-testid="home-composer"] [role="radiogroup"][aria-label="What to do"] button { border-radius: 6px; }
-
-/* notes as a call sheet */
-.call-row { border-left: 2px solid transparent; padding-left: 12px !important; font-variant-numeric: tabular-nums; }
-.call-row:hover { border-left-color: var(--tungsten); background: rgba(255, 255, 255, .03) !important; }
-.call-row > span:first-child { color: var(--tungsten) !important; font-weight: 600; }
-
-/* templates as one-sheets */
-.home-posters { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 14px; }
-.home-posters .home-card { border-radius: 4px !important; }
-.home-posters .home-card > div[class*="aspect-"] { aspect-ratio: 2 / 3 !important; }
-.home-posters .home-card::after { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 2px; pointer-events: none; z-index: 11; }
-.home-posters .poster-title { font-size: 15px; font-weight: 800; letter-spacing: -.02em; text-transform: uppercase; line-height: 1.05; }
-.home-posters .home-card:hover { transform: translateY(-3px); }
-.home-posters .home-card { transition: transform .22s ease; }
-
-@media (max-width: 1100px) {
-  .hh-top { grid-template-columns: 1fr; gap: 24px; }
-  .hh-slate { max-width: 340px; }
-}
-@media (prefers-reduced-motion: reduce) { .hh-tally { animation: none; } .sl-stick { transition: none; } }
