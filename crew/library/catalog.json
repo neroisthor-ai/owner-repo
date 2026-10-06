@@ -1,6 +1,6 @@
 {
  "format": "crew library v1",
- "generated": "2026-10-06T11:36:47.181Z",
+ "generated": "2026-10-06T12:30:12.993Z",
  "assets": [
   {
    "id": "bob_anna",
@@ -1441,6 +1441,46 @@
     "audio": "/library/music/the_bob_score_real/score.mp3"
    },
    "bytes": 9379245
+  },
+  {
+   "id": "physics",
+   "kind": "physics",
+   "title": "Physics: buoyant hull, ocean surface, flight paths, spray and trails",
+   "tags": [
+    "physics",
+    "odyssey",
+    "low-pass",
+    "deterministic"
+   ],
+   "source": {
+    "project": "Odyssey, Low Pass",
+    "file": "odyssey.js (SIM, wavesJS), low-pass.js (track, orientFrom, Trail, spray)"
+   },
+   "files": {
+    "index": "index.js",
+    "hull": "hull.js",
+    "waves": "waves.js",
+    "flight": "flight.js",
+    "particles": "particles.js",
+    "sim": "sim.js",
+    "math": "math.js"
+   },
+   "meta": {
+    "pure": true,
+    "deterministic": true,
+    "note": "no three.js and no DOM; runs in Node and the browser"
+   },
+   "dir": "physics",
+   "urls": {
+    "index": "/library/physics/index.js",
+    "hull": "/library/physics/hull.js",
+    "waves": "/library/physics/waves.js",
+    "flight": "/library/physics/flight.js",
+    "particles": "/library/physics/particles.js",
+    "sim": "/library/physics/sim.js",
+    "math": "/library/physics/math.js"
+   },
+   "bytes": 21009
   },
   {
    "id": "poses_the_bob",

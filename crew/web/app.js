@@ -44944,6 +44944,7 @@ class da {
     const t = new On(new Nd(80, 80), Yl("#14171d"));
     ((t.rotation.x = -Math.PI / 2),
       (t.position.y = -0.07),
+      (this.ground = t),
       this.scene.add(t),
       (this.anchors.visible = !1));
     const i = new On(
@@ -45149,10 +45150,11 @@ class da {
     const r = t.shots[i],
       o = Math.max(0, Math.round((e - r.cutStart) * t.fps)),
       c = r.set && this.sets.has(r.set) ? r.set : [...this.sets.keys()][0];
-    this.sets.forEach((x, m) => (x.visible = m === c));
+    this.sets.forEach((x, m) => (x.visible = m === c && !this.noSets)); // CREW-EXT: noSets hides the set (matte and green-screen exports)
+    this.ground && (this.ground.visible = !this.noSets);
     const h = t.palettes?.[r.palette] ?? $M[r.light] ?? $M.dusk,
       p = new pt(h.bg ?? "#222");
-    (this.renderer.setClearColor(p),
+    (this.renderer.setClearColor(this.bgOverride ? new pt(this.bgOverride) : p),
       this.scene.fog.color.copy(p),
       this.hemi.color.set(h.fill ?? "#667"),
       this.hemi.groundColor.set(1711138),
@@ -45174,7 +45176,7 @@ class da {
     const f = r.cam?.[Math.min((r.cam?.length ?? 1) - 1, o)] ?? [
         0, 1.6, 6, 0, 1, 0, 40,
       ],
-      g = this.aspect;
+      g = this.cropAspect ?? this.aspect; // CREW-EXT: reframing renders a 16:9 camera and crops a window out of it
     if (this.orbit) {
       const x = this.ob,
         m = t.sets?.[c ?? ""];
@@ -45205,6 +45207,10 @@ class da {
   // (HDR scene, accumulation passes, bloom, depth of field, grade, grain); otherwise a plain render.
   lookOn = !1;
   lookSpp = 1;
+  noSets = !1;
+  bgOverride = null;
+  cropAspect = null;
+  crop = null;
   _inLook = !1;
   _noDraw = !1;
   _jit = null;
@@ -45219,8 +45225,13 @@ class da {
         this._inLook = !1;
       }
     } else {
+      if (this.crop) {
+        const z = this.renderer.getDrawingBufferSize(new vt());
+        this.cam.setViewOffset(this.crop.fw, this.crop.fh, this.crop.x, this.crop.y, z.x, z.y);
+      }
       this._jit?.(this.cam);
       this.renderer.render(this.scene, this.cam);
+      this.crop && this.cam.clearViewOffset();
     }
   }
   ignoreFraming = !1;
@@ -49644,7 +49655,11 @@ function Y5() {
 }
 function K5() {
   const [n, e] = Z.useState(!0),
-    [t, i] = Z.useState([]);
+    [t, i] = Z.useState([]),
+    // CREW-EXT: real stats from the notes and the cut (web/crew/style.js)
+    sv = Ne((o) => o.server),
+    sr = Ne((o) => o.styleRev),
+    st = window.CrewExt?.style?.rows?.(sv);
   return u.jsxs(ds, {
     title: "Crew style",
     note: "The crew learns from what you accept and reject, and proposes takes that cut the way you do.",
@@ -49656,11 +49671,11 @@ function K5() {
       }),
       u.jsx("dl", {
         className: "grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-[11px]",
-        children: [
+        children: (st?.rows ?? [
           ["Tends to cut", "After 3 to 4 seconds"],
           ["Favours", "Medium close-ups, slow push-ins"],
           ["Avoids", "Dutch angles, whip pans"],
-        ].map(([r, o]) =>
+        ]).map(([r, o]) =>
           u.jsxs(
             "div",
             {
@@ -49676,7 +49691,7 @@ function K5() {
       }),
       u.jsx("p", {
         className: "text-[10.5px] text-tx-faint",
-        children: "Example values. Nothing is learned yet.",
+        children: st?.note ?? "Example values. Nothing is learned yet.",
       }),
       t.length > 0 &&
         u.jsx("ul", {
@@ -49926,7 +49941,7 @@ function J5() {
           u.jsx(qr, {
             label: "Add my logo and colours to renders",
             on: f,
-            onChange: g,
+            onChange: (be) => (g(be), window.CrewExt?.brand?.set?.({ on: be })),
           }),
           u.jsxs("div", {
             className: "flex flex-wrap items-center gap-1",

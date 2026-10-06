@@ -36,13 +36,18 @@ const only = process.env.ONLY ? new RegExp(process.env.ONLY, "i") : null;
 const plan = [
   ["Deliver", [/glTF/, /Maya/, /Blender/, /After Effects/, /Unreal/]],
   ["Deliver", [/Print \/ PDF/, /Images \(\.zip\)/, /Shot list \(\.csv\)/, /Print shot list/, /Print plans/, /Build shoot pack/]],
-  ["Deliver", [/OpenTimelineIO/, /EDL/, /Final Cut XML/, /Clips per shot/]],
+  ["Deliver", [/OpenTimelineIO/, /^EDL/, /Final Cut XML/]],
+  ["Deliver", [/Clips per shot/]],
+  ["Deliver", [/Compare with editor/]],
 ];
+// slow in software GL: set SLOW=1 to include the per-shot clips
+const SLOW = !!process.env.SLOW;
 for (const [pg, labels] of plan) {
   await go(pg);
   for (const l of labels) {
     if (only && !only.test(String(l))) continue;
-    const noDownload = /Unreal|Print/.test(String(l));
+    if (!SLOW && /Clips per shot/.test(String(l))) continue;
+    const noDownload = /Unreal|Print|Compare/.test(String(l));
     await click(l, { download: !noDownload });
   }
 }

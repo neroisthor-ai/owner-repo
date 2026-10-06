@@ -34,6 +34,7 @@ async function renderFrames(mode, w = W, h = H) {
     v.setFixedSize([w, h]);
     v.load(b);
     await v.ready();
+    v.lookOn = true; v.lookSpp = 1; // real renders: the film look, one pass
     for (let i = 0; i < list.length; i++) {
       if (i % 3 === 0) { toast(`Rendering storyboard frame ${i + 1} of ${list.length}...`); await tick(); }
       v.frame(list[i].t);

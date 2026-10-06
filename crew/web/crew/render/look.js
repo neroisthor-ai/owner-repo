@@ -264,7 +264,7 @@ function frameState(viewer, info, rc, es) {
   const sun = sunFor(viewer, baked, shot, rc.cam, es);
   const rt = viewer.look.pipe;
   const dof = rc.dofOn ? cocFactor(rc.mm, rc.fstop, rc.focus, rt.H, rc.sensorH) : 0;
-  return { gr, cam: rc.cam, focus: rc.focus, dof, sun: !!sun, sunNdc: sun?.ndc, sunFacing: sun?.facing, aspect: rc.cam.aspect, t: info.t, shotId: shot.id, zoom: 1, fade: 1 };
+  return { gr, cam: rc.cam, focus: rc.focus, dof, sun: !!sun, sunNdc: sun?.ndc, sunFacing: sun?.facing, aspect: rt.W / rt.H, t: info.t, shotId: shot.id, zoom: 1, fade: 1 };
 }
 
 const clampShot = (shot, t, fps) => clamp(t, shot.cutStart, shot.cutStart + Math.max(1 / fps, shot.cutDur) - 1e-4);
@@ -309,9 +309,10 @@ function sceneTo(viewer, pipe, es, o) {
   const useSky = es.open;
   sky.visible = useSky;
   setSkyProps(viewer, !useSky);
+  if (!o.jittered) { if (viewer.crop) cam.setViewOffset(viewer.crop.fw, viewer.crop.fh, viewer.crop.x, viewer.crop.y, pipe.W, pipe.H); else cam.clearViewOffset(); }
   r.setRenderTarget(pipe.rtScene); r.clear(); r.render(viewer.scene, cam);
   if (!useSky && !es.ao) return pipe.rtScene.texture;
-  const ar = atm.apply(es.env, { open: es.open, aoOn: es.ao, aoRadius: es.aoRadius, clouds: es.clouds, rays: es.rays, t: o.t, cam, aspect: cam.aspect, sunDir: es.sun, cloudsFresh: o.cloudsFresh, cloudSteps: es.cloudSteps });
+  const ar = atm.apply(es.env, { open: es.open, aoOn: es.ao, aoRadius: es.aoRadius, clouds: es.clouds, rays: es.rays, t: o.t, cam, aspect: pipe.W / pipe.H, sunDir: es.sun, cloudsFresh: o.cloudsFresh, cloudSteps: es.cloudSteps });
   pipe.lastAtm = ar;
   return pipe.rtAtm.texture;
 }
@@ -379,9 +380,10 @@ export function* run(viewer, info) {
         cam.position.addScaledVector(rgt, Math.cos(a) * rr).addScaledVector(upv, Math.sin(a) * rr);
         cam.up.copy(upv); cam.lookAt(fpt);
       }
-      cam.setViewOffset(pipe.W, pipe.H, jit.px[0], jit.px[1], pipe.W, pipe.H);
+      if (viewer.crop) cam.setViewOffset(viewer.crop.fw, viewer.crop.fh, viewer.crop.x + jit.px[0], viewer.crop.y + jit.px[1], pipe.W, pipe.H);
+      else cam.setViewOffset(pipe.W, pipe.H, jit.px[0], jit.px[1], pipe.W, pipe.H);
       cam.updateMatrixWorld();
-      const tex = sceneTo(viewer, pipe, es, { t: sub, cloudsFresh: j === 0 });
+      const tex = sceneTo(viewer, pipe, es, { t: sub, cloudsFresh: j === 0, jittered: true });
       pipe.acc.uniforms.tSrc.value = tex; pipe.acc.uniforms.uW.value = 1 / NN;
       const ac = r.autoClear; r.autoClear = false; pipe.pass(pipe.acc, pipe.rtAcc); r.autoClear = ac;
     }

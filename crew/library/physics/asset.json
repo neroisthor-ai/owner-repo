@@ -1,0 +1,9 @@
+{
+  "id": "physics",
+  "kind": "physics",
+  "title": "Physics: buoyant hull, ocean surface, flight paths, spray and trails",
+  "tags": ["physics", "odyssey", "low-pass", "deterministic"],
+  "source": { "project": "Odyssey, Low Pass", "file": "odyssey.js (SIM, wavesJS), low-pass.js (track, orientFrom, Trail, spray)" },
+  "files": { "index": "index.js", "hull": "hull.js", "waves": "waves.js", "flight": "flight.js", "particles": "particles.js", "sim": "sim.js", "math": "math.js" },
+  "meta": { "pure": true, "deterministic": true, "note": "no three.js and no DOM; runs in Node and the browser" }
+}

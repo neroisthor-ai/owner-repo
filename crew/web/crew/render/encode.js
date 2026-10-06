@@ -7,6 +7,7 @@
 //     full speed in a background tab, screen wake lock, WebGL context-loss detection
 import { Muxer, StreamTarget } from "/vendor/mp4-muxer/mp4-muxer.mjs";
 import * as Look from "./look.js";
+import * as Reframe from "./reframe.js";
 
 // yield to the event loop without timers: keeps running at full speed when the tab is in the background
 const yieldNow = () => new Promise((r) => { const c = new MessageChannel(); c.port1.onmessage = () => r(); c.port2.postMessage(0); });
@@ -98,8 +99,11 @@ export async function renderPart(baked, range, opts, extra = {}) {
     viewer.setFixedSize([W, H]);
     viewer.load(baked);
     await viewer.ready();
-    viewer.lookOn = true;
+    const bg = opts.background ?? "scene";
+    viewer.lookOn = bg === "scene"; // a green screen or a matte is flat colour: no film look on it
     viewer.lookSpp = SPP;
+    if (bg === "green") { viewer.noSets = true; viewer.bgOverride = "#00ff00"; }
+    const cropping = Reframe.setup(viewer, W, H), rf = {};
 
     if (acfgPick) {
       const buf = await X.mixAudio(baked, range.start, aEnd, 48000);
@@ -121,7 +125,8 @@ export async function renderPart(baked, range, opts, extra = {}) {
       if (encErr) throw encErr;
       if (glLost) throw new Error("The graphics card reset (WebGL context lost).");
       const t = Math.min(range.start + f / FPS, Math.max(0, baked.duration - 1e-4));
-      if (SPP > 1) {
+      if (cropping) Reframe.follow(viewer, baked, t, opts.reframe, W, rf);
+      if (SPP > 1 && viewer.lookOn) {
         // accumulation passes: pose the world, then render with a yield between motion-blur time slices
         const info = Look.infoAt(baked, t);
         viewer._noDraw = true; viewer.frame(t); viewer._noDraw = false;
@@ -130,6 +135,7 @@ export async function renderPart(baked, range, opts, extra = {}) {
       } else viewer.frame(t); // single pass: real-time look
       o2.drawImage(canvas, 0, 0, W, H);
       X.burn(o2, W, H, t, baked, opts);
+      window.CrewExt?.overlay?.(o2, W, H, t, baked, opts);
       const vf = new VideoFrame(out, { timestamp: Math.round((f * 1e6) / FPS), duration: Math.round(1e6 / FPS) });
       venc.encode(vf, { keyFrame: f % (FPS * 2) === 0 }); vf.close();
       while (venc.encodeQueueSize > 4) await new Promise((r) => { let d = false; const fin = () => { if (!d) { d = true; r(); } }; venc.addEventListener("dequeue", fin, { once: true }); setTimeout(fin, 50); });

@@ -6,7 +6,7 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
-export type AssetKind = "character" | "music" | "data" | "voices" | "looks" | "poses" | "rig" | "kit" | "effect" | "reference" | "prop" | "set";
+export type AssetKind = "character" | "music" | "data" | "voices" | "looks" | "poses" | "rig" | "kit" | "effect" | "reference" | "prop" | "set" | "physics";
 
 export interface Asset {
   id: string;

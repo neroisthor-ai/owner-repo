@@ -40,23 +40,23 @@ export function chapters(list) {
  * (clamped at the start of the film) and ends `tail` frames after it (clamped at the end).
  * shots: [{id, label, cutStart, cutDur}], returns frame numbers at fps.
  */
-export function clipPlan(shots, fps, handles = 0, duration = Infinity) {
+export function clipPlan(shots, fps, handles = 0, duration = Infinity, { keepIds = true } = {}) {
   const end = frames(duration, fps);
-  return shots.map((s) => {
+  return shots.map((s, i) => {
     const recIn = frames(s.cutStart, fps), len = Math.max(1, frames(s.cutDur, fps));
     const lead = Math.min(handles, recIn), tail = Math.min(handles, Math.max(0, end - (recIn + len)));
-    return { id: s.id, label: s.label ?? "", recIn, recOut: recIn + len, lead, tail, srcIn: lead, srcOut: lead + len, clipLen: lead + len + tail };
+    return { id: s.id, name: keepIds ? s.id : `shot_${pad(i + 1, 3)}`, label: s.label ?? "", recIn, recOut: recIn + len, lead, tail, srcIn: lead, srcOut: lead + len, clipLen: lead + len + tail };
   });
 }
-export const clipName = (plan, take) => `${plan.id}${take ? `_${take}` : ""}`;
+export const clipName = (plan) => plan.name ?? plan.id;
 
 /** CMX 3600 EDL: one cut event per shot, the source being that shot's exported clip. */
-export function edl(title, fps, plans, { take = "" } = {}) {
+export function edl(title, fps, plans) {
   const out = [`TITLE: ${title}`, "FCM: NON-DROP FRAME", ""];
   plans.forEach((p, i) => {
     const t = (n) => tc(n / fps, fps);
-    out.push(`${pad(i + 1, 3)}  ${clipName(p, take).replace(/[^A-Za-z0-9]/g, "").slice(0, 8).padEnd(8)} V     C        ${t(p.srcIn)} ${t(p.srcOut)} ${t(p.recIn)} ${t(p.recOut)}`);
-    out.push(`* FROM CLIP NAME: ${clipName(p, take)}.mp4`);
+    out.push(`${pad(i + 1, 3)}  ${clipName(p).replace(/[^A-Za-z0-9]/g, "").slice(0, 8).padEnd(8)} V     C        ${t(p.srcIn)} ${t(p.srcOut)} ${t(p.recIn)} ${t(p.recOut)}`);
+    out.push(`* FROM CLIP NAME: ${clipName(p)}.mp4`);
     if (p.label) out.push(`* COMMENT: ${p.label}`);
     out.push("");
   });
@@ -65,12 +65,12 @@ export function edl(title, fps, plans, { take = "" } = {}) {
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 /** Final Cut Pro 7 XML (xmeml v5): one clipitem per shot clip. */
-export function fcpxml(title, fps, plans, { take = "", width = 1280, height = 720 } = {}) {
+export function fcpxml(title, fps, plans, { width = 1280, height = 720 } = {}) {
   const total = plans.length ? plans[plans.length - 1].recOut : 0;
   const rate = `<rate><timebase>${fps}</timebase><ntsc>FALSE</ntsc></rate>`;
   const items = plans.map((p, i) => `
           <clipitem id="clipitem-${i + 1}">
-            <name>${esc(clipName(p, take))}</name>
+            <name>${esc(clipName(p))}</name>
             <duration>${p.clipLen}</duration>
             ${rate}
             <start>${p.recIn}</start>
@@ -78,8 +78,8 @@ export function fcpxml(title, fps, plans, { take = "", width = 1280, height = 72
             <in>${p.srcIn}</in>
             <out>${p.srcOut}</out>
             <file id="file-${i + 1}">
-              <name>${esc(clipName(p, take))}.mp4</name>
-              <pathurl>${esc(clipName(p, take))}.mp4</pathurl>
+              <name>${esc(clipName(p))}.mp4</name>
+              <pathurl>${esc(clipName(p))}.mp4</pathurl>
               ${rate}
               <duration>${p.clipLen}</duration>
               <media><video><samplecharacteristics>${rate}<width>${width}</width><height>${height}</height></samplecharacteristics></video></media>
@@ -164,3 +164,73 @@ const Q90X = [Math.SQRT1_2, 0, 0, Math.SQRT1_2];
 export const toBlenderQuat = (q) => qmul(Q90X, q); // [x,y,z,w]
 /** vertical fov (degrees) -> focal length (mm) on a sensor of the given height. */
 export const focalFromFov = (fov, sensorH = 24) => (sensorH / 2) / Math.tan((fov * Math.PI) / 360);
+
+// ---- reading and rewriting editorial files ---------------------------------------------------
+
+const tcToFrames = (s, fps) => { const [h, m, sec, f] = s.split(/[:;]/).map(Number); return ((h * 60 + m) * 60 + sec) * fps + f; };
+
+/** Events from a CMX 3600 EDL: [{ name, srcIn, srcOut, recIn, recOut }] in frames. */
+export function parseEdl(text, fps) {
+  const out = [];
+  const lines = text.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(/^\s*(\d{3,})\s+\S+\s+\S+\s+\S+\s+(\d\d[:;]\d\d[:;]\d\d[:;]\d\d)\s+(\d\d[:;]\d\d[:;]\d\d[:;]\d\d)\s+(\d\d[:;]\d\d[:;]\d\d[:;]\d\d)\s+(\d\d[:;]\d\d[:;]\d\d[:;]\d\d)/);
+    if (!m) continue;
+    let name = "";
+    for (let j = i + 1; j < Math.min(lines.length, i + 4) && !/^\s*\d{3,}\s/.test(lines[j]); j++) {
+      const n = lines[j].match(/\*\s*FROM CLIP NAME:\s*(.+)$/i); if (n) name = n[1].trim();
+    }
+    out.push({ name: name.replace(/\.[A-Za-z0-9]+$/, ""), srcIn: tcToFrames(m[2], fps), srcOut: tcToFrames(m[3], fps), recIn: tcToFrames(m[4], fps), recOut: tcToFrames(m[5], fps) });
+  }
+  return out;
+}
+
+/** Video clips from an OpenTimelineIO JSON: [{ name, recIn, recOut }] in frames at `fps` (first video track). */
+export function parseOtio(json, fps) {
+  const track = (json.tracks?.children ?? []).find((t) => t.kind === "Video") ?? json.tracks?.children?.[0];
+  const out = [];
+  let at = 0;
+  for (const c of track?.children ?? []) {
+    const d = c.source_range?.duration ?? c.media_reference?.available_range?.duration;
+    if (!d) continue;
+    const len = Math.round((d.value / d.rate) * fps);
+    if (c.OTIO_SCHEMA?.startsWith("Clip")) out.push({ name: String(c.name ?? "").replace(/\.[A-Za-z0-9]+$/, ""), recIn: at, recOut: at + len });
+    at += len;
+  }
+  return out;
+}
+
+/** Re-point the server's OTIO at the exported clips: names, files, handles. Dialogue tracks are kept as they are. */
+export function patchOtio(otio, plans, fps) {
+  const rt = (n) => ({ OTIO_SCHEMA: "RationalTime.1", rate: fps, value: n });
+  const range = (a, n) => ({ OTIO_SCHEMA: "TimeRange.1", start_time: rt(a), duration: rt(n) });
+  const byId = new Map(plans.map((p) => [p.id, p]));
+  for (const tr of otio.tracks?.children ?? []) {
+    if (tr.kind !== "Video") continue;
+    for (const c of tr.children ?? []) {
+      const p = byId.get(String(c.name).split(" ")[0]);
+      if (!p) continue;
+      c.name = p.name;
+      c.source_range = range(p.srcIn, p.srcOut - p.srcIn);
+      c.media_references = { DEFAULT_MEDIA: { OTIO_SCHEMA: "ExternalReference.1", target_url: `${p.name}.mp4`, available_range: range(0, p.clipLen), metadata: {} } };
+      c.active_media_reference_key = "DEFAULT_MEDIA";
+    }
+  }
+  return otio;
+}
+
+/**
+ * Compare the crew's cut with an editor's: events [{name, recIn, recOut}] matched to shots by clip name.
+ * -> [{ id, ours, theirs, diff }] (frames; diff = theirs - ours; null when the editor dropped the shot) and unmatched names.
+ */
+export function compareCuts(plans, events) {
+  const norm = (s) => String(s).toLowerCase().replace(/\.[a-z0-9]+$/, "");
+  const byName = new Map(events.map((e) => [norm(e.name), e]));
+  const rows = plans.map((p) => {
+    const e = byName.get(norm(p.name)) ?? byName.get(norm(p.id));
+    const ours = p.recOut - p.recIn;
+    return { id: p.id, ours, theirs: e ? e.recOut - e.recIn : null, diff: e ? e.recOut - e.recIn - ours : null };
+  });
+  const known = new Set(plans.flatMap((p) => [norm(p.name), norm(p.id)]));
+  return { rows, unmatched: events.filter((e) => !known.has(norm(e.name))).map((e) => e.name) };
+}
