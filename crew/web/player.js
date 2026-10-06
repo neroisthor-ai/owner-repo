@@ -104,9 +104,10 @@ export class Player {
     root.add(grid);
     const wallMat = this.mat(pal.wall);
     const wall = (w, x, z, ry) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, s.h), wallMat); m.position.set(x, s.h / 2, z); m.rotation.y = ry; root.add(m); };
-    wall(s.w, 0, -s.d / 2, 0); wall(s.w, 0, s.d / 2, Math.PI); wall(s.d, -s.w / 2, 0, Math.PI / 2); wall(s.d, s.w / 2, 0, -Math.PI / 2);
+    if (!s.open) { wall(s.w, 0, -s.d / 2, 0); wall(s.w, 0, s.d / 2, Math.PI); wall(s.d, -s.w / 2, 0, Math.PI / 2); wall(s.d, s.w / 2, 0, -Math.PI / 2); } // open sets (street, park) have no walls
     const furnMat = this.mat(pal.prop);
     for (const b of s.boxes) {
+      if (b.decor && Math.max(b.w, b.h, b.d) > 30) continue; // skies, water and backdrops are for the real prop renderer, not grey boxes
       const g = new THREE.Group();
       g.position.set(b.cx, b.cy, b.cz);
       g.rotation.y = b.yaw;
