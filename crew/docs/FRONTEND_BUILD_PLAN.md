@@ -187,4 +187,6 @@ Wire each or replace it with an honest message. Keep each one small.
 
 Keep this in sync with `grep -n "CREW-EXT" web/app.js`.
 
-- (none yet)
+- 49108 `sn` dispatches to `CrewExt.handlers`; `Fp`/`ds`/`ti` pass section titles and `ctx` (options in scope at each call site)
+- `sP` keeps the whole box; `da.buildSet` uses `CrewExt.setBoxes` (walls, drop giant decor) and `CrewExt.buildBox` (library models), rotates plain cubes by `ry`
+- end of file: `window.__crew` exposes store, api, toast, go, demo, Viewer, still, clock, audio, framing, sp

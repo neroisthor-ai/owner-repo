@@ -44885,7 +44885,9 @@ function iP(n, e) {
   const c = new yR(new gT({ map: o, depthTest: !1, transparent: !0 }));
   return (c.scale.set(0.9, 0.225, 1), (c.renderOrder = 10), c);
 }
-const sP = (n) => {
+// CREW-EXT: keep the whole box (prop, ry, decor, ...) so the add-on prop models can use it
+const sP = (n) => ({ ...(Array.isArray(n) ? {} : n), ...sP0(n) });
+const sP0 = (n) => {
   if (Array.isArray(n))
     return {
       x: n[0] ?? 0,
@@ -45064,10 +45066,14 @@ class da {
   buildSet(e) {
     const t = new yn();
     return (
-      (e.boxes ?? []).forEach((i) => {
+      // CREW-EXT: window.CrewExt.setBoxes adds walls and drops giant decor; buildBox returns a library model
+      (window.CrewExt?.setBoxes?.(e) ?? e.boxes ?? []).forEach((i) => {
         const r = sP(i),
-          o = new On(new gc(r.w, r.h, r.d), Yl(r.color ?? "#667080"));
+          m = window.CrewExt?.buildBox?.(r);
+        if (m) return void t.add(m);
+        const o = new On(new gc(r.w, r.h, r.d), Yl(r.color ?? "#667080"));
         (o.position.set(r.x, r.y + r.h / 2, r.z),
+          r.ry && !r.shell && (o.rotation.y = r.ry),
           o.add(new yT(new RR(o.geometry), JO)),
           t.add(o));
       }),
@@ -49105,8 +49111,16 @@ function H5() {
     ],
   });
 }
-const sn = (n) => _n(`${n} isn't wired up yet.`, "info");
-function Fp() {
+// CREW-EXT: stubs dispatch to window.CrewExt handlers when one is registered
+const sn = (n, ctx) => {
+  const h = window.CrewExt?.handlers?.[n];
+  if (!h) return _n(`${n} isn't wired up yet.`, "info");
+  return Promise.resolve()
+    .then(() => h(ctx ?? {}))
+    .catch((e) => _n(e?.message ?? String(e), "error"));
+};
+function Fp({ title: n } = {}) {
+  if (n && window.CrewExt?.wiredSections?.has(n)) return null;
   return u.jsx("span", {
     className: "rounded-[5px] bg-white/5 px-1 text-[9.5px] text-tx-faint",
     children: "not wired",
@@ -49154,7 +49168,7 @@ function V5({ shot: n }) {
         : Number.parseFloat(String(n.lens)) || 35;
   return u.jsxs(er, {
     title: "Camera body",
-    right: u.jsx(Fp, {}),
+    right: u.jsx(Fp, { title: "Camera body" }),
     children: [
       u.jsx(qs, {
         label: "Body",
@@ -49211,7 +49225,7 @@ function G5({ baked: n, shot: e }) {
     [c, h] = Z.useState("none");
   return u.jsxs(er, {
     title: "Depth of field",
-    right: u.jsx(Fp, {}),
+    right: u.jsx(Fp, { title: "Depth of field" }),
     children: [
       u.jsx(qr, {
         label: "Lens blur in viewer and renders",
@@ -49246,7 +49260,7 @@ function G5({ baked: n, shot: e }) {
         className: "flex gap-1 pt-0.5",
         children: u.jsx(Je, {
           size: "sm",
-          onClick: () => sn("Focus pulls"),
+          onClick: () => sn("Focus pulls", { shot: e, focusAt: r, pullTo: c }),
           children: "Set focus pull",
         }),
       }),
@@ -49259,7 +49273,7 @@ function W5({ shot: n }) {
     [r, o] = Z.useState(0);
   return u.jsxs(er, {
     title: "Vertical 9:16",
-    right: u.jsx(Fp, {}),
+    right: u.jsx(Fp, { title: "Vertical 9:16" }),
     children: [
       u.jsx(qr, {
         label: "Make a vertical version (Shorts, Reels, TikTok)",
@@ -49291,7 +49305,7 @@ function W5({ shot: n }) {
         className: "flex gap-1 pt-0.5",
         children: u.jsx(Je, {
           size: "sm",
-          onClick: () => sn("Auto-reframing every shot"),
+          onClick: () => sn("Auto-reframing every shot", { mode: t, crop: r }),
           children: "Reframe all shots",
         }),
       }),
@@ -49338,7 +49352,7 @@ function $5() {
             className: "hidden",
             onChange: (c) => {
               const h = c.target.files?.[0];
-              h && (e(h.name), sn("Syncing footage over the previs"));
+              h && (e(h.name), sn("Syncing footage over the previs", { file: h }));
             },
           }),
         ],
@@ -49386,7 +49400,7 @@ function ds({ title: n, children: e, note: t }) {
         className: "flex items-baseline gap-2",
         children: [
           u.jsx("span", { className: "text-[12px] text-tx", children: n }),
-          u.jsx(Fp, {}),
+          u.jsx(Fp, { title: n }),
         ],
       }),
       t &&
@@ -49398,10 +49412,10 @@ function ds({ title: n, children: e, note: t }) {
     ],
   });
 }
-function ti({ label: n, what: e }) {
+function ti({ label: n, what: e, ctx: c }) {
   return u.jsxs(Je, {
     size: "sm",
-    onClick: () => sn(e),
+    onClick: () => sn(e, c),
     children: [u.jsx(Co, { className: "h-3 w-3" }), " ", n],
   });
 }
@@ -49432,20 +49446,25 @@ function q5() {
           u.jsxs("div", {
             className: "flex flex-wrap gap-1",
             children: [
-              u.jsx(ti, { label: "glTF (.glb)", what: "glTF camera export" }),
+              u.jsx(ti, { label: "glTF (.glb)", what: "glTF camera export",
+ ctx: { shots: e, framing: i } }),
               u.jsx(ti, {
                 label: "Maya / Nuke (.chan)",
                 what: ".chan camera export",
+ ctx: { shots: e, framing: i },
               }),
               u.jsx(ti, {
                 label: "Blender (.py)",
                 what: "Blender camera script",
+ ctx: { shots: e, framing: i },
               }),
               u.jsx(ti, {
                 label: "After Effects (.jsx)",
                 what: "After Effects camera script",
+ ctx: { shots: e, framing: i },
               }),
-              u.jsx(ti, { label: "Unreal (.fbx)", what: "FBX camera export" }),
+              u.jsx(ti, { label: "Unreal (.fbx)", what: "FBX camera export",
+ ctx: { shots: e, framing: i } }),
             ],
           }),
         ],
@@ -49468,12 +49487,13 @@ function q5() {
             children: [
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("Storyboard printing"),
+                onClick: () => sn("Storyboard printing", { frames: o }),
                 children: "Print / PDF",
               }),
               u.jsx(ti, {
                 label: "Images (.zip)",
                 what: "Storyboard image export",
+ ctx: { frames: o },
               }),
             ],
           }),
@@ -49494,15 +49514,16 @@ function q5() {
               u.jsx(ti, {
                 label: "Shot list (.csv)",
                 what: "Shot list export",
+ ctx: { group: h },
               }),
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("Shot list printing"),
+                onClick: () => sn("Shot list printing", { group: h }),
                 children: "Print shot list",
               }),
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("Overhead plan printing"),
+                onClick: () => sn("Overhead plan printing", { group: h }),
                 children: "Print plans",
               }),
             ],
@@ -49532,6 +49553,7 @@ function q5() {
             children: u.jsx(ti, {
               label: "Build shoot pack (.html)",
               what: "The phone shoot pack",
+ ctx: { frameLines: x, outlines: f },
             }),
           }),
         ],
@@ -49569,15 +49591,19 @@ function Y5() {
           u.jsx(ti, {
             label: "OpenTimelineIO (.otio)",
             what: "OpenTimelineIO export",
+ ctx: { handles: Number(t), takeLetters: n },
           }),
-          u.jsx(ti, { label: "EDL (.edl)", what: "EDL export" }),
+          u.jsx(ti, { label: "EDL (.edl)", what: "EDL export",
+ ctx: { handles: Number(t), takeLetters: n } }),
           u.jsx(ti, {
             label: "Final Cut XML (.xml)",
             what: "Final Cut XML export",
+ ctx: { handles: Number(t), takeLetters: n },
           }),
           u.jsx(ti, {
             label: "Clips per shot (.zip)",
             what: "Per-shot clip export",
+ ctx: { handles: Number(t), takeLetters: n },
           }),
         ],
       }),
@@ -49650,7 +49676,7 @@ function K5() {
                   const o = r.target.files?.[0];
                   o &&
                     (i((c) => [...c, o.name]),
-                    sn("Learning from a reference scene"));
+                    sn("Learning from a reference scene", { file: o }));
                 },
               }),
             ],
@@ -49712,12 +49738,12 @@ function J5() {
             children: [
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("Starting from a template"),
+                onClick: () => sn("Starting from a template", { template: _ }),
                 children: "Use template",
               }),
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("The scene library"),
+                onClick: () => sn("The scene library", {}),
                 children: "Browse scenes…",
               }),
             ],
@@ -49758,7 +49784,7 @@ function J5() {
             className: "flex gap-1",
             children: u.jsx(Je, {
               size: "sm",
-              onClick: () => sn("Rendering every size"),
+              onClick: () => sn("Rendering every size", { sizes: e }),
               children: "Render selected sizes",
             }),
           }),
@@ -49785,15 +49811,19 @@ function J5() {
               u.jsx(ti, {
                 label: "ProRes 4444 (.mov)",
                 what: "Transparent ProRes export",
+ ctx: { background: i },
               }),
               u.jsx(ti, {
                 label: "WebM with alpha",
                 what: "WebM alpha export",
+ ctx: { background: i },
               }),
-              u.jsx(ti, { label: "PNG sequence", what: "PNG sequence export" }),
+              u.jsx(ti, { label: "PNG sequence", what: "PNG sequence export",
+ ctx: { background: i } }),
               u.jsx(ti, {
                 label: "Clip per shot (.zip)",
                 what: "Per-shot clip export",
+ ctx: { background: i },
               }),
             ],
           }),
@@ -49815,13 +49845,13 @@ function J5() {
                     className: "hidden",
                     onChange: (N) =>
                       N.target.files?.[0] &&
-                      sn("Syncing a voiceover and lip-sync"),
+                      sn("Syncing a voiceover and lip-sync", { file: N.target.files[0] }),
                   }),
                 ],
               }),
               u.jsxs(Je, {
                 size: "sm",
-                onClick: () => sn("Recording a voiceover"),
+                onClick: () => sn("Recording a voiceover", {}),
                 children: [
                   u.jsx("span", { className: "h-2 w-2 rounded-full bg-tally" }),
                   " Record",
@@ -49855,6 +49885,7 @@ function J5() {
             children: u.jsx(ti, {
               label: "Captions (.srt)",
               what: "SRT export",
+ ctx: { captions: o },
             }),
           }),
         ],
@@ -49880,7 +49911,7 @@ function J5() {
                     className: "hidden",
                     onChange: (N) => {
                       const L = N.target.files?.[0];
-                      L && (m(L.name), sn("Placing your logo on renders"));
+                      L && (m(L.name), sn("Placing your logo on renders", { file: L }));
                     },
                   }),
                 ],
@@ -49892,7 +49923,7 @@ function J5() {
                 }),
               u.jsx(Je, {
                 size: "sm",
-                onClick: () => sn("Lower-third title cards"),
+                onClick: () => sn("Lower-third title cards", { captions: o, position: h }),
                 children: "Title cards…",
               }),
             ],
@@ -49935,7 +49966,7 @@ function J5() {
             children: [
               u.jsxs(Je, {
                 size: "sm",
-                onClick: () => sn("Fitting the cut to a target length"),
+                onClick: () => sn("Fitting the cut to a target length", { target: Number(b) }),
                 children: [
                   "Fit to ",
                   Number(b) >= 120 ? `${Number(b) / 60} min` : `${b} s`,
@@ -49944,6 +49975,7 @@ function J5() {
               u.jsx(ti, {
                 label: "YouTube chapters (.txt)",
                 what: "Chapter list export",
+ ctx: {},
               }),
             ],
           }),
@@ -49957,10 +49989,11 @@ function J5() {
           children: [
             u.jsx(Je, {
               size: "sm",
-              onClick: () => sn("The thumbnail maker"),
+              onClick: () => sn("The thumbnail maker", {}),
               children: "Make thumbnail…",
             }),
-            u.jsx(ti, { label: "Current frame (.png)", what: "Frame export" }),
+            u.jsx(ti, { label: "Current frame (.png)", what: "Frame export",
+ ctx: {} }),
           ],
         }),
       }),
@@ -59633,7 +59666,7 @@ function Mz({
                     "button",
                     {
                       onClick: () =>
-                        M ? Mi("review") : sn("Switching projects"),
+                        M ? Mi("review") : sn("Switching projects", { project: _ }),
                       className:
                         "flex w-full items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-left transition-colors hover:bg-white/[0.05]",
                       children: [
@@ -59766,7 +59799,7 @@ function wz({ inputRef: n, mode: e, setMode: t }) {
       E &&
         (N
           ? (yd(E), c(""), Mi("review"), Pp())
-          : sn("Breaking a script into shots"));
+          : sn("Breaking a script into shots", { script: E }));
     };
   return u.jsxs("div", {
     className: Le(
@@ -61669,6 +61702,11 @@ class jz extends Z.Component {
       : this.props.children;
   }
 }
+// CREW-EXT: expose internals for the readable add-on modules in web/crew/
+window.__crew = Object.assign(window.__crew ?? {}, {
+  store: ke, api: Ji, toast: _n, go: Mi, demo: () => $u(), Viewer: da, still: C4,
+  clock: Me, audio: Uf, framing: () => qi, sp: sP,
+});
 TC.createRoot(document.getElementById("root")).render(
   u.jsx(Z.StrictMode, { children: u.jsx(jz, { children: u.jsx(zz, {}) }) }),
 );
